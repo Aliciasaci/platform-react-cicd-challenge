@@ -4,10 +4,13 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PrestationRepository;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
-
+#[ApiResource]
+#[ApiFilter(SearchFilter::class, properties: ['titre' => 'exact'])]
 class Prestation
 {
     #[ORM\Id]
