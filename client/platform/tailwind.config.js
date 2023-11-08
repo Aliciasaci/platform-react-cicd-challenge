@@ -5,7 +5,11 @@ export default {
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}'
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'rent-a-gf': "url('/src/assets/img/rent-a-girlfriend.jpg')",
+      },
+    },
   },
   plugins: [
     require('flowbite/plugin')
