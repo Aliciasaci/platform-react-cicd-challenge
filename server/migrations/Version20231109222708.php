@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20231106120021 extends AbstractMigration
+final class Version20231109222708 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,15 +20,17 @@ final class Version20231106120021 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('CREATE SEQUENCE employe_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE employe (id INT NOT NULL, nom VARCHAR(255) DEFAULT NULL, prenom VARCHAR(255) DEFAULT NULL, horraires_service VARCHAR(255) DEFAULT NULL, photo VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('ALTER TABLE "user" DROP CONSTRAINT fk_8d93d649ff631228');
+        $this->addSql('DROP INDEX idx_8d93d649ff631228');
+        $this->addSql('ALTER TABLE "user" DROP etablissement_id');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP SEQUENCE employe_id_seq CASCADE');
-        $this->addSql('DROP TABLE employe');
+        $this->addSql('ALTER TABLE "user" ADD etablissement_id INT NOT NULL');
+        $this->addSql('ALTER TABLE "user" ADD CONSTRAINT fk_8d93d649ff631228 FOREIGN KEY (etablissement_id) REFERENCES etablissement (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('CREATE INDEX idx_8d93d649ff631228 ON "user" (etablissement_id)');
     }
 }

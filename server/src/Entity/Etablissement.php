@@ -26,8 +26,8 @@ class Etablissement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $kbis = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $validation = null;
+    #[ORM\Column]
+    private ?bool $validation = false;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jours_ouverture = null;
@@ -35,12 +35,16 @@ class Etablissement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_ouverture = null;
 
-    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: User::class)]
-    private Collection $etablissement;
+    #[ORM\ManyToOne(inversedBy: 'etablissement')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $prestataire = null;
+
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
+    private Collection $prestation;
 
     public function __construct()
     {
-        $this->etablissement = new ArrayCollection();
+        $this->prestation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -120,30 +124,42 @@ class Etablissement
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getEtablissement(): Collection
+    public function getPrestataire(): ?User
     {
-        return $this->etablissement;
+        return $this->prestataire;
     }
 
-    public function addEtablissement(User $etablissement): static
+    public function setPrestataire(?User $prestataire): static
     {
-        if (!$this->etablissement->contains($etablissement)) {
-            $this->etablissement->add($etablissement);
-            $etablissement->setEtablissement($this);
+        $this->prestataire = $prestataire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prestation>
+     */
+    public function getPrestation(): Collection
+    {
+        return $this->prestation;
+    }
+
+    public function addPrestation(Prestation $prestation): static
+    {
+        if (!$this->prestation->contains($prestation)) {
+            $this->prestation->add($prestation);
+            $prestation->setEtablissement($this);
         }
 
         return $this;
     }
 
-    public function removeEtablissement(User $etablissement): static
+    public function removePrestation(Prestation $prestation): static
     {
-        if ($this->etablissement->removeElement($etablissement)) {
+        if ($this->prestation->removeElement($prestation)) {
             // set the owning side to null (unless already changed)
-            if ($etablissement->getEtablissement() === $this) {
-                $etablissement->setEtablissement(null);
+            if ($prestation->getEtablissement() === $this) {
+                $prestation->setEtablissement(null);
             }
         }
 

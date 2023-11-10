@@ -5,11 +5,22 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\EmployeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Traits\TimestampableTrait;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
-#[ApiResource]
+#[Vich\Uploadable]
+#[ApiResource(
+    normalizationContext: ['groups' => ['employe:read']],
+    denormalizationContext: ['groups' => ['employe:write']],
+)]
 class Employe
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -25,7 +36,19 @@ class Employe
     private ?string $horraires_service = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $photo = null;
+    private ?string $imageName = null;
+
+    #[Vich\UploadableField(mapping: 'employes_images', fileNameProperty: 'imageName')]
+    #[Assert\Image(
+        maxSize: '2M',
+        mimeTypes: ['image/png', 'image/jpeg'],
+        maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
+        mimeTypesMessage: 'Format accepté : png/jpeg'
+    )]
+    private ?File $imageFile = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $description = null;
 
     public function getId(): ?int
     {
@@ -68,14 +91,26 @@ class Employe
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getImageName(): ?string
     {
-        return $this->photo;
+        return $this->imageName;
     }
 
-    public function setPhoto(?string $photo): static
+    public function setImageName(?string $imageName): static
     {
-        $this->photo = $photo;
+        $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
