@@ -3,6 +3,10 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Repository\EmployeRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\TimestampableTrait;
@@ -14,8 +18,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    normalizationContext: ['groups' => ['employe:read']],
-    denormalizationContext: ['groups' => ['employe:write']],
+    normalizationContext: ['groups' => ['employe:read', 'date:read']],
+    denormalizationContext: ['groups' => ['employe:write', 'date:write']],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Patch(),
+    ]
 )]
 class Employe
 {
@@ -49,6 +59,10 @@ class Employe
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\ManyToOne(inversedBy: 'employes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etablissement $etablissement = null;
 
     public function getId(): ?int
     {
@@ -111,6 +125,18 @@ class Employe
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): static
+    {
+        $this->etablissement = $etablissement;
 
         return $this;
     }

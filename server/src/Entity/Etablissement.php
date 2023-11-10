@@ -42,9 +42,13 @@ class Etablissement
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
     private Collection $prestation;
 
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
+    private Collection $employes;
+
     public function __construct()
     {
         $this->prestation = new ArrayCollection();
+        $this->employes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -160,6 +164,36 @@ class Etablissement
             // set the owning side to null (unless already changed)
             if ($prestation->getEtablissement() === $this) {
                 $prestation->setEtablissement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->setEtablissement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): static
+    {
+        if ($this->employes->removeElement($employe)) {
+            // set the owning side to null (unless already changed)
+            if ($employe->getEtablissement() === $this) {
+                $employe->setEtablissement(null);
             }
         }
 
