@@ -1,19 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+  font-family: "Agbalumo";
+  color: #161fab;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
@@ -22,6 +21,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -39,4 +39,21 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.searchbar {
+  width: 60rem;
+  background: white;
+  padding: 23px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  border-radius: 86px;
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.search-input {
+  border: none;
+  flex-basis: 50%;
 }
