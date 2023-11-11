@@ -1,17 +1,28 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
-
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte correspondant à cette adresse exist déjà.')]
 #[ApiResource(
     normalizationContext: ['groups' => ['user:read']],
+    denormalizationContext: ['groups' => ['user:write']],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Patch(),
+    ]
 )]
 class User
 {
@@ -20,7 +31,7 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -35,14 +46,16 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $mot_de_passe = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $role = null;
+    private ?string $plain_mot_de_passe= null;
 
-    #[Groups(['user:read'])]
+    #[ORM\Column(length: 255)]
+    private array $roles = [];
+
+    #[Groups(['user:read','user:write'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
 
@@ -103,14 +116,17 @@ class User
         return $this;
     }
 
-    public function getRole(): ?string
+    public function getRoles(): array
     {
-        return $this->role;
+        $roles = $this->roles;
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
     }
 
-    public function setRole(string $role): static
+    public function setRoles(array $roles): static
     {
-        $this->role = $role;
+        $this->roles = $roles;
 
         return $this;
     }
@@ -147,6 +163,26 @@ class User
     public function setEtablissement(?etablissement $etablissement): static
     {
         $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of plain_mot_de_passe
+     */ 
+    public function getPlainMotDePasse()
+    {
+        return $this->plain_mot_de_passe;
+    }
+
+    /**
+     * Set the value of plain_mot_de_passe
+     *
+     * @return  self
+     */ 
+    public function setPlainMotDePasse($plain_mot_de_passe)
+    {
+        $this->plain_mot_de_passe = $plain_mot_de_passe;
 
         return $this;
     }

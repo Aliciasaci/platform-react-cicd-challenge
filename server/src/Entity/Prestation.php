@@ -6,11 +6,24 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PrestationRepository;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
-#[ApiResource]
 #[ApiFilter(SearchFilter::class, properties: ['titre' => 'exact'])]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(),
+        new Patch(),
+        new Delete(),
+    ]
+)]
 class Prestation
 {
     #[ORM\Id]
