@@ -2,26 +2,6 @@
 
 namespace App\Entity;
 
-<<<<<<< HEAD
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\PrestationRepository;
-use ApiPlatform\Metadata\ApiFilter;
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
-use ApiPlatform\Metadata\Get;
-use ApiPlatform\Metadata\GetCollection;
-use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
-
-#[ORM\Entity(repositoryClass: PrestationRepository::class)]
-#[ApiFilter(SearchFilter::class, properties: ['titre' => 'exact'])]
-#[ApiResource(
-    operations: [
-        new GetCollection(),
-        new Get(),
-        new Post(),
-=======
 use Doctrine\ORM\Mapping as ORM;
 use App\Filter\CustomSearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
@@ -49,16 +29,12 @@ use Doctrine\DBAL\Types\Types;
         new GetCollection(),
         new Post(),
         new Get(),
->>>>>>> 33b98f670e741a3e11deaef58afb1899e6d8e985
         new Patch(),
         new Delete(),
     ]
 )]
-<<<<<<< HEAD
-=======
 #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_PARTIAL, properties: ['employes'])]
 #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_PARTIAL, properties: ['employes.nom'])]
->>>>>>> 33b98f670e741a3e11deaef58afb1899e6d8e985
 class Prestation
 {
     use TimestampableTrait;

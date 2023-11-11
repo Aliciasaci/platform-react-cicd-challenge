@@ -21,11 +21,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Doctrine\DBAL\Types\Types;
+use App\Entity\Etablissement;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[Vich\Uploadable]
 #[ORM\Table(name: '`user`')]
 #[UniqueEntity(fields: ['email'], message: 'Un compte existe déjà avec cet email')]
+#[Vich\Uploadable]
 #[ApiResource(
     normalizationContext: ['groups' => ['user:read', 'date:read']],
     denormalizationContext: ['groups' => ['user:write', 'date:write']],
@@ -36,7 +37,6 @@ use Doctrine\DBAL\Types\Types;
         new Patch(denormalizationContext: ['groups' => ['user:write:update']]),
     ]
 )]
-
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
@@ -50,12 +50,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['user:read', 'user:write:update'])]
+    #[Groups(['user:read', 'user:write:update', 'user:write'])]
     #[Assert\Length(min: 2)]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['user:read', 'user:write:update'])]
+    #[Groups(['user:read', 'user:write:update', 'user:write'])]
     #[Assert\Length(min:2)]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
@@ -84,7 +84,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         mimeTypes: ['image/png', 'image/jpeg'],
         maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
         mimeTypesMessage: 'Format accepté : png/jpeg'
-    )]
+)]
     private ?File $imageFile = null;
 
     #[ORM\Column]
@@ -163,28 +163,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPlainPassword(): ?string
+    public function getPlainPassword(): string
     {
         return $this->plainPassword;
     }
 
-     /**
-     * @param string|null $plainPassword
-     * @return User
-     */
-    public function setPlainPassword(?string $plainPassword): User
+    public function setPlainPassword(string $plainPassword): void
     {
         $this->plainPassword = $plainPassword;
-        if($plainPassword) {
-            $this->setUpdatedAt(new \DateTime());
-        }
-
-        return $this;
+        $this->password = $plainPassword;
     }
-
     /**
      * A visual identifier that represents this user.
      *
