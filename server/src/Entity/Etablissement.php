@@ -2,39 +2,69 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\EtablissementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Traits\TimestampableTrait;
+use App\Repository\EtablissementRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 
 #[ORM\Entity(repositoryClass: EtablissementRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => 'etablissement:read'],
+    denormalizationContext: ['groups' => 'etablissement:write'],
+    operations: [
+        new GetCollection(),
+        new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
+        new Get(normalizationContext: ['groups' => ['etablissement:read']]),
+        new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
+        new Delete(),
+    ]
+)]
 class Etablissement
 {
+    use TimestampableTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $kbis = null;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column]
     private ?bool $validation = false;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jours_ouverture = null;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_ouverture = null;
 
+    #[Groups(['etablissement:read', 'etablissement:create'])]
     #[ORM\ManyToOne(inversedBy: 'etablissement')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $prestataire = null;

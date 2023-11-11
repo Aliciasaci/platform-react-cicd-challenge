@@ -8,12 +8,15 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Repository\EmployeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\TimestampableTrait;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 #[Vich\Uploadable]
@@ -22,9 +25,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     denormalizationContext: ['groups' => ['employe:write', 'date:write']],
     operations: [
         new GetCollection(),
-        new Get(),
         new Post(),
-        new Patch(),
+        new Get(normalizationContext: ['groups' => ['employe:read', 'employe:read:full']]),
+        new Patch(denormalizationContext: ['groups' => ['employe:update']]),
     ]
 )]
 class Employe
@@ -36,18 +39,22 @@ class Employe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['employe:read','employe:update'])]
+    #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['employe:read', 'employe:update'])]
+    #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
+    #[Groups(['employe:read', 'employe:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_service = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
+    #[Groups(['employe:update'])]
     #[Vich\UploadableField(mapping: 'employes_images', fileNameProperty: 'imageName')]
     #[Assert\Image(
         maxSize: '2M',
@@ -57,12 +64,30 @@ class Employe
     )]
     private ?File $imageFile = null;
 
+    #[Groups(['employe:read', 'employe:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
     #[ORM\ManyToOne(inversedBy: 'employes')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Etablissement $etablissement = null;
+
+    #[ORM\ManyToMany(targetEntity: Prestation::class, inversedBy: 'employes')]
+    private Collection $prestation;
+
+    #[ORM\OneToMany(mappedBy: 'employe', targetEntity: Prestation::class)]
+    private Collection $prestations;
+
+    #[ORM\OneToMany(mappedBy: 'employe', targetEntity: Reservation::class)]
+    private Collection $reservationsEmploye;
+
+
+    public function __construct()
+    {
+        $this->prestation = new ArrayCollection();
+        $this->prestations = new ArrayCollection();
+        $this->reservationsEmploye = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +162,68 @@ class Employe
     public function setEtablissement(?Etablissement $etablissement): static
     {
         $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prestation>
+     */
+    public function getPrestation(): Collection
+    {
+        return $this->prestation;
+    }
+
+    public function addPrestation(Prestation $prestation): static
+    {
+        if (!$this->prestation->contains($prestation)) {
+            $this->prestation->add($prestation);
+        }
+
+        return $this;
+    }
+
+    public function removePrestation(Prestation $prestation): static
+    {
+        $this->prestation->removeElement($prestation);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prestation>
+     */
+    public function getPrestations(): Collection
+    {
+        return $this->prestations;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservationsEmploye(): Collection
+    {
+        return $this->reservationsEmploye;
+    }
+
+    public function addReservationsEmploye(Reservation $reservationsEmploye): static
+    {
+        if (!$this->reservationsEmploye->contains($reservationsEmploye)) {
+            $this->reservationsEmploye->add($reservationsEmploye);
+            $reservationsEmploye->setEmploye($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationsEmploye(Reservation $reservationsEmploye): static
+    {
+        if ($this->reservationsEmploye->removeElement($reservationsEmploye)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationsEmploye->getEmploye() === $this) {
+                $reservationsEmploye->setEmploye(null);
+            }
+        }
 
         return $this;
     }

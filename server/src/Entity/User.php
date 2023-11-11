@@ -20,6 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Vich\Uploadable]
@@ -30,9 +31,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
     denormalizationContext: ['groups' => ['user:write', 'date:write']],
     operations: [
         new GetCollection(),
-        new Get(),
         new Post(),
-        new Patch(),
+        new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full']]),
+        new Patch(denormalizationContext: ['groups' => ['user:write:update']]),
     ]
 )]
 
@@ -45,16 +46,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
-    #[Groups(['user:read'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read', 'user:write:update'])]
+    #[Assert\Length(min: 2)]
+    #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['user:read'])]
-    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['user:read', 'user:write:update'])]
+    #[Assert\Length(min:2)]
+    #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
     /**
@@ -63,16 +66,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user:write'])]
+    #[Groups(['user:write', 'user:write:update'])]
     #[Length(min: 6)]
     private ?string $plainPassword = null;
 
+    #[Groups(['user:read:full'])]
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
+    #[Groups(['user:write:update'])]
     #[Vich\UploadableField(mapping: 'users_images', fileNameProperty: 'imageName')]
     #[Assert\Image(
         maxSize: '2M',
@@ -88,9 +93,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Etablissement::class)]
     private Collection $etablissement;
 
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Prestation::class)]
+    private Collection $prestationsClient;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Reservation::class)]
+    private Collection $reservationsClient;
+
+    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Feedback::class)]
+    private Collection $feedback;
+
     public function __construct()
     {
         $this->etablissement = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+        $this->prestationsClient = new ArrayCollection();
+        $this->reservationsClient = new ArrayCollection();
+        $this->feedback = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -283,4 +301,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return in_array($role, $this->roles);
     }
+
+    /**
+     * @return Collection<int, Prestation>
+     */
+    public function getPrestationsClient(): Collection
+    {
+        return $this->prestationsClient;
+    }
+
+    public function addPrestationsClient(Prestation $prestationsClient): static
+    {
+        if (!$this->prestationsClient->contains($prestationsClient)) {
+            $this->prestationsClient->add($prestationsClient);
+            $prestationsClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrestationsClient(Prestation $prestationsClient): static
+    {
+        if ($this->prestationsClient->removeElement($prestationsClient)) {
+            // set the owning side to null (unless already changed)
+            if ($prestationsClient->getClient() === $this) {
+                $prestationsClient->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservationsClient(): Collection
+    {
+        return $this->reservationsClient;
+    }
+
+    public function addReservationsClient(Reservation $reservationsClient): static
+    {
+        if (!$this->reservationsClient->contains($reservationsClient)) {
+            $this->reservationsClient->add($reservationsClient);
+            $reservationsClient->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservationsClient(Reservation $reservationsClient): static
+    {
+        if ($this->reservationsClient->removeElement($reservationsClient)) {
+            // set the owning side to null (unless already changed)
+            if ($reservationsClient->getClient() === $this) {
+                $reservationsClient->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feedback>
+     */
+    public function getFeedback(): Collection
+    {
+        return $this->feedback;
+    }
+
+    public function addFeedback(Feedback $feedback): static
+    {
+        if (!$this->feedback->contains($feedback)) {
+            $this->feedback->add($feedback);
+            $feedback->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(Feedback $feedback): static
+    {
+        if ($this->feedback->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getClient() === $this) {
+                $feedback->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

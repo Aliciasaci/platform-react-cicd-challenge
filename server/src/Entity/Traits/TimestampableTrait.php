@@ -2,16 +2,21 @@
 
 namespace App\Entity\Traits;
 
+use ApiPlatform\Doctrine\Orm\Filter\DateFilter;
 use Gedmo\Mapping\Annotation\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Metadata\ApiFilter;
+use Doctrine\DBAL\Types\Types;
 
 trait TimestampableTrait {
+    #[ApiFilter(DateFilter::class)]
     #[Groups(['date:read'])]
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Timestampable(on: 'create')]
     private ?\DateTime $createdAt = null;
 
+    #[ApiFilter(DateFilter::class)]
     #[Groups(['date:write'])]
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     #[Timestampable(on: 'update')]
