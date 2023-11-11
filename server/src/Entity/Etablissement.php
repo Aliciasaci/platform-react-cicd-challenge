@@ -2,58 +2,83 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\EtablissementRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use Doctrine\DBAL\Types\Types;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Delete;
+use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
+use App\Entity\Traits\TimestampableTrait;
+use App\Repository\EtablissementRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 
 #[ORM\Entity(repositoryClass: EtablissementRepository::class)]
 #[ApiResource(
+    normalizationContext: ['groups' => 'etablissement:read'],
+    denormalizationContext: ['groups' => 'etablissement:write'],
     operations: [
         new GetCollection(),
-        new Get(),
-        new Post(),
-        new Patch(),
+        new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
+        new Get(normalizationContext: ['groups' => ['etablissement:read']]),
+        new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
         new Delete(),
     ]
 )]
 class Etablissement
 {
+    use TimestampableTrait;
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $kbis = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $validation = null;
+    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[ORM\Column]
+    private ?bool $validation = false;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jours_ouverture = null;
 
+    #[Groups(['etablissement:read', 'etablissement:update'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_ouverture = null;
 
-    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: User::class)]
-    private Collection $etablissement;
+    #[Groups(['etablissement:read', 'etablissement:create'])]
+    #[ORM\ManyToOne(inversedBy: 'etablissement')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $prestataire = null;
+
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
+    private Collection $prestation;
+
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
+    private Collection $employes;
 
     public function __construct()
     {
-        $this->etablissement = new ArrayCollection();
+        $this->prestation = new ArrayCollection();
+        $this->employes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -133,30 +158,72 @@ class Etablissement
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
-    public function getEtablissement(): Collection
+    public function getPrestataire(): ?User
     {
-        return $this->etablissement;
+        return $this->prestataire;
     }
 
-    public function addEtablissement(User $etablissement): static
+    public function setPrestataire(?User $prestataire): static
     {
-        if (!$this->etablissement->contains($etablissement)) {
-            $this->etablissement->add($etablissement);
-            $etablissement->setEtablissement($this);
+        $this->prestataire = $prestataire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prestation>
+     */
+    public function getPrestation(): Collection
+    {
+        return $this->prestation;
+    }
+
+    public function addPrestation(Prestation $prestation): static
+    {
+        if (!$this->prestation->contains($prestation)) {
+            $this->prestation->add($prestation);
+            $prestation->setEtablissement($this);
         }
 
         return $this;
     }
 
-    public function removeEtablissement(User $etablissement): static
+    public function removePrestation(Prestation $prestation): static
     {
-        if ($this->etablissement->removeElement($etablissement)) {
+        if ($this->prestation->removeElement($prestation)) {
             // set the owning side to null (unless already changed)
-            if ($etablissement->getEtablissement() === $this) {
-                $etablissement->setEtablissement(null);
+            if ($prestation->getEtablissement() === $this) {
+                $prestation->setEtablissement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->setEtablissement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): static
+    {
+        if ($this->employes->removeElement($employe)) {
+            // set the owning side to null (unless already changed)
+            if ($employe->getEtablissement() === $this) {
+                $employe->setEtablissement(null);
             }
         }
 

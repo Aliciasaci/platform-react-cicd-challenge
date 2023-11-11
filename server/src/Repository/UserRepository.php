@@ -51,7 +51,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             throw new UnsupportedUserException(sprintf('Instances of "%s" are not supported.', \get_class($user)));
         }
 
-        $user->setMotDePasse($newHashedPassword);
+        $user->setPassword($newHashedPassword);
 
         $this->add($user, true);
     }
@@ -82,4 +82,12 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByRole($role) {
+        return $this->createQueryBuilder('u')
+        ->andWhere('u.roles LIKE :role')
+        ->setParameter('role', $role)
+        ->getQuery()
+        ->getResult();
+    }
 }

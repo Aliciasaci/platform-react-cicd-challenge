@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+<<<<<<< HEAD
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PrestationRepository;
 use ApiPlatform\Metadata\ApiFilter;
@@ -20,28 +21,94 @@ use ApiPlatform\Metadata\Delete;
         new GetCollection(),
         new Get(),
         new Post(),
+=======
+use Doctrine\ORM\Mapping as ORM;
+use App\Filter\CustomSearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Delete;
+use App\Repository\PrestationRepository;
+use App\Entity\Traits\TimestampableTrait;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\DBAL\Types\Types;
+
+#[ORM\Entity(repositoryClass: PrestationRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['prestation:read', 'date:read']],
+    denormalizationContext: ['groups' => ['prestation:write', 'date:write']],
+    operations: [
+        new GetCollection(),
+        new Post(),
+        new Get(),
+>>>>>>> 33b98f670e741a3e11deaef58afb1899e6d8e985
         new Patch(),
         new Delete(),
     ]
 )]
+<<<<<<< HEAD
+=======
+#[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_PARTIAL, properties: ['employes'])]
+#[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_PARTIAL, properties: ['employes.nom'])]
+>>>>>>> 33b98f670e741a3e11deaef58afb1899e6d8e985
 class Prestation
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ApiFilter(CustomSearchFilter::class)]
+    #[Groups('prestation:read', 'prestation:write')]
+    #[Assert\Length(min: 5)]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titre = null;
 
+    #[Groups('prestation:read', 'prestation:write')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $duree = null;
 
+    #[Groups(['prestation:read:is-logged', 'prestation:write'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prix = null;
 
+    #[Groups(['presatation:read', 'prestation:write'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
+
+    #[ORM\ManyToOne(inversedBy: 'prestations')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $category = null;
+
+    #[ORM\ManyToOne(inversedBy: 'prestation')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etablissement $etablissement = null;
+
+    #[ORM\ManyToMany(targetEntity: Employe::class, mappedBy: 'prestation')]
+    private Collection $employes;
+
+    #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Reservation::class)]
+    private Collection $reservations;
+
+    #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Feedback::class)]
+    private Collection $feedback;
+
+    public function __construct()
+    {
+        $this->employes = new ArrayCollection();
+        $this->reservations = new ArrayCollection();
+        $this->feedback = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -92,6 +159,117 @@ class Prestation
     public function setDescription(?string $description): static
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    public function getEtablissement(): ?Etablissement
+    {
+        return $this->etablissement;
+    }
+
+    public function setEtablissement(?Etablissement $etablissement): static
+    {
+        $this->etablissement = $etablissement;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Employe>
+     */
+    public function getEmployes(): Collection
+    {
+        return $this->employes;
+    }
+
+    public function addEmploye(Employe $employe): static
+    {
+        if (!$this->employes->contains($employe)) {
+            $this->employes->add($employe);
+            $employe->addPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmploye(Employe $employe): static
+    {
+        if ($this->employes->removeElement($employe)) {
+            $employe->removePrestation($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reservation>
+     */
+    public function getReservations(): Collection
+    {
+        return $this->reservations;
+    }
+
+    public function addReservation(Reservation $reservation): static
+    {
+        if (!$this->reservations->contains($reservation)) {
+            $this->reservations->add($reservation);
+            $reservation->setPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReservation(Reservation $reservation): static
+    {
+        if ($this->reservations->removeElement($reservation)) {
+            // set the owning side to null (unless already changed)
+            if ($reservation->getPrestation() === $this) {
+                $reservation->setPrestation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Feedback>
+     */
+    public function getFeedback(): Collection
+    {
+        return $this->feedback;
+    }
+
+    public function addFeedback(Feedback $feedback): static
+    {
+        if (!$this->feedback->contains($feedback)) {
+            $this->feedback->add($feedback);
+            $feedback->setPrestation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFeedback(Feedback $feedback): static
+    {
+        if ($this->feedback->removeElement($feedback)) {
+            // set the owning side to null (unless already changed)
+            if ($feedback->getPrestation() === $this) {
+                $feedback->setPrestation(null);
+            }
+        }
 
         return $this;
     }
