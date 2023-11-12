@@ -93,9 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: Etablissement::class)]
     private Collection $etablissement;
 
-    #[ORM\OneToMany(mappedBy: 'client', targetEntity: Prestation::class)]
-    private Collection $prestationsClient;
-
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Reservation::class)]
     private Collection $reservationsClient;
 
@@ -106,7 +103,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->etablissement = new ArrayCollection();
         $this->reservations = new ArrayCollection();
-        $this->prestationsClient = new ArrayCollection();
         $this->reservationsClient = new ArrayCollection();
         $this->feedback = new ArrayCollection();
     }
@@ -288,36 +284,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function hasRole($role)
     {
         return in_array($role, $this->roles);
-    }
-
-    /**
-     * @return Collection<int, Prestation>
-     */
-    public function getPrestationsClient(): Collection
-    {
-        return $this->prestationsClient;
-    }
-
-    public function addPrestationsClient(Prestation $prestationsClient): static
-    {
-        if (!$this->prestationsClient->contains($prestationsClient)) {
-            $this->prestationsClient->add($prestationsClient);
-            $prestationsClient->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrestationsClient(Prestation $prestationsClient): static
-    {
-        if ($this->prestationsClient->removeElement($prestationsClient)) {
-            // set the owning side to null (unless already changed)
-            if ($prestationsClient->getClient() === $this) {
-                $prestationsClient->setClient(null);
-            }
-        }
-
-        return $this;
     }
 
     /**
