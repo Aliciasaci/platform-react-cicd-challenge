@@ -11,7 +11,7 @@ export default function Header() {
                 <Link to="/">
                     <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Accueil</button>
                 </Link>
-                <Link to="/admin-panel">
+                <Link to="/backoffice/admin-panel">
                     <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Admin Panel</button>
                 </Link>
                 <Link to="/prestataire-register">
