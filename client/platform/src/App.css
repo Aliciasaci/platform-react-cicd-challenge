@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Open+Sans:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Lato&family=Open+Sans:wght@300;400;500&display=swap');
 
 #root {
   text-align: center;
@@ -56,4 +58,50 @@
 .search-input {
   border: none;
   flex-basis: 50%;
+}
+
+.calendar-wrapper {
+  width: fit-content;
+  margin: auto;
+}
+
+.calendar-cell {
+  text-align: center;
+  border-radius: 3px;
+  background-color: #f3f3f499;
+  cursor: pointer;
+  font-family: "Open Sans";
+  color: black;
+  width: 7rem;
+  display: inline-block;
+  margin: 5px;
+  font-weight: bold;
+}
+
+.py-4 {
+  padding-top: 6px !important;
+  padding-bottom: 6px !important;
+}
+
+.calendar-row {
+  display: block;
+}
+
+
+.calendar-head {
+  width: 7rem;
+  display: inline-block;
+  margin: 5px;
+  text-align: center;
+}
+
+.reservation-wrapper {
+  width: 57rem;
+  margin: auto;
+}
+
+.reservation-wrapper .title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
