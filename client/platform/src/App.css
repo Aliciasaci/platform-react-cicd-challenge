@@ -33,6 +33,16 @@
   }
 }
 
+.grid-wrapper {
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.first-image {
+  grid-row-start: 1;
+  grid-row-end: 3;
+}
+
 .card {
   padding: 2em;
 }

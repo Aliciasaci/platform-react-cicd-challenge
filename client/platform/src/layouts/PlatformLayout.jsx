@@ -6,7 +6,7 @@ export default function PlatformLayout() {
     return (
         <div className='layout-wrapper'>
             <Header />
-            <main>
+            <main className='flex justify-center'>
                 <Outlet />
             </main>
             <Footer />

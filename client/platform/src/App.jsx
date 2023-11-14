@@ -8,6 +8,7 @@ import PlatformLayout from './layouts/PlatformLayout';
 import BackOfficeLayout from './layouts/BackofficeLayout';
 import Home from './pages/Home';
 import AdminPanel from './pages/AdminPanel';
+import { PagePrestataire } from './pages/PagePrestataire';
 
 const routes = [
   {
@@ -16,6 +17,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: 'prestataire-register', element: <PrestataireRegister /> },
+      { path: 'page-presta-dev', element: <PagePrestataire />} // à supprimer
     ]
   },
   {

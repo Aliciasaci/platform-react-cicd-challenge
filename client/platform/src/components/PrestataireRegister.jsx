@@ -63,7 +63,7 @@ function PrestataireRegister() {
 
     const renderStepOne = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -88,7 +88,7 @@ function PrestataireRegister() {
 
     const renderStepTwo = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -124,7 +124,7 @@ function PrestataireRegister() {
 
     const renderStepThree = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -164,7 +164,7 @@ function PrestataireRegister() {
 
     const renderStepFour = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -206,7 +206,7 @@ function PrestataireRegister() {
 
     const renderStepFive = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -237,7 +237,7 @@ function PrestataireRegister() {
 
     const renderStepSix = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
             <div className=" flex justify-center w-2/5 h-3/5 bg-white rounded-xl">
                 <div>
                     <div className="bg-rent-a-gf bg-cover rounded-t-xl flex w-full h-52 items-start justify-start px-2">
@@ -266,7 +266,7 @@ function PrestataireRegister() {
 
     const renderStepSeven = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -307,7 +307,7 @@ function PrestataireRegister() {
     };
 
     return (
-        <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
+        <form className='w-full flex justify-center items-center h-screen' onSubmit={onSubmit}>
             {step === 1 && renderStepOne()}
             {step === 2 && renderStepTwo()}
             {step === 3 && renderStepThree()}
