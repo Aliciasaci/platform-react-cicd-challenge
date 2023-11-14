@@ -8,6 +8,7 @@ import PlatformLayout from './layouts/PlatformLayout';
 import BackOfficeLayout from './layouts/BackofficeLayout';
 import Home from './pages/Home';
 import AdminPanel from './pages/AdminPanel';
+import CrudUser from './pages/CrudUser';
 
 const routes = [
   {
@@ -23,6 +24,7 @@ const routes = [
     element: <BackOfficeLayout />,
     children: [
       { path: 'admin-panel', element: <AdminPanel /> },
+      { path: 'crud-user', element: <CrudUser /> },
     ]
   },
 ]     
