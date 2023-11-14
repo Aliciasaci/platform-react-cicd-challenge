@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from 'flowbite-react';
 import { Table } from 'flowbite-react';
 import { useState } from 'react';
+import { Button } from 'flowbite-react';
 
 export default function Calendar() {
   const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -43,6 +44,11 @@ export default function Calendar() {
   return (
     <div className='flex justify-center items-center bg-gray-100 '>
       <Card className="flex justify-center items-center bg-white calendar-wrapper">
+        <div className='flex justify-center justify-between'>
+          <Button color="light">🠔</Button>
+          <Button color="light">🠖</Button>
+        </div>
+
         <Table>
           <Table.Head className='bg-white'>
             {daysOfWeek.map((day, index) => (
@@ -62,7 +68,7 @@ export default function Calendar() {
         </Table>
       </Card>
       <div>
-      {selectedSlot && <span>selected slot: {selectedSlot}</span>}
+        {selectedSlot && <span>selected slot: {selectedSlot}</span>}
       </div>
     </div>
   );
