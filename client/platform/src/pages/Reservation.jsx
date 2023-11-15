@@ -3,9 +3,9 @@ import { Card } from 'flowbite-react';
 
 export default function Reservation() {
     return (
-        <div className="reservation h-screen w-screen bg-gray-100">
+        <div className="reservation h-full w-screen bg-gray-100">
             <div className="reservation-wrapper">
-                <p class="normal-case text-gray-900 text-xl text-left title" style={{}}>1. Préstation séléctionnée</p>
+                <p class="normal-case text-gray-900 text-xl text-left title">1. Préstation séléctionnée</p>
                 <Card className="m-auto" style={{ "width": "57rem" }}>
                     <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                         Noteworthy technology acquisitions 2021

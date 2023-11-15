@@ -39,6 +39,8 @@ export default function Calendar() {
     return dailyTimeSlots;
   };
 
+  
+
   const dailyTimeSlots = generateDailyTimeSlots();
 
   return (
