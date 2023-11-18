@@ -9,7 +9,7 @@ export default function PlatformLayout() {
             <main>
                 <Outlet />
             </main>
-            {/* <Footer /> */}
+            <Footer />
         </div>
     )
 }

@@ -67,9 +67,9 @@ export default function Calendar() {
           </Table.Body>
         </Table>
       </Card>
-      <div>
+      {/* <div>
         {selectedSlot && <span>selected slot: {selectedSlot}</span>}
-      </div>
+      </div> */}
     </div>
   );
 }
