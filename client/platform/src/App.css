@@ -1,8 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Agbalumo&display=swap');
 
-#root {
-  text-align: center;
-}
 
 .logo {
   font-family: "Agbalumo";
@@ -36,6 +33,12 @@
 .grid-wrapper {
   grid-template-columns: 2fr 1fr 1fr;
   grid-template-rows: 1fr 1fr;
+}
+
+.grid-page {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: 2rem;
 }
 
 .first-image {
