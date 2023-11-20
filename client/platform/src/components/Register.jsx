@@ -4,11 +4,13 @@ import { useState } from 'react';
 import { Alert } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
-export default function Login() {
+export default function Register() {
 
     const [user, setUser] = useState({
         email: "",
         password: "",
+        nom: "",
+        prenom: "",
     });
 
     const [responseMessage, setResponseMessage] = useState('');
@@ -19,36 +21,50 @@ export default function Login() {
             ...user,
             [name]: value,
         });
+
+        console.log(user);
     }
 
     const handleSubmit = async () => {
         try {
-            const res = await axios.post(`https://127.0.0.1:8000/api/login`, {
+            const res = await axios.post(`https://127.0.0.1:8000/api/users`, {
                 email: user.email,
-                password: user.password,
+                plainPassword: user.password,
+                nom: user.nom,
+                prenom: user.prenom,
             });
-
-            if (res.data.token) {
-                setResponseMessage("SUCCESSS");
+            
+            if (res.status == 201) {
+                setResponseMessage("Compte crée avec success !");
             }
 
         } catch (error) {
-            if (error.response.data.code == 401) {
-                setResponseMessage("Identifiants invalides.");
-            }
+            setResponseMessage(error.response.data.detail);
         }
     };
 
     return (
         <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login">
-            <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
+            <div className=" flex justify-center items-center w-1/3 pt-6 pb-8 bg-white rounded-xl">
                 <div>
-                    {responseMessage && (<Alert color="failure" withBorderAccent>
+                    {responseMessage && (<Alert color="info" withBorderAccent>
                         <span>
                             <span className="font-medium">{responseMessage}</span>
                         </span>
                     </Alert>)}
-                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96" >SE CONNECTER</p>
+                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96" >Créer mon compte</p>
+                    <div className="form-group mb-5">
+                        <div className="block flex justify-start mb-2">
+                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Nom" />
+                        </div>
+                        <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="nom" value={user.nom} onChange={handleInput} />
+                    </div>
+                    <div className="form-group mb-5">
+                        <div className="block flex justify-start mb-2">
+                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Prénom" />
+                        </div>
+                        <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prenom" value={user.prenom} onChange={handleInput} />
+                    </div>
                     <div className="form-group mb-5">
                         <div className="block flex justify-start mb-2">
                             <Label htmlFor="base" className='text-xl text-center font-bold' value="Email " />
@@ -62,14 +78,14 @@ export default function Login() {
                         <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} />
                     </div>
                     <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
-                        Se connecter
+                        Créer mon compte
                     </Button>
                     <div className="mt-6 text-zinc-900">
                         <hr className='text-zinc-900 mt-4'></hr>
-                        <p className='mt-6'>Pas encore de compte ? </p>
-                        <Link to="/register">
+                        <p className='mt-4'>Vous avez déjà un compte ? </p>
+                        <Link to="/login">
                             <button className="mt-3 bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
-                                Créer mon compte
+                                Se connecter
                             </button>
                         </Link>
                     </div>
