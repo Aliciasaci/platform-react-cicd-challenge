@@ -30,6 +30,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new GetCollection(),
         new Post(),
+        new Get(['groups' => ['etablissement:read:public']]),
     ]
 )]
 class Feedback
@@ -51,11 +52,12 @@ class Feedback
     #[ORM\JoinColumn(nullable: false)]
     private ?Prestation $prestation = null;
 
+    #[Groups(['feedback:read', 'feedback:write'])]
     #[Groups(['feedback:read'])]
     #[ORM\Column]
     private ?int $note_globale = null;
 
-    #[Groups(['feedback:read', 'feedback:write'])]
+    #[Groups(['etablissement:read:public'])]
     #[ORM\Column]
     private array $notes = [];
 

@@ -77,6 +77,7 @@ class Prestation
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Feedback::class)]
     private Collection $feedback;
 
