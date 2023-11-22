@@ -40,7 +40,7 @@ export default function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login">
+        <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login ">
             <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
                 <div>
                     {responseMessage && (<Alert color="failure" withBorderAccent>
@@ -68,7 +68,7 @@ export default function Login() {
                         <hr className='text-zinc-900 mt-4'></hr>
                         <p className='mt-6'>Pas encore de compte ? </p>
                         <Link to="/register">
-                            <button className="mt-3 bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                            <button className="mt-3 mb-6 bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                                 Créer mon compte
                             </button>
                         </Link>
