@@ -28,7 +28,7 @@ use Doctrine\DBAL\Types\Types;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(),
+        new Get(['groups' => ['etablissement:read:public']]),
         new Patch(),
         new Delete(),
     ]
@@ -45,23 +45,24 @@ class Prestation
     private ?int $id = null;
 
     #[ApiFilter(CustomSearchFilter::class)]
-    #[Groups('prestation:read', 'prestation:write')]
+    #[Groups('prestation:read', 'prestation:write', 'etablissement:read:public')]
     #[Assert\Length(min: 5)]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titre = null;
 
-    #[Groups('prestation:read', 'prestation:write')]
+    #[Groups('prestation:read', 'prestation:write', 'etablissement:read:public')]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $duree = null;
 
-    #[Groups(['prestation:read:is-logged', 'prestation:write'])]
+    #[Groups(['prestation:read:is-logged', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prix = null;
 
-    #[Groups(['presatation:read', 'prestation:write'])]
+    #[Groups(['presatation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\ManyToOne(inversedBy: 'prestations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;

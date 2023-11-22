@@ -26,7 +26,7 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     operations: [
         new GetCollection(),
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
-        new Get(normalizationContext: ['groups' => ['etablissement:read']]),
+        new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
         new Delete(),
     ]
@@ -41,11 +41,11 @@ class Etablissement
     private ?int $id = null;
 
     #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
@@ -56,11 +56,11 @@ class Etablissement
     #[ORM\Column]
     private ?bool $validation = false;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jours_ouverture = null;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_ouverture = null;
 
@@ -69,9 +69,11 @@ class Etablissement
     #[ORM\JoinColumn(nullable: false)]
     private ?User $prestataire = null;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
     private Collection $prestation;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
     private Collection $employes;
 

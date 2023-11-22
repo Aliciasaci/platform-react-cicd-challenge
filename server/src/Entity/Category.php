@@ -26,7 +26,7 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(),
+        new Get(['groups' => ['etablissement:read:public']]),
         new Patch(),
         new Delete(),
     ]
@@ -41,7 +41,7 @@ class Category
     private ?int $id = null;
 
     // #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
-    #[Groups(['category:read', 'category:write'])]
+    #[Groups(['category:read', 'category:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 

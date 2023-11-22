@@ -26,7 +26,7 @@ use Doctrine\DBAL\Types\Types;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(normalizationContext: ['groups' => ['employe:read', 'employe:read:full']]),
+        new Get(normalizationContext: ['groups' => ['employe:read', 'employe:read:full', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['employe:update']]),
     ]
 )]
@@ -38,12 +38,12 @@ class Employe
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
-    #[Groups(['employe:read','employe:update'])]
+    
+    #[Groups(['employe:read','employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['employe:read', 'employe:update'])]
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
@@ -54,7 +54,7 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
-    #[Groups(['employe:update'])]
+    #[Groups(['employe:update', 'etablissement:read:public'])]
     #[Vich\UploadableField(mapping: 'employes_images', fileNameProperty: 'imageName')]
     #[Assert\Image(
         maxSize: '2M',
@@ -64,7 +64,7 @@ class Employe
     )]
     private ?File $imageFile = null;
 
-    #[Groups(['employe:read', 'employe:update'])]
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
