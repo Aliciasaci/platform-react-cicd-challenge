@@ -35,6 +35,7 @@ class UserDenormalizer implements DenormalizerInterface, DenormalizerAwareInterf
         $user = $this->denormalizer->denormalize($data, $type, $format, $context);
         assert($user instanceof User);
 
+        //hash mot de passe
         $plainPassword = $user->getPlainPassword();
 
         if (empty($plainPassword)) {
@@ -43,8 +44,12 @@ class UserDenormalizer implements DenormalizerInterface, DenormalizerAwareInterf
 
         $hashedPassword = $this->hasher->hashPassword($user, $plainPassword);
         $user->setPassword($hashedPassword);
-        $user->eraseCredentials();
 
+        //Ajouter le role ['ROLE_USER'] par défaut
+        $user->setRoles(['ROLE_USER']);
+
+
+        $user->eraseCredentials();
         return $user;
     }
 }
