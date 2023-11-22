@@ -1,11 +1,11 @@
 import { ListGroup } from "flowbite-react";
 
-export const PrestationListGroup = ({ prestations, buttonContent }) => {
+export const PrestationListGroup = ({ prestations, buttonContent, linkTo }) => {
   return (
     <ListGroup className="shadow-md">
       {Object.keys(prestations).map((index) => {
         return (
-          <ListGroup.Item href="#" key={index}>
+          <ListGroup.Item href={linkTo + prestations[index].id} key={index}>
             <div className="w-full mx-3 my-2">
               <div className="flex flex-row justify-between items-center">
                 <p className="text-light text-black">
@@ -23,7 +23,7 @@ export const PrestationListGroup = ({ prestations, buttonContent }) => {
                   </div>
                   <div>
                     <button
-                      href="#"
+                      href={linkTo + prestations[index].id}
                       type="button"
                       className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700"
                     >

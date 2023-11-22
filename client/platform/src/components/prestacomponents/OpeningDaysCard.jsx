@@ -1,15 +1,16 @@
 import { Card } from "flowbite-react";
+import React from "react";
 
 export const OpeningDaysCard = ({ openingDays, openingHours }) => {
-  const openingDaysMap = () => {
+  const openingDaysMap = React.useCallback(() => {
     return openingDays.split(",");
-  };
+  }, []);
 
   const openingDaysArray = openingDaysMap();
 
-  const openingHoursMap = () => {
+  const openingHoursMap = React.useCallback(() => {
     return openingHours.split(",");
-  };
+  }, []);
 
   const openingHoursArray = openingHoursMap();
 

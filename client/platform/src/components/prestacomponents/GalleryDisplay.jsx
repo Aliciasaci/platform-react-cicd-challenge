@@ -23,10 +23,10 @@ export const GalleryDisplay = ({ images }) => {
     setIsViewerOpen(true);
   }, []);
 
-  const closeLightbox = () => {
+  const closeLightbox = React.useCallback(() => {
     setCurrent(0);
     setIsViewerOpen(false);
-  };
+  }, []);
 
   const imageClass = React.useCallback((index) => {
     if (index === 0) {
@@ -41,7 +41,6 @@ export const GalleryDisplay = ({ images }) => {
 
   return (
     <div className="my-10">
-      {images === undefined ? (
         <div>
           <div className="h-[372px] grid grid-wrapper gap-3">
             {imageList.map((src, index) => (
@@ -70,36 +69,6 @@ export const GalleryDisplay = ({ images }) => {
             />
           )}
         </div>
-      ) : (
-        <div>
-          <div className="h-[372px] grid grid-wrapper gap-3">
-            {imageList.map((src, index) => (
-              <div
-                className={imageClass(index)}
-                key={index}
-                onClick={() => openLightbox(index)}
-              >
-                <img
-                  src={src}
-                  className="h-full w-full rounded-xl cursor-pointer"
-                />
-                {index === 4 && (
-                  <button className="style-none border-none text-center text-white text-sm bottom-0 h-full absolute w-full right-0 bg-[rgba(0,0,0,0.3)]">
-                    Voir les {imageList.length} images
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          {isViewerOpen && (
-            <ImageViewer
-              src={images}
-              currentIndex={current}
-              onClose={closeLightbox}
-            />
-          )}
-        </div>
-      )}
     </div>
   );
 };
