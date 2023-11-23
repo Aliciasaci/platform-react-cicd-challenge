@@ -1,8 +1,5 @@
-import React from 'react';
-import { Card } from 'flowbite-react';
-import { Table } from 'flowbite-react';
-import { useState } from 'react';
-import { Button } from 'flowbite-react';
+import React, { useState } from 'react';
+import { Card, Table, Button } from 'flowbite-react';
 
 export default function Calendar() {
   const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
@@ -19,12 +16,8 @@ export default function Calendar() {
     let slots = [];
 
     for (let i = 8; i < 17; i++) {
-      let slot = '';
-      let slot2 = '';
-      for (let j = 0; j <= slotsPerDay; j++) {
-        slot = i + ":00";
-        slot2 = i + ":30";
-      }
+      let slot = i + ":00";
+      let slot2 = i + ":30";
       slots.push(slot);
       slots.push(slot2);
     }
@@ -33,15 +26,31 @@ export default function Calendar() {
 
   const generateDailyTimeSlots = () => {
     const dailyTimeSlots = {};
-    daysOfWeek.forEach((day, index) => {
+    daysOfWeek.forEach((day) => {
       dailyTimeSlots[day] = generateTimeSlots();
     });
     return dailyTimeSlots;
   };
 
-  
+  const setDates = () => {
+    let datesSemaine = [];
+    let dateActuelle = new Date();
+
+    for(let i = 0; i < 7; i++){
+      datesSemaine.push({
+        jour: daysOfWeek[i],
+        date: dateActuelle.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
+      });
+
+      // Incrémentez la date de 1 jour pour passer au jour suivant
+      dateActuelle.setDate(dateActuelle.getDate() + 1);
+    }
+
+    return datesSemaine;
+  };
 
   const dailyTimeSlots = generateDailyTimeSlots();
+  const datesSemaine = setDates();
 
   return (
     <div className='flex justify-center items-center bg-gray-100 '>
@@ -53,8 +62,8 @@ export default function Calendar() {
 
         <Table>
           <Table.Head className='bg-white'>
-            {daysOfWeek.map((day, index) => (
-              <Table.HeadCell className='calendar-head' key={index}>{day}</Table.HeadCell>
+            {datesSemaine.map((day, index) => (
+              <Table.HeadCell className='calendar-head' key={index}>{day.jour} - {day.date}</Table.HeadCell>
             ))}
           </Table.Head>
           <Table.Body className="divide-y">
@@ -75,5 +84,3 @@ export default function Calendar() {
     </div>
   );
 }
-
-
