@@ -9,6 +9,8 @@ import BackOfficeLayout from './layouts/BackofficeLayout';
 import Home from './pages/Home';
 import AdminPanel from './pages/AdminPanel';
 import Reservation from './pages/Reservation';
+import Login from './components/Login';
+import Register from './components/Register';
 
 const routes = [
   {
@@ -18,6 +20,8 @@ const routes = [
       { path: '/', element: <Home /> },
       { path: 'prestataire-register', element: <PrestataireRegister /> },
       { path: '/reservation', element: <Reservation /> },
+      { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
     ]
   },
   {
