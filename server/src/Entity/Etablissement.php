@@ -34,7 +34,7 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 class Etablissement
 {
     use TimestampableTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -69,18 +69,20 @@ class Etablissement
     #[ORM\JoinColumn(nullable: false)]
     private ?User $prestataire = null;
 
-    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
     private Collection $prestation;
 
-    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
     private Collection $employes;
+
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: ImageEtablissement::class)]
+    private Collection $imageEtablissements;
 
     public function __construct()
     {
         $this->prestation = new ArrayCollection();
         $this->employes = new ArrayCollection();
+        $this->imageEtablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +228,36 @@ class Etablissement
             // set the owning side to null (unless already changed)
             if ($employe->getEtablissement() === $this) {
                 $employe->setEtablissement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageEtablissement>
+     */
+    public function getImageEtablissements(): Collection
+    {
+        return $this->imageEtablissements;
+    }
+
+    public function addImageEtablissement(ImageEtablissement $imageEtablissement): static
+    {
+        if (!$this->imageEtablissements->contains($imageEtablissement)) {
+            $this->imageEtablissements->add($imageEtablissement);
+            $imageEtablissement->setEtablissement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageEtablissement(ImageEtablissement $imageEtablissement): static
+    {
+        if ($this->imageEtablissements->removeElement($imageEtablissement)) {
+            // set the owning side to null (unless already changed)
+            if ($imageEtablissement->getEtablissement() === $this) {
+                $imageEtablissement->setEtablissement(null);
             }
         }
 

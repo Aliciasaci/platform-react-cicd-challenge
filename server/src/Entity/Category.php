@@ -26,7 +26,7 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(['groups' => ['etablissement:read:public']]),
+        new Get(),
         new Patch(),
         new Delete(),
     ]

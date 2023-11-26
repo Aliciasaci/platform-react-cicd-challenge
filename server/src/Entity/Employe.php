@@ -21,7 +21,7 @@ use Doctrine\DBAL\Types\Types;
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    normalizationContext: ['groups' => ['employe:read', 'date:read']],
+    normalizationContext: ['groups' => ['employe:read', 'date:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['employe:write', 'date:write']],
     operations: [
         new GetCollection(),

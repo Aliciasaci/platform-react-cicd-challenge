@@ -66,6 +66,7 @@ class UserFixtures extends Fixture
             );
             $user->setRoles(["ROLE_PRESTATAIRE"]);
             $user->setEmailVerified(true);
+            $this->addReference('prestataire'.$i, $user);
             $manager->persist($user);
         }
         

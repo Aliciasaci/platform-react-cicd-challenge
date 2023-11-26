@@ -23,7 +23,7 @@ use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['prestation:read', 'date:read']],
+    normalizationContext: ['groups' => ['prestation:read', 'date:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['prestation:write', 'date:write']],
     operations: [
         new GetCollection(),
