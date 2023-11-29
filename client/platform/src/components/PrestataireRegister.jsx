@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Button, Progress, Label, TextInput, Checkbox } from 'flowbite-react';
 import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus } from "react-icons/fa6";
+import MapFinder from './MapFinder';
 
 function PrestataireRegister() {
     const [step, setStep] = useState(1);
@@ -23,6 +24,19 @@ function PrestataireRegister() {
         companyPhone: '',
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState('');
+    const addressString = useMemo(() => {
+        return selectedAddress.split(',')[0];
+    }, [selectedAddress]);
+    const [postalCode, city] = useMemo(() => {
+        const parts = selectedAddress.split(',');
+        if (parts.length > 1) {
+            const secondPart = parts[1].trim(); // "45000 Orléans"
+            const [code, ...cityParts] = secondPart.split(' ');
+            return [code, cityParts.join(' ').trim()];
+        }
+        return ['', ''];
+    }, [selectedAddress]);
     const MAX_STEP = 7;
     const JOB_CATEGORIES = {
         '1': 'Coiffeur',
@@ -39,10 +53,14 @@ function PrestataireRegister() {
 
     
 
-    const { firstName, lastName, email, password, confirmPassword, address, city, state, zip, phone, companyName, companyAddress, companyCity, companyState, companyZip, companyPhone } = formData;
+    const { firstName, lastName, email, password, confirmPassword, state, zip, phone, companyName, companyAddress, companyCity, companyState, companyZip, companyPhone } = formData;
 
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    const handleAddressChange = (newAddress) => {
+        setSelectedAddress(newAddress);
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -133,7 +151,7 @@ function PrestataireRegister() {
                             <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
                         </div>
                         <div className="form-group mt-10 mb-10">
-                            <div className="mb-2 block flex justify-center">
+                            <div className="mb-2 block justify-center">
                                 <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="À propos de vous" />
                             </div>
                             <div className='flex justify-center'>
@@ -267,7 +285,7 @@ function PrestataireRegister() {
     const renderStepSeven = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
+                <div className=" flex justify-center items-center w-3/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
                             <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
@@ -275,14 +293,7 @@ function PrestataireRegister() {
                             <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
                         </div>
                         <div className="form-group mt-10 mb-10">
-                            <div className="mb-2 block flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Choisissez votre catégorie professionnelle" />
-                            </div>
-                            <div className='flex mt-4 w-full justify-center items-center divide-y'>
-                                <div className='w-full divide-y max-h-60 overflow-y-auto mx-10'>
-                                    {renderCheckboxes()}
-                                </div>
-                            </div>
+                            <MapFinder onAddressSelect={handleAddressChange}/>
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
@@ -294,6 +305,96 @@ function PrestataireRegister() {
             </div>
         );
     };
+
+    const renderStepEight = () => {
+        return (
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+                <div className="flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
+                    <div>
+                        <div className='flex w-full items-center justify-center px-2'>
+                            <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
+                            <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step/MAX_STEP*100} color="green" />
+                            <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
+                        </div>
+                        <div className="form-group mt-10 mb-10">
+                            <div className="mb-2 block justify-center">
+                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Votre adresse" />
+                            </div>
+                            <div className='flex justify-center'>
+                                <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
+                                    Où le client peut-il vous trouver ?
+                                </p>
+                            </div>
+                            <div className='mt-4'>
+                                <TextInput id="address" className='w-full mb-4' placeholder="Adresse et numéro" sizing="md" name="addresse" onChange={onChange} value={addressString} />
+                                <TextInput id="city" className='w-full mb-4' placeholder="Ville" sizing="md" name="city" onChange={onChange} value={city} />
+                                <TextInput id="postalCode" className='w-full' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={postalCode} />
+                            </div>
+                        </div>
+                        <div className='flex w-full justify-center'>
+                            <div className='block w-full'>
+                                <Button className="bg-black uppercase w-full mb-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
+                                Continuer
+                                </Button>
+                                <Button className="bg-white uppercase w-full hover:bg-blue-700 text-red-600 border-slate-600 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={prevStep}>
+                                Réinitialiser
+                                </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const renderStepNine = () => {
+        return (
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
+                <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
+                    <div>
+                        <div className='flex w-full items-center justify-center px-2'>
+                            <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
+                            <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step/MAX_STEP*100} color="green" />
+                            <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
+                        </div>
+                        <div className="form-group mt-10 mb-10">
+                            <div className="mb-2 block justify-center">
+                                <Label htmlFor="base" className='text-3xl text-center w-full font-bold' value="Quel est votre effectif d'équipe ?" />
+                            </div>
+                            <div className='flex mt-4 w-full justify-center items-center divide-y'>
+                                <div className='w-full mx-10'>
+                                <div className='w-full justify-center pt-2 mb-2 mt-4'>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Checkbox id="solo" />
+                                        <Label className='text-lg' htmlFor="solo">Je suis seul</Label>
+                                    </div>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Checkbox id="small" />
+                                        <Label className='text-lg' htmlFor="small">2 à 3 collaborateurs</Label>
+                                    </div>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Checkbox id="medium" />
+                                        <Label className='text-lg' htmlFor="medium">4 à 6 collaborateurs</Label>
+                                    </div>
+                                    <div className="flex items-center gap-2 mb-3">
+                                        <Checkbox id="large" />
+                                        <Label className='text-lg' htmlFor="large">Plus de 6 collaborateurs</Label>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex w-full mt-4 justify-center'>
+                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
+                                Continuer
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
 
     const renderCheckboxes = () => {
         return Object.values(JOB_CATEGORIES).map((item, index) => {
@@ -314,6 +415,9 @@ function PrestataireRegister() {
             {step === 4 && renderStepFour()}
             {step === 5 && renderStepFive()}
             {step === 6 && renderStepSix()}
+            {step === 7 && renderStepSeven()}
+            {step === 8 && renderStepEight()}
+            {step === 9 && renderStepNine()}
         </form>
     );
 }

@@ -3,6 +3,7 @@ import {
   RouterProvider
 } from 'react-router-dom';
 import './App.css'
+import { LoadScript } from '@react-google-maps/api';
 import PrestataireRegister from './components/PrestataireRegister'
 import PlatformLayout from './layouts/PlatformLayout';
 import BackOfficeLayout from './layouts/BackofficeLayout';
@@ -38,9 +39,19 @@ const router = createBrowserRouter(
 )
 
 function App() {
-  return (
-    <RouterProvider router={router} />
-  )
+
+  const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
+
+    return (
+      <>
+        <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+            <PrestataireRegister />
+            {/* other components that might need Google Maps */}
+        </LoadScript>
+        <RouterProvider router={router} />
+      </>
+
+    );
 }
 
 export default App
