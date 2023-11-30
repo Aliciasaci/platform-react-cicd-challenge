@@ -25,18 +25,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['feedback:read']],
+    normalizationContext: ['groups' => ['feedback:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['feedback:write']],
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(['groups' => ['etablissement:read:public']]),
+        new Get(),
     ]
 )]
 class Feedback
 {
     use TimestampableTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -52,7 +52,7 @@ class Feedback
     #[ORM\JoinColumn(nullable: false)]
     private ?Prestation $prestation = null;
 
-    #[Groups(['feedback:read', 'feedback:write'])]
+    #[Groups(['feedback:read', 'feedback:write', 'etablissement:read:public'])]
     #[Groups(['feedback:read'])]
     #[ORM\Column]
     private ?int $note_globale = null;

@@ -28,7 +28,7 @@ class ImageEtablissement
     )]
     private ?File $imageFile = null;
 
-    #[ORM\ManyToOne(inversedBy: 'imageEtablissements')]
+    #[ORM\ManyToOne(inversedBy: 'imageEtablissements', nullable: true)]
     private ?Etablissement $etablissement = null;
 
     public function getId(): ?int

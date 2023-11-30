@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Etablissement;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Prestation;
@@ -28,17 +29,41 @@ class PrestationFixtures extends Fixture
             'Escorte soirée',
         ];
 
+        $categoryNames = [
+            'Compagnie',
+            'Soutien émotionnel',
+            'Communication',
+            'Partage d\'activités',
+            'Occasions spéciales',
+        ];
+
         for ($i = 1; $i <= 50; $i++) {
             $Prestation = new Prestation();
             $randomTitle = $serviceTitles[array_rand($serviceTitles)]; // Select a random title
             $Prestation->setTitre($randomTitle);
             $Prestation->setDescription("Le Lorem Ipsum esSt simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500");
             $Prestation->setPrix(rand(10, 100));
-            $Prestation->setDuree(rand(1, 7));
+            $Prestation->setDuree(rand(15, 180));
+
+            $this->addReference('prestation' . $i, $Prestation);
+
+            $randomCategory = $categoryNames[array_rand($categoryNames)]; // Select a random category
+            $Prestation->setCategory($this->getReference('category' . $randomCategory));
+
+            $randomEtablissement = rand(1, 10); // Select a random etablissement
+            $Prestation->setEtablissement($this->getReference('etablissement' . $randomEtablissement));
 
             $manager->persist($Prestation);
         }
 
         $manager->flush();
+    }
+
+    public function getDependencies()
+    {
+        return [
+            CategoryFixtures::class,
+            EtablissementFixtures::class,
+        ];
     }
 }

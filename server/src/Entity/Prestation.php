@@ -28,7 +28,7 @@ use Doctrine\DBAL\Types\Types;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(['groups' => ['etablissement:read:public']]),
+        new Get(),
         new Patch(),
         new Delete(),
     ]

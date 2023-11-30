@@ -14,7 +14,7 @@ class UserFixtures extends Fixture
 {
     private $userPasswordHasherInterface;
 
-    public function __construct (UserPasswordHasherInterface $userPasswordHasherInterface) 
+    public function __construct(UserPasswordHasherInterface $userPasswordHasherInterface)
     {
         $this->userPasswordHasherInterface = $userPasswordHasherInterface;
     }
@@ -30,7 +30,8 @@ class UserFixtures extends Fixture
         $user->setEmail("admin@gmail.com");
         $user->setPassword(
             $this->userPasswordHasherInterface->hashPassword(
-                $user, $_ENV['ADMIN_PASSWORD']
+                $user,
+                $_ENV['ADMIN_PASSWORD']
             )
         );
         $user->setRoles(["ROLE_ADMIN"]);
@@ -40,36 +41,39 @@ class UserFixtures extends Fixture
         // create random users
         for ($i = 1; $i <= 20; $i++) {
             $user = new User;
-            $user->setNom("UserFname-".$i);
-            $user->setPrenom("UserLname-".$i);
-            $user->setEmail("user.".$i."@gmail.com");
+            $user->setNom("UserFname-" . $i);
+            $user->setPrenom("UserLname-" . $i);
+            $user->setEmail("user." . $i . "@gmail.com");
             $user->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
-                    $user, "password"
+                    $user,
+                    "password"
                 )
             );
             $user->setRoles(["ROLE_USER"]);
-            $user->setEmailVerified(false);  
+            $user->setEmailVerified(false);
+            $this->addReference('user' . $i, $user);
             $manager->persist($user);
         }
 
         // create random prestataires
         for ($i = 1; $i <= 10; $i++) {
             $user = new User;
-            $user->setNom("PrestataireFname-".$i);
-            $user->setPrenom("PrestataireLname-".$i);
-            $user->setEmail("prestataire.".$i."@gmail.com");
+            $user->setNom("PrestataireFname-" . $i);
+            $user->setPrenom("PrestataireLname-" . $i);
+            $user->setEmail("prestataire." . $i . "@gmail.com");
             $user->setPassword(
                 $this->userPasswordHasherInterface->hashPassword(
-                    $user, "password"
+                    $user,
+                    "password"
                 )
             );
             $user->setRoles(["ROLE_PRESTATAIRE"]);
             $user->setEmailVerified(true);
-            $this->addReference('prestataire'.$i, $user);
+            $this->addReference('prestataire' . $i, $user);
             $manager->persist($user);
         }
-        
+
         $manager->flush();
     }
 }
