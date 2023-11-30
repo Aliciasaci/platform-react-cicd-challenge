@@ -45,10 +45,8 @@ function App() {
     return (
       <>
         <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
-            <PrestataireRegister />
-            {/* other components that might need Google Maps */}
+          <RouterProvider router={router} />
         </LoadScript>
-        <RouterProvider router={router} />
       </>
 
     );
