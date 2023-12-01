@@ -47,11 +47,12 @@ class PrestationFixtures extends Fixture
 
             $this->addReference('prestation' . $i, $Prestation);
 
-            $randomCategory = $categoryNames[array_rand($categoryNames)]; // Select a random category
+            $randomCategory = $categoryNames[array_rand($categoryNames)];
             $Prestation->setCategory($this->getReference('category' . $randomCategory));
 
-            $randomEtablissement = rand(1, 10); // Select a random etablissement
+            $randomEtablissement = rand(1, 10);
             $Prestation->setEtablissement($this->getReference('etablissement' . $randomEtablissement));
+            $Prestation->addEmploye($this->getReference('employe' . $randomEtablissement . 'etablissement' . $randomEtablissement));
 
             $manager->persist($Prestation);
         }

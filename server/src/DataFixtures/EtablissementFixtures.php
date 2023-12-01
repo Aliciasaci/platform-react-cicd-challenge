@@ -21,7 +21,6 @@ class EtablisssementFixtures extends Fixture
     {
         $faker = Factory::create("fr_FR");
 
-        //Un tableau qui contient des adresses différentes en France format numéros de rue nom de rue, code postal ville
         $adresses = [
             "20 Rue Santerre, 75012 Paris",
             "1 Rue de la République, 75001 Paris",
@@ -54,6 +53,14 @@ class EtablisssementFixtures extends Fixture
                 $imageEtablissement->setImageFile(new File('public/fixtures/etablissement' . $j - 1 . '.jpg'));
                 $imageEtablissement->setEtablissement($etablissement);
                 $manager->persist($imageEtablissement);
+
+                $employe = new Employe();
+                $employe->setNom("NomEmploye-" . $j);
+                $employe->setPrenom("PrenomEmploye-" . $j);
+                $employe->setEtablissement($etablissement);
+                $employe->setDescription("Je m'appelle " . $employe->getPrenom() . " " . $employe->getNom() . " et je suis employé dans l'établissement " . $etablissement->getNom() . ".");
+                $this->addReference('employe' . $j . 'etablissement' . $i, $employe);
+                $manager->persist($employe);
             }
 
             $this->addReference('etablissement' . $i, $etablissement);
