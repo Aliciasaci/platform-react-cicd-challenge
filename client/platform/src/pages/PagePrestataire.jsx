@@ -73,7 +73,7 @@ export const PagePrestataire = () => {
             </h1>
             <OpeningDaysCard
               openingDays={prestataire?.jours_ouverture}
-              openingHours={prestataire?.horaires_ouverture}
+              openingHours={prestataire?.horraires_ouverture}
             />
           </div>
         </div>

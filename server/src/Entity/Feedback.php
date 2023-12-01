@@ -6,8 +6,6 @@ use App\Entity\Prestation;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FeedbackRepository;
@@ -53,7 +51,6 @@ class Feedback
     private ?Prestation $prestation = null;
 
     #[Groups(['feedback:read', 'feedback:write', 'etablissement:read:public'])]
-    #[Groups(['feedback:read'])]
     #[ORM\Column]
     private ?int $note_globale = null;
 

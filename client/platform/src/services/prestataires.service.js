@@ -3,7 +3,7 @@ export async function getPrestataire(id) {
     nom: "Medley Rive Droite Paris",
     adresse: "21 Rue Vieille du Temple, 75004 Paris",
     jours_ouverture: "Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche",
-    horaires_ouverture:
+    horraires_ouverture:
       "-,10:00-19:00,10:00-19:00,10:00-20:00,10:00-19:00,10:00-19:00,-",
     prestations: [
       {

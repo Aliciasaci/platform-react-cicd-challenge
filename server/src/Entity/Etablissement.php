@@ -4,9 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -18,7 +16,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: EtablissementRepository::class)]
 #[ApiResource(
@@ -29,7 +26,6 @@ use phpDocumentor\Reflection\Types\Nullable;
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
         new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
-        new Delete(),
     ]
 )]
 class Etablissement
@@ -76,7 +72,7 @@ class Etablissement
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
     private Collection $employes;
 
-    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: ImageEtablissement::class, nullable: true)]
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: ImageEtablissement::class)]
     private ?Collection $imageEtablissements = null;
 
     public function __construct()

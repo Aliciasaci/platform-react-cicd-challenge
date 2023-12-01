@@ -2,20 +2,16 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\User;
 use App\Entity\Etablissement;
 use App\Entity\ImageEtablissement;
-use App\Entity\Presation;
-use App\Entity\Category;
 use App\Entity\Employe;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
 use Symfony\Component\HttpFoundation\File\File;
 
-class EtablisssementFixtures extends Fixture
+class EtablissementFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -35,10 +31,49 @@ class EtablisssementFixtures extends Fixture
             "28 Rue Myrha, 75018 Paris"
         ];
 
+        $noms = [
+            "Le Jardin des Sens",
+            "Café Douceur",
+            "La Maison des Câlins",
+            "Ami tendre Salon",
+            "Doux Rendez-vous",
+            "Le Coin des Sourires",
+            "Oasis d'Amour",
+            "L'Étreinte Chaleureuse",
+            "Café Tendresse",
+            "La Galerie des Cœurs"
+        ];
+
+        $prenomsEmploye = [
+            "Jean",
+            "Pierre",
+            "Paul",
+            "Jacques",
+            "Marie",
+            "Julie",
+            "Lucie",
+            "Jeanne",
+            "Pierre",
+            "Paul",
+        ];
+
+        $nomsEmploye = [
+            "Dupont",
+            "Durand",
+            "Martin",
+            "Bernard",
+            "Dubois",
+            "Thomas",
+            "Robert",
+            "Richard",
+            "Petit",
+            "Moreau",
+        ];
+
         // create random etablissements
         for ($i = 1; $i <= 10; $i++) {
             $etablissement = new Etablissement;
-            $etablissement->setNom("Etablissement-" . $i);
+            $etablissement->setNom($noms[$i - 1]);
             $etablissement->setAdresse($adresses[$i - 1]);
             $etablissement->setKbis("Kbis-" . $i);
             $etablissement->setValidation(true);
@@ -55,8 +90,8 @@ class EtablisssementFixtures extends Fixture
                 $manager->persist($imageEtablissement);
 
                 $employe = new Employe();
-                $employe->setNom("NomEmploye-" . $j);
-                $employe->setPrenom("PrenomEmploye-" . $j);
+                $employe->setNom($nomsEmploye[$j - 1]);
+                $employe->setPrenom($prenomsEmploye[$j - 1]);
                 $employe->setEtablissement($etablissement);
                 $employe->setDescription("Je m'appelle " . $employe->getPrenom() . " " . $employe->getNom() . " et je suis employé dans l'établissement " . $etablissement->getNom() . ".");
                 $this->addReference('employe' . $j . 'etablissement' . $i, $employe);

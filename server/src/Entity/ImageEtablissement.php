@@ -28,7 +28,7 @@ class ImageEtablissement
     )]
     private ?File $imageFile = null;
 
-    #[ORM\ManyToOne(inversedBy: 'imageEtablissements', nullable: true)]
+    #[ORM\ManyToOne(inversedBy: 'imageEtablissements')]
     private ?Etablissement $etablissement = null;
 
     public function getId(): ?int
@@ -36,12 +36,12 @@ class ImageEtablissement
         return $this->id;
     }
 
-    public function getImageFile(): ?object
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
 
-    public function setImageFile(?object $imageFile): static
+    public function setImageFile(?File $imageFile): static
     {
         $this->imageFile = $imageFile;
 

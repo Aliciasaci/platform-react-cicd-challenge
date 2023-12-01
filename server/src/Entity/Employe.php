@@ -16,7 +16,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 #[Vich\Uploadable]
@@ -38,8 +37,8 @@ class Employe
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    
-    #[Groups(['employe:read','employe:update', 'etablissement:read:public'])]
+
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
@@ -138,6 +137,18 @@ class Employe
     public function setImageName(?string $imageName): static
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
 
         return $this;
     }

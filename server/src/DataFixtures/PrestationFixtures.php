@@ -2,13 +2,13 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Etablissement;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Prestation;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
 
-class PrestationFixtures extends Fixture
+class PrestationFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -41,7 +41,9 @@ class PrestationFixtures extends Fixture
             $Prestation = new Prestation();
             $randomTitle = $serviceTitles[array_rand($serviceTitles)]; // Select a random title
             $Prestation->setTitre($randomTitle);
-            $Prestation->setDescription("Le Lorem Ipsum esSt simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500");
+            if ($this->$faker->boolean(70)) {
+                $Prestation->setDescription("Le Lorem Ipsum esSt simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500");
+            }
             $Prestation->setPrix(rand(10, 100));
             $Prestation->setDuree(rand(15, 180));
 
@@ -63,8 +65,8 @@ class PrestationFixtures extends Fixture
     public function getDependencies()
     {
         return [
-            CategoryFixtures::class,
             EtablissementFixtures::class,
+            CategoryFixtures::class,
         ];
     }
 }

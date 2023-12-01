@@ -4,20 +4,16 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\CategoryRepository;
 use ApiPlatform\Metadata\GetCollection;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
-use ApiPlatform\Doctrine\Odm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 #[ApiResource(

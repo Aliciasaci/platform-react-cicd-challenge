@@ -19,7 +19,6 @@ use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
 #[ApiResource(
