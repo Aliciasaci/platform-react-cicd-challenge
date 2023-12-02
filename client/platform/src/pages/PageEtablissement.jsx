@@ -9,6 +9,7 @@ import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard"
 import { useParams } from "react-router-dom";
 import useCachedData from "../hooks/useCachedData";
 import { Spinner } from "flowbite-react";
+import { ErrorComponent } from "../components/ErrorComponent";
 
 export const PageEtablissement = () => {
   const { id } = useParams();
@@ -28,7 +29,9 @@ export const PageEtablissement = () => {
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="h-screen w-full errorbg">
+      <ErrorComponent status={error.status} />
+    </div>;
   }
 
   return (
