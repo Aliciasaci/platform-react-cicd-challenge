@@ -5,23 +5,26 @@ export default function Header() {
     return (
         <Navbar fluid>
             <Navbar.Brand >
-                <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span>
+                {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
+                <Link to="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">
+                    PICKME
+                </Link>
             </Navbar.Brand>
             <div className="flex md:order-2">
                 <Link to="/reservation">
-                    <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Reservation</button>
+                    <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Reservation</Button>
                 </Link>
                 <Link to="/">
-                    <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Accueil</button>
+                    <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Accueil</Button>
                 </Link>
                 <Link to="/backoffice/admin-panel">
-                    <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Admin Panel</button>
+                    <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Admin Panel</Button>
                 </Link>
                 <Link to="/prestataire-register">
-                    <button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Je suis prestataire</button>
+                    <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Je suis prestataire</Button>
                 </Link>
                 <Link to="/login">
-                    <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Se connecter</button>
+                    <Button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">Se connecter</Button>
                 </Link>
                 <Navbar.Toggle />
             </div>
