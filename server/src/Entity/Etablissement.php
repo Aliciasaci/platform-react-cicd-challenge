@@ -26,6 +26,11 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
         new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
+        // 'etablissement' => [
+        //     'method' => 'get',
+        //     'path' => 'etablissement/{id}',
+        //     'normalization_context' => ['groups' => ['etablissement:read:public']],
+        // ],
     ]
 )]
 class Etablissement
@@ -67,12 +72,15 @@ class Etablissement
     private ?User $prestataire = null;
 
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
+    #[Groups(['etablissement:read:public'])]
     private Collection $prestation;
 
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
+    #[Groups(['etablissement:read:public'])]
     private Collection $employes;
 
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: ImageEtablissement::class)]
+    #[Groups(['etablissement:read:public'])]
     private ?Collection $imageEtablissements = null;
 
     public function __construct()

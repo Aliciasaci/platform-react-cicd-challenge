@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Filter\CustomSearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -15,6 +14,7 @@ use App\Repository\PrestationRepository;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
@@ -27,7 +27,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['etablissement:read:public']]),
         new Patch(),
         new Delete(),
     ]
@@ -44,12 +44,12 @@ class Prestation
     private ?int $id = null;
 
     #[ApiFilter(CustomSearchFilter::class)]
-    #[Groups('prestation:read', 'prestation:write', 'etablissement:read:public')]
     #[Assert\Length(min: 5)]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titre = null;
 
-    #[Groups('prestation:read', 'prestation:write', 'etablissement:read:public')]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $duree = null;
 
@@ -57,7 +57,7 @@ class Prestation
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prix = null;
 
-    #[Groups(['presatation:read', 'prestation:write', 'etablissement:read:public'])]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 

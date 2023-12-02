@@ -2,13 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\ImageEtablissementRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ImageEtablissementRepository::class)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['etablissement:read:public']],
+)]
 class ImageEtablissement
 {
     #[ORM\Id]
@@ -26,6 +31,7 @@ class ImageEtablissement
         maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
         mimeTypesMessage: 'Format accepté : png/jpeg'
     )]
+    #[Groups(['etablissement:read:public'])]
     private ?File $imageFile = null;
 
     #[ORM\ManyToOne(inversedBy: 'imageEtablissements')]

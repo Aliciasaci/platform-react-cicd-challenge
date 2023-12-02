@@ -41,9 +41,7 @@ class PrestationFixtures extends Fixture implements DependentFixtureInterface
             $Prestation = new Prestation();
             $randomTitle = $serviceTitles[array_rand($serviceTitles)]; // Select a random title
             $Prestation->setTitre($randomTitle);
-            if ($this->$faker->boolean(70)) {
-                $Prestation->setDescription("Le Lorem Ipsum esSt simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500");
-            }
+            $Prestation->setDescription("Le Lorem Ipsum esSt simplement du faux texte employé dans la composition et la mise en page avant impression. Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500");
             $Prestation->setPrix(rand(10, 100));
             $Prestation->setDuree(rand(15, 180));
 

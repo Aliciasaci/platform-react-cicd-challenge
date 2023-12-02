@@ -3,7 +3,7 @@ import { Card, Avatar, Tooltip } from "flowbite-react";
 export const EmployeesCard = ({ employees }) => {
   return (
     <Card className="shadow-md w-full">
-      <div className="flex flex-row justify-evenly">
+      <div className="flex flex-row flex-wrap justify-evenly">
         {employees.map((employee, index) => {
           return (
             <Tooltip key={index} content={employee.description}>
