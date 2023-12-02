@@ -51,7 +51,7 @@ function PrestataireRegister() {
 
     const validateEmail = (email) => {
         return email.length === 0 || !email.includes('@');
-    };
+        };
 
     const nextStep = () => {
         setStep(step + 1);

@@ -11,6 +11,7 @@ import AdminPanel from './pages/AdminPanel';
 import { PageEtablissement } from './pages/PageEtablissement';
 import Reservation from './pages/Reservation';
 import Login from './components/Login';
+import Register from './components/Register';
 
 const routes = [
   {
@@ -22,6 +23,7 @@ const routes = [
       { path: 'page-presta-dev/:id', element: <PageEtablissement />}, // à supprimer
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
+      { path: '/register', element: <Register /> },
     ]
   },
   {
