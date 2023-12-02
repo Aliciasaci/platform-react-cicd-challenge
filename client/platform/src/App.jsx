@@ -20,7 +20,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: 'prestataire-register', element: <PrestataireRegister /> },
-      { path: 'page-presta-dev/:id', element: <PageEtablissement />}, // à supprimer
+      { path: 'etablissement/:id', element: <PageEtablissement />}, // à supprimer
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
