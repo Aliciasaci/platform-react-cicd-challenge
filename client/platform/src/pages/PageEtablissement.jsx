@@ -7,28 +7,13 @@ import { PrestationWrapper } from "../components/prestacomponents/PrestationsWra
 import { EmployeesCard } from "../components/prestacomponents/EmployeesCard";
 import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard";
 import { useParams } from "react-router-dom";
+import useCachedData from "../hooks/useCachedData";
+import { Spinner } from "flowbite-react";
+import { ErrorComponent } from "../components/ErrorComponent";
 
 export const PageEtablissement = () => {
-  const [prestataire, setPrestataire] = React.useState();
-  const [error, setError] = React.useState();
-  const [isLoading, setIsLoading] = React.useState(true);
   const { id } = useParams();
-
-  React.useEffect(() => {
-    const fetchPrestataire = async () => {
-      setIsLoading(true);
-      const presta = await getPrestataire(id);
-      if (!presta) {
-        setError("Prestataire not found");
-        setIsLoading(false);
-        return;
-      } else {
-        setPrestataire(presta);
-        setIsLoading(false);
-      }
-    };
-    fetchPrestataire();
-  }, [id]);
+  const { data: prestataire, isLoading, error } = useCachedData(getPrestataire, id);
 
   const handleOnClick = () => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -38,11 +23,15 @@ export const PageEtablissement = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="h-screen mt-52">
+      <Spinner color="gray" size="xl" />
+    </div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="h-screen w-full errorbg">
+      <ErrorComponent status={error.status} />
+    </div>;
   }
 
   return (

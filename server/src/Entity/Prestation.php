@@ -41,6 +41,7 @@ class Prestation
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['etablissement:read:public'])]
     private ?int $id = null;
 
     #[ApiFilter(CustomSearchFilter::class)]
