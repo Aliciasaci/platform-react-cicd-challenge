@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use App\Filter\CustomSearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -15,20 +14,20 @@ use App\Repository\PrestationRepository;
 use App\Entity\Traits\TimestampableTrait;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: PrestationRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['prestation:read', 'date:read']],
+    normalizationContext: ['groups' => ['prestation:read', 'date:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['prestation:write', 'date:write']],
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(),
+        new Get(normalizationContext: ['groups' => ['etablissement:read:public']]),
         new Patch(),
         new Delete(),
     ]
@@ -45,23 +44,24 @@ class Prestation
     private ?int $id = null;
 
     #[ApiFilter(CustomSearchFilter::class)]
-    #[Groups('prestation:read', 'prestation:write')]
     #[Assert\Length(min: 5)]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $titre = null;
 
-    #[Groups('prestation:read', 'prestation:write')]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $duree = null;
 
-    #[Groups(['prestation:read:is-logged', 'prestation:write'])]
+    #[Groups(['prestation:read:is-logged', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $prix = null;
 
-    #[Groups(['presatation:read', 'prestation:write'])]
+    #[Groups(['prestation:read', 'prestation:write', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\ManyToOne(inversedBy: 'prestations')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Category $category = null;
@@ -76,6 +76,7 @@ class Prestation
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Reservation::class)]
     private Collection $reservations;
 
+    #[Groups(['etablissement:read:public'])]
     #[ORM\OneToMany(mappedBy: 'prestation', targetEntity: Feedback::class)]
     private Collection $feedback;
 
