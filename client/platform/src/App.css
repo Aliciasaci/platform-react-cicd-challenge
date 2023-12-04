@@ -62,10 +62,6 @@
   padding: 23px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 86px;
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 .search-input {
@@ -124,6 +120,12 @@
 
 .home>div{
   background-image: url("../src/assets/img/fond.jpg");
+}
+
+.errorbg {
+  background-image: url("../src/assets/img/error.jpg");
+  background-position: center center;
+  background-size: cover;
 }
 
 .footer{
