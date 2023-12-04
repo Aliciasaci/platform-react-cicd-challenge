@@ -6,8 +6,6 @@ use App\Entity\Prestation;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
-use ApiPlatform\Metadata\Patch;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\FeedbackRepository;
@@ -25,17 +23,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
 )]
 
 #[ApiResource(
-    normalizationContext: ['groups' => ['feedback:read']],
+    normalizationContext: ['groups' => ['feedback:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['feedback:write']],
     operations: [
         new GetCollection(),
         new Post(),
+        new Get(),
     ]
 )]
 class Feedback
 {
     use TimestampableTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -51,11 +50,11 @@ class Feedback
     #[ORM\JoinColumn(nullable: false)]
     private ?Prestation $prestation = null;
 
-    #[Groups(['feedback:read'])]
+    #[Groups(['feedback:read', 'feedback:write', 'etablissement:read:public'])]
     #[ORM\Column]
     private ?int $note_globale = null;
 
-    #[Groups(['feedback:read', 'feedback:write'])]
+    #[Groups(['etablissement:read:public'])]
     #[ORM\Column]
     private array $notes = [];
 

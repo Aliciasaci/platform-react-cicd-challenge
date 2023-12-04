@@ -20,7 +20,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Doctrine\DBAL\Types\Types;
 use App\Entity\Etablissement;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -40,7 +39,7 @@ use App\Entity\Etablissement;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -56,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nom = null;
 
     #[Groups(['user:read', 'user:write:update', 'user:write'])]
-    #[Assert\Length(min:2)]
+    #[Assert\Length(min: 2)]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
@@ -84,7 +83,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         mimeTypes: ['image/png', 'image/jpeg'],
         maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
         mimeTypesMessage: 'Format accepté : png/jpeg'
-)]
+    )]
     private ?File $imageFile = null;
 
     #[ORM\Column]
@@ -102,7 +101,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->etablissement = new ArrayCollection();
-        $this->reservations = new ArrayCollection();
         $this->reservationsClient = new ArrayCollection();
         $this->feedback = new ArrayCollection();
     }
@@ -345,6 +343,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    
 }

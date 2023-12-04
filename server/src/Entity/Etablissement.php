@@ -4,9 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Post;
-use Doctrine\DBAL\Types\Types;
 use ApiPlatform\Metadata\Patch;
-use ApiPlatform\Metadata\Delete;
 use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
@@ -26,26 +24,30 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     operations: [
         new GetCollection(),
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
-        new Get(normalizationContext: ['groups' => ['etablissement:read']]),
+        new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
-        new Delete(),
+        // 'etablissement' => [
+        //     'method' => 'get',
+        //     'path' => 'etablissement/{id}',
+        //     'normalization_context' => ['groups' => ['etablissement:read:public']],
+        // ],
     ]
 )]
 class Etablissement
 {
     use TimestampableTrait;
-    
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
@@ -56,11 +58,11 @@ class Etablissement
     #[ORM\Column]
     private ?bool $validation = false;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $jours_ouverture = null;
 
-    #[Groups(['etablissement:read', 'etablissement:update'])]
+    #[Groups(['etablissement:read', 'etablissement:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $horraires_ouverture = null;
 
@@ -70,15 +72,22 @@ class Etablissement
     private ?User $prestataire = null;
 
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Prestation::class)]
+    #[Groups(['etablissement:read:public'])]
     private Collection $prestation;
 
     #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: Employe::class)]
+    #[Groups(['etablissement:read:public'])]
     private Collection $employes;
+
+    #[ORM\OneToMany(mappedBy: 'etablissement', targetEntity: ImageEtablissement::class)]
+    #[Groups(['etablissement:read:public'])]
+    private ?Collection $imageEtablissements = null;
 
     public function __construct()
     {
         $this->prestation = new ArrayCollection();
         $this->employes = new ArrayCollection();
+        $this->imageEtablissements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -224,6 +233,36 @@ class Etablissement
             // set the owning side to null (unless already changed)
             if ($employe->getEtablissement() === $this) {
                 $employe->setEtablissement(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ImageEtablissement>
+     */
+    public function getImageEtablissements(): Collection
+    {
+        return $this->imageEtablissements;
+    }
+
+    public function addImageEtablissement(ImageEtablissement $imageEtablissement): static
+    {
+        if (!$this->imageEtablissements->contains($imageEtablissement)) {
+            $this->imageEtablissements->add($imageEtablissement);
+            $imageEtablissement->setEtablissement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImageEtablissement(ImageEtablissement $imageEtablissement): static
+    {
+        if ($this->imageEtablissements->removeElement($imageEtablissement)) {
+            // set the owning side to null (unless already changed)
+            if ($imageEtablissement->getEtablissement() === $this) {
+                $imageEtablissement->setEtablissement(null);
             }
         }
 

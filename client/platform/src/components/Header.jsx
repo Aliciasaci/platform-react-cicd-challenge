@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
     return (
-        <Navbar fluid className='w-screen'>
+        <Navbar fluid>
             <Navbar.Brand >
                 {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
                 <Link to="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">

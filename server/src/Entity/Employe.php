@@ -16,17 +16,16 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
-use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: EmployeRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    normalizationContext: ['groups' => ['employe:read', 'date:read']],
+    normalizationContext: ['groups' => ['employe:read', 'date:read', 'etablissement:read:public']],
     denormalizationContext: ['groups' => ['employe:write', 'date:write']],
     operations: [
         new GetCollection(),
         new Post(),
-        new Get(normalizationContext: ['groups' => ['employe:read', 'employe:read:full']]),
+        new Get(normalizationContext: ['groups' => ['employe:read', 'employe:read:full', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['employe:update']]),
     ]
 )]
@@ -39,11 +38,11 @@ class Employe
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['employe:read','employe:update'])]
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $nom = null;
 
-    #[Groups(['employe:read', 'employe:update'])]
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
@@ -54,7 +53,7 @@ class Employe
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imageName = null;
 
-    #[Groups(['employe:update'])]
+    #[Groups(['employe:update', 'etablissement:read:public'])]
     #[Vich\UploadableField(mapping: 'employes_images', fileNameProperty: 'imageName')]
     #[Assert\Image(
         maxSize: '2M',
@@ -64,7 +63,7 @@ class Employe
     )]
     private ?File $imageFile = null;
 
-    #[Groups(['employe:read', 'employe:update'])]
+    #[Groups(['employe:read', 'employe:update', 'etablissement:read:public'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $description = null;
 
@@ -138,6 +137,18 @@ class Employe
     public function setImageName(?string $imageName): static
     {
         $this->imageName = $imageName;
+
+        return $this;
+    }
+
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    public function setImageFile(?File $imageFile): static
+    {
+        $this->imageFile = $imageFile;
 
         return $this;
     }
