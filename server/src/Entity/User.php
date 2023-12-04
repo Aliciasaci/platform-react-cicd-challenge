@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Put;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -31,22 +32,23 @@ use App\Entity\Etablissement;
     normalizationContext: ['groups' => ['user:read', 'date:read']],
     denormalizationContext: ['groups' => ['user:write', 'date:write']],
     operations: [
-        new GetCollection(),
+        new GetCollection(normalizationContext: ['groups' => ['user:read', 'date:read']]),
         new Post(),
         new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full']]),
-        new Patch(denormalizationContext: ['groups' => ['user:write:update']]),
+        new Put(denormalizationContext: ['groups' => ['user:write:update']]),
     ]
 )]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
     
+    #[Groups(['user:read'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[Groups(['user:read', 'user:write'])]
+    #[Groups(['user:read', 'user:write:update', 'user:write'])]
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
@@ -63,14 +65,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
+    #[Groups(['user:read', 'user:read:full', 'user:write', 'user:write:update'])]
     #[ORM\Column]
     private ?string $password = null;
 
-    #[Groups(['user:write', 'user:write:update'])]
     #[Length(min: 6)]
     private ?string $plainPassword = null;
 
-    #[Groups(['user:read:full'])]
+    #[Groups(['user:read', 'user:read:full', 'user:write:update', 'user:write'])]
     #[ORM\Column]
     private array $roles = [];
 
@@ -87,6 +89,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 )]
     private ?File $imageFile = null;
 
+    #[Groups(['user:read', 'user:write'])]
     #[ORM\Column]
     private ?bool $emailVerified = false;
 

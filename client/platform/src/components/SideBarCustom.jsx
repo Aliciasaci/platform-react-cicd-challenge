@@ -10,14 +10,14 @@ export default function SideBar() {
                 <ul className="space-y-2">
                     <li>
                         
-                        <a
-                        href="#"
-                        className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
-                        >
-                        <FaUsers size={20} />
-                        <span className="ml-3">Utilisateurs</span>
-                        </a>
-                        
+                            <a
+                            href="#"
+                            className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                            >
+                            <FaUsers size={20} />
+                            <span className="ml-3">Utilisateurs</span>
+                            </a>
+                       
                     </li>
                     <li>
                         <a

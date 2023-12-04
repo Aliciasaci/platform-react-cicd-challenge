@@ -9,6 +9,8 @@ import BackOfficeLayout from './layouts/BackofficeLayout';
 import Home from './pages/Home';
 import AdminPanel from './pages/AdminPanel';
 import CrudUser from './pages/CrudUser';
+import CrudCategory from './pages/CrudCategory';
+import CategoryModal from './components/CategoryModal';
 
 const routes = [
   {
@@ -24,7 +26,20 @@ const routes = [
     element: <BackOfficeLayout />,
     children: [
       { path: 'admin-panel', element: <AdminPanel /> },
-      { path: 'crud-user', element: <CrudUser /> },
+      { 
+        path: 'users',
+        element: <CrudUser />
+      },
+      { 
+        path: 'categories',
+        element: <CrudCategory />,
+        children: [
+          {
+            path: 'create',
+            element: <CategoryModal />
+          }
+        ]
+      }
     ]
   },
 ]     
