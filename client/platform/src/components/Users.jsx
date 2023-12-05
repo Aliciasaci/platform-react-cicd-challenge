@@ -57,7 +57,11 @@ const Users = () => {
   useEffect(() => {
       const fetchUsers = async () => {
           try {
-              const response = await axios.get('http://localhost:8000/api/users');
+              const response = await axios.get('http://localhost:8000/api/users', {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+              });
               const data = response['data']['hydra:member'];
               setUsers(data);
           } catch (error) {
@@ -105,6 +109,7 @@ const Users = () => {
   });
 
   const createUser = async (values) => {
+    console.log("values", values);
     values.roles = [values.roles];
     try {
         const response = await axios.post('http://localhost:8000/api/users', {
@@ -116,8 +121,9 @@ const Users = () => {
         if (response.status === 201) {
             console.log("response", response);
         }
-        // const data = response['data']['hydra:member'];
-        // setCategories(data);
+        const data = response['data']['hydra:member'];
+        console.log("data", data)
+        setUsers(data);
     } catch (error) {
         console.log("error", error);
     }

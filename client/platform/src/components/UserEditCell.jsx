@@ -6,7 +6,7 @@ import UserDeleteModal from './UserDeleteModal';
 
 const UserEditCell = ({ row, table }) => {
   const meta = table.options.meta;
-  console.log("test", row.original);
+  // console.log("test", row.original);
     const editRow = (values) => {
       meta?.editRow(row.original, values);
     };
