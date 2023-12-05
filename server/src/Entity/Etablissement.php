@@ -24,7 +24,11 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     operations: [
         new GetCollection(),
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
-        new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
+        new Get(normalizationContext: ['groups' => ['etablissement:read']]),
+        new Get(
+            uriTemplate: '/etablissementPublic/{id}',
+            normalizationContext: ['groups' => ['etablissement:read:public']]
+        ),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
         // 'etablissement' => [
         //     'method' => 'get',
