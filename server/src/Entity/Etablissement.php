@@ -22,7 +22,7 @@ use ApiPlatform\Doctrine\Common\Filter\SearchFilterInterface;
     normalizationContext: ['groups' => 'etablissement:read'],
     denormalizationContext: ['groups' => 'etablissement:write'],
     operations: [
-        new GetCollection(),
+        new GetCollection(normalizationContext: ['groups' => ['etablissement:read']]),
         new Post(denormalizationContext: ['groups' => ['etablissement:update', 'etablissement:create']]),
         new Get(normalizationContext: ['groups' => ['etablissement:read', 'etablissement:read:public']]),
         new Patch(denormalizationContext: ['groups' => ['etablissement:update']]),
@@ -40,6 +40,7 @@ class Etablissement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['etablissement:read'])]
     private ?int $id = null;
 
     #[ApiFilter(SearchFilter::class, strategy: SearchFilterInterface::STRATEGY_EXACT)]
@@ -51,6 +52,7 @@ class Etablissement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
+    #[Groups(['etablissement:read'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $kbis = null;
 
