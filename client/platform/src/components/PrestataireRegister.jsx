@@ -1,11 +1,13 @@
 import { useState, useMemo } from 'react';
-import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch } from 'flowbite-react';
-import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus } from "react-icons/fa6";
+import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch, Select } from 'flowbite-react';
+import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus, FaXmark } from "react-icons/fa6";
 import MapFinder from './MapFinder';
 import TimeRangePicker from './TimeRangePicker';
+import PrestationCreateModal from './PrestationCreate';
 
 function PrestataireRegister() {
     const [step, setStep] = useState(1);
+    const [createModal, setCreateModal] = useState(false);
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -32,6 +34,7 @@ function PrestataireRegister() {
     const [jeudi, setJeudi] = useState(true);
     const [vendredi, setVendredi] = useState(true);
     const [samedi, setSamedi] = useState(false);
+    const [prestations, setPrestations] = useState([]);
     const addressString = useMemo(() => {
         return selectedAddress.split(',')[0];
     }, [selectedAddress]);
@@ -44,7 +47,7 @@ function PrestataireRegister() {
         }
         return ['', ''];
     }, [selectedAddress]);
-    const MAX_STEP = 7;
+    const MAX_STEP = 11;
     const JOB_CATEGORIES = {
         '1': 'Coiffeur',
         '2': 'Esthéticienne',
@@ -86,9 +89,18 @@ function PrestataireRegister() {
         setStep(step - 1);
     };
 
+    const handleCloseCreatePrestation = () => {
+        setCreateModal(false);
+    }
+
+    const handleSubmitCreatePrestation = (prestationInfo) => {
+        setPrestations([...prestations, prestationInfo]);
+        setCreateModal(false);
+    }
+
     const renderStepOne = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -113,7 +125,7 @@ function PrestataireRegister() {
 
     const renderStepTwo = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -149,7 +161,7 @@ function PrestataireRegister() {
 
     const renderStepThree = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -169,7 +181,7 @@ function PrestataireRegister() {
                             <TextInput className='mt-4' id="base" type="text" placeholder="Nom du salon" sizing="md" name="companyName" onChange={onChange} value={formData.companyName} />
                             <div className='flex mt-4 justify-between'>
                                 <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="lastName" onChange={onChange} value={formData.lastName} />
-                                <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="firtName" onChange={onChange} value={formData.firstName} />
+                                <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="firstName" onChange={onChange} value={formData.firstName} />
                             </div>
                             <div className='flex mt-4 justify-between'>
                                 <TextInput className='w-3/12' id="base" type="text" placeholder="Prefix" icon={FaPlus} sizing="md" onChange={onChange} />
@@ -189,7 +201,7 @@ function PrestataireRegister() {
 
     const renderStepFour = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -216,7 +228,6 @@ function PrestataireRegister() {
                                     }
                                 </Button>
                             </div>
-
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
@@ -231,7 +242,7 @@ function PrestataireRegister() {
 
     const renderStepFive = () => {
         return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
+            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
@@ -292,7 +303,7 @@ function PrestataireRegister() {
     const renderStepSeven = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-3/5 h-4/5 bg-white rounded-xl">
+                <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
                             <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
@@ -405,7 +416,7 @@ function PrestataireRegister() {
     const renderStepTen = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-3/5 h-4/5 bg-white rounded-xl">
+                <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
                             <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
@@ -478,25 +489,46 @@ function PrestataireRegister() {
     const renderStepEleven = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-3/5 h-4/5 bg-white rounded-xl">
+                <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
                     <div>
                         <div className='flex w-full items-center justify-center px-2'>
                             <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
                             <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step / MAX_STEP * 100} color="green" />
                             <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
                         </div>
-                        <div className="form-group mt-10 mb-10">
-                            <div className="mb-2 block justify-center">
-                                <Label htmlFor="base" className='text-3xl text-center w-full font-bold' value="Commencer à ajouter des prestations" />
+                        <div className="form-group justify-center mt-10 mb-10">
+                            <div className="mb-2 w-full block justify-center">
+                                <Label htmlFor="base" className='text-3xl text-center w-3/5 font-bold' value="Commencer à ajouter des prestations" />
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                Ajouter au moins une prestation maintenant. Plus tard, vous pourrez en ajouter d&aposautres, modifier les informations, et regrouper les prestations en catégories.
+                                    Ajouter au moins une prestation maintenant. Plus tard, vous pourrez en ajouter d&apos;autres, modifier les informations, et regrouper les prestations en catégories.
                                 </p>
                             </div>
-                            <div className='flex mt-4 w-full justify-center items-center divide-y'>
-                                <div className='w-full'>
-                                    <div className='w-full mb-2 mt-4 max-w-md flex-col'>
+                            <div className='block mt-4 w-full justify-center items-center'>
+                                <div className='w-full block mt-3 justify-center'>
+                                    {prestations.length > 0 &&
+                                        <div className='w-full flex justify-center'>
+                                            <div className='block w-4/5'>
+                                                {prestations.map((prestation, index) => (
+                                                    <div key={index} className='flex w-full justify-around items-center'>
+                                                        <Label className='text-lg text-center w-1/4' value={`Nom: ${prestation.name}`} />
+                                                        <div className='flex justify-center w-1/4'>
+                                                            <Label className='text-sm text-center' value={`${prestation.durationHours}H`} />
+                                                            <Label className='text-sm text-center' value={`${prestation.durationMinutes}M`} />
+                                                        </div>
+                                                        <Label className='text-sm text-center w-1/4' value={`${prestation.price}€`} />
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                        </div>
+                                    }
+                                    <div className='w-full flex mt-3 justify-center'>
+                                        <Button color="gray" onClick={() => setCreateModal(true)}>
+                                            <FaPlus className="mr-2 h-5 w-5" />
+                                            Ajouter une prestation
+                                        </Button>
                                     </div>
                                 </div>
                             </div>
@@ -512,7 +544,6 @@ function PrestataireRegister() {
         );
     }
 
-
     const renderCheckboxes = () => {
         return Object.values(JOB_CATEGORIES).map((item, index) => {
             return (
@@ -525,18 +556,35 @@ function PrestataireRegister() {
     };
 
     return (
-        <form className='w-full flex justify-center items-center h-screen' onSubmit={onSubmit}>
-            {step === 1 && renderStepOne()}
-            {step === 2 && renderStepTwo()}
-            {step === 3 && renderStepThree()}
-            {step === 4 && renderStepFour()}
-            {step === 5 && renderStepFive()}
-            {step === 6 && renderStepSix()}
-            {step === 7 && renderStepSeven()}
-            {step === 8 && renderStepEight()}
-            {step === 9 && renderStepNine()}
-            {step === 10 && renderStepTen()}
-            {step === 11 && renderStepEleven()}
+        <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
+            {
+                createModal
+                    ? <PrestationCreateModal onClose={handleCloseCreatePrestation} onSubmitPrestation={handleSubmitCreatePrestation} />
+                    : step === 1
+                        ? renderStepOne()
+                        : step === 2
+                            ? renderStepTwo()
+                            : step === 3
+                                ? renderStepThree()
+                                : step === 4
+                                    ? renderStepFour()
+                                    : step === 5
+                                        ? renderStepFive()
+                                        : step === 6
+                                            ? renderStepSix()
+                                            : step === 7
+                                                ? renderStepSeven()
+                                                : step === 8
+                                                    ? renderStepEight()
+                                                    : step === 9
+                                                        ? renderStepNine()
+                                                        : step === 10
+                                                            ? renderStepTen()
+                                                            : step === 11
+                                                                ? renderStepEleven()
+                                                                : null
+            }
+
         </form>
     );
 }
