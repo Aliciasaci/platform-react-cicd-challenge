@@ -1,8 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
-import { EmployeesCard } from './EmployeesCard';
+import "@testing-library/jest-dom";
+import { render, screen, fireEvent } from "@testing-library/react";
+import { EmployeesCard } from "../components/prestacomponents/EmployeesCard";
 
-describe('EmployeesCard', () => {
-  it('renders employee cards correctly', () => {
+describe("EmployeesCard", () => {
+  it("renders employee cards correctly", () => {
     const employees = [
       {
         nom: "Jean",
@@ -23,25 +24,25 @@ describe('EmployeesCard', () => {
 
     render(<EmployeesCard employees={employees} />);
 
-      expect(screen.getByText("Pierre")).toBeInTheDocument();
-      expect(screen.getByText("Jean")).toBeInTheDocument();
-      expect(screen.getByText("Paul")).toBeInTheDocument();
+    expect(screen.getByText("Pierre")).toBeInTheDocument();
+    expect(screen.getByText("Jean")).toBeInTheDocument();
+    expect(screen.getByText("Paul")).toBeInTheDocument();
   });
-    
-    it('should display the description on hover', () => {
-        const employees = [
-            {
-            nom: "Jean",
-            prenom: "Pierre",
-            description: "Je suis Pierre",
-            }
-        ];
-    
-        render(<EmployeesCard employees={employees} />);
-        // hover over the first employee
-        const employee = screen.getByText("Pierre");
-        fireEvent.mouseEnter(employee);
-    
-        expect(screen.getByText("Je suis Pierre")).toBeInTheDocument();
-    });
+
+  it("should display the description on hover", () => {
+    const employees = [
+      {
+        nom: "Jean",
+        prenom: "Pierre",
+        description: "Je suis Pierre",
+      },
+    ];
+
+    render(<EmployeesCard employees={employees} />);
+    // hover over the first employee
+    const employee = screen.getByText("Pierre");
+    fireEvent.mouseEnter(employee);
+
+    expect(screen.getByText("Je suis Pierre")).toBeInTheDocument();
+  });
 });
