@@ -13,6 +13,8 @@ import { PageEtablissement } from './pages/PageEtablissement';
 import Reservation from './pages/Reservation';
 import Login from './components/Login';
 import Register from './components/Register';
+import UserProfile from "./pages/UserProfile";
+import UserInformations from './components/UserInformations';
 
 const routes = [
   {
@@ -25,6 +27,9 @@ const routes = [
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
+      { path: '/user-profile', element: <UserProfile /> },
+      { path: '/mon-compte', element: <UserInformations /> },
+
     ]
   },
   {
