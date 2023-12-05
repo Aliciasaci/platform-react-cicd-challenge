@@ -84,9 +84,9 @@ const UserModal = ({onCloseModal}) => {
                             <Label htmlFor="password" value="Mot de passe" />
                         </div>
                         <TextInput
-                            id="pasword"
+                            id="password"
                             name="password"
-                            type="password                  "
+                            type="password"
                             placeholder="Mot de passe"
                             value={values.password}
                             onChange={handleChange}

@@ -96,6 +96,7 @@ const UserEditModal = ({userData, onCloseModal}) => {
                         <option defaultValue>Sélectionner un rôle</option>
                         <option value="ROLE_ADMIN">ROLE_ADMIN</option>
                         <option value="ROLE_PRESTATAIRE">ROLE_PRESTATAIRE</option>
+                        <option value="ROLE_USER">ROLE_USER</option>
                         </Select>  
                     </Modal.Body>
                     <Modal.Footer>
