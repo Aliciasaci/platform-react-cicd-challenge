@@ -64,31 +64,35 @@ const Categories = () => {
         meta: {
             editRow: async (id, newName) => {
                 try {
-                    const response = await axios.put(`http://localhost:8000/api/categories/${id}`, {
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                    const response = await axios.patch(`http://localhost:8000/api/categories/${id}`, {
                         name: newName
+                    },
+                    {
+                        headers: {
+                            'Content-Type': 'application/merge-patch+json'
+                        }
                     });
                     if (response.status === 200) {
                         console.log("response", response);
                     }
                     
-                    // const data = response['data']['hydra:member'];
-                    // setCategories(data);
+                    setCategories(categories.map(category => {
+                        if (category.id === id) {
+                            category.name = newName;
+                        }
+                        return category;
+                    }));
                 } catch (error) {
                     console.log("error", error);
                 }
             },
             removeRow: async (id) => {
-                console.log('delete id', id);
                 try {
                     const response = await axios.delete(`http://localhost:8000/api/categories/${id}`);
                     if (response.status === 204) {
                         console.log("response", response);
                     }
-                    // const data = response['data']['hydra:member'];
-                    // setCategories(data);
+                    setCategories(categories.filter((categorie) => categorie.id !== id));
                 } catch (error) {
                     console.log("error", error);
                 }
@@ -105,8 +109,10 @@ const Categories = () => {
                 },
                 name: name
             });
-            const newCategory = response['data']['hydra:member'];
-            setCategories([...categories, newCategory]);
+            if (response.status === 201) {
+                console.log("response", response);
+            }
+            setCategories([...categories, response.data]);
         } catch (error) {
             console.log("error", error);
         }
