@@ -3,9 +3,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Alert } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
 
+    const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: "",
@@ -30,6 +32,9 @@ export default function Login() {
 
             if (res.data.token) {
                 setResponseMessage("SUCCESSS");
+                await submitForm();
+                navigate("/user-profile"); 
+
             }
 
         } catch (error) {
@@ -40,15 +45,15 @@ export default function Login() {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login ">
-            <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
-                <div>
+        <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login">
+            <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl pt-6 pb-6">
+                <div className='pt-6'>
                     {responseMessage && (<Alert color="failure" withBorderAccent>
                         <span>
                             <span className="font-medium">{responseMessage}</span>
                         </span>
                     </Alert>)}
-                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96" >SE CONNECTER</p>
+                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96 pt-6" >SE CONNECTER</p>
                     <div className="form-group mb-5">
                         <div className="block flex justify-start mb-2">
                             <Label htmlFor="base" className='text-xl text-center font-bold' value="Email " />
@@ -68,7 +73,7 @@ export default function Login() {
                         <hr className='text-zinc-900 mt-4'></hr>
                         <p className='mt-6'>Pas encore de compte ? </p>
                         <Link to="/register">
-                            <button className="mt-3 mb-6 bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                            <button className="bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                                 Créer mon compte
                             </button>
                         </Link>
