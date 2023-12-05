@@ -21,7 +21,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Doctrine\DBAL\Types\Types;
 use App\Entity\Etablissement;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -32,9 +31,9 @@ use App\Entity\Etablissement;
     normalizationContext: ['groups' => ['user:read', 'date:read']],
     denormalizationContext: ['groups' => ['user:write', 'date:write']],
     operations: [
-        new GetCollection(normalizationContext: ['groups' => ['user:read', 'date:read']]),
+        new GetCollection(normalizationContext: ['groups' => ['user:read', 'date:read', 'etablissement:read']]),
         new Post(),
-        new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full']]),
+        new Get(normalizationContext: ['groups' => ['user:read', 'user:read:full', 'etablissement:read']]),
         new Put(denormalizationContext: ['groups' => ['user:write:update']]),
     ]
 )]
@@ -42,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use TimestampableTrait;
     
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'etablissement:read'])]
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -58,7 +57,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $nom = null;
 
     #[Groups(['user:read', 'user:write:update', 'user:write'])]
-    #[Assert\Length(min:2)]
+    #[Assert\Length(min: 2)]
     #[ORM\Column(length: 255)]
     private ?string $prenom = null;
 
@@ -86,7 +85,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         mimeTypes: ['image/png', 'image/jpeg'],
         maxSizeMessage: 'Votre fichier fait {{ size }} et ne doit pas dépasser {{ limit }}',
         mimeTypesMessage: 'Format accepté : png/jpeg'
-)]
+    )]
     private ?File $imageFile = null;
 
     #[Groups(['user:read', 'user:write'])]
@@ -102,12 +101,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'client', targetEntity: Feedback::class)]
     private Collection $feedback;
 
+    #[ORM\OneToMany(mappedBy: 'prestataire', targetEntity: DemandePrestataire::class)]
+    private Collection $validationPrestataire;
+
     public function __construct()
     {
         $this->etablissement = new ArrayCollection();
-        $this->reservations = new ArrayCollection();
         $this->reservationsClient = new ArrayCollection();
         $this->feedback = new ArrayCollection();
+        $this->validationPrestataire = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -349,5 +351,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
+    /**
+     * @return Collection<int, DemandePrestataire>
+     */
+    public function getValidationPrestataire(): Collection
+    {
+        return $this->validationPrestataire;
+    }
+
+    public function addValidationPrestataire(DemandePrestataire $validationPrestataire): static
+    {
+        if (!$this->validationPrestataire->contains($validationPrestataire)) {
+            $this->validationPrestataire->add($validationPrestataire);
+            $validationPrestataire->setPrestataire($this);
+        }
+
+        return $this;
+    }
+
+    public function removeValidationPrestataire(DemandePrestataire $validationPrestataire): static
+    {
+        if ($this->validationPrestataire->removeElement($validationPrestataire)) {
+            // set the owning side to null (unless already changed)
+            if ($validationPrestataire->getPrestataire() === $this) {
+                $validationPrestataire->setPrestataire(null);
+            }
+        }
+
+        return $this;
+    }
 }

@@ -5,7 +5,6 @@ import CategoryEditModal from './CategoryEditModal';
 import CategoryDeleteModal from './CategoryDeleteModal';
 
 const CategoryEditCell = ({ row, table }) => {
-  console.log("values", row.values)
   const meta = table.options.meta;
 
   const editRow = (newName) => {

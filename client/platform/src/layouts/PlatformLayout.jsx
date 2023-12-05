@@ -4,9 +4,9 @@ import { Outlet } from 'react-router-dom'
 
 export default function PlatformLayout() {
     return (
-        <div className='layout-wrapper'>
+        <div className='layout-wrapper bg-gray-100'>
             <Header />
-            <main>
+            <main className='flex justify-center'>
                 <Outlet />
             </main>
             <Footer />

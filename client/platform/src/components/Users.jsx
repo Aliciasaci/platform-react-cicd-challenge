@@ -35,15 +35,15 @@ const columns = [
       id: 'password',
       header: 'Mot de passe'
   }),
-  columnHelper.accessor('emailVerified', {
-      id: 'emailVerified',
-      header: 'Compte vérifié',
-      cell: props => {
-        return (
-          <input type="radio" checked={props.getValue()} readOnly></input> 
-        )
-      },
-  }),
+  // columnHelper.accessor('emailVerified', {
+  //     id: 'emailVerified',
+  //     header: 'Compte vérifié',
+  //     cell: props => {
+  //       return (
+  //         <input type="radio" checked={props.getValue()} readOnly></input> 
+  //       )
+  //     },
+  // }),
   columnHelper.display({
       id: 'action',
       header: 'Actions',
@@ -82,7 +82,6 @@ const Users = () => {
         try {
             const response = await axios.put(`http://localhost:8000/api/users/${id}`, {nom: newName});
             const data = response['data'];
-            console.log("data", data);
             setUsers(users.map(user => {
                 if (user.id === id) {
                     user.nom = data.nom;
@@ -94,7 +93,6 @@ const Users = () => {
         }
       },
       removeRow: async (id) => {
-        console.log('delete id', id);
         try {
             await axios.delete(`http://localhost:8000/api/users/${id}`);
             setUsers(users.filter(user => user.id !== id));
@@ -108,7 +106,6 @@ const Users = () => {
 
   const createUser = async (values) => {
     values.roles = [values.roles];
-    console.log("user values", values);
     try {
         const response = await axios.post('http://localhost:8000/api/users', {
             headers: {
@@ -128,7 +125,6 @@ const Users = () => {
 
   return (
     <>
-      <Outlet />
       <Outlet />
         <div className="flex flex-end">
           <UserModal onCloseModal={(values) => createUser(values)} />
@@ -183,15 +179,15 @@ const Users = () => {
             <div className="inline-flex mt-2 xs:mt-0">
               <button
                 className="fflex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 border-0 border-s border-gray-700 rounded-e hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
               >
                 Précédent
               </button>
               <button
                 className="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-gray-800 rounded-s hover:bg-gray-900 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
               >
                 Suivant
               </button>
