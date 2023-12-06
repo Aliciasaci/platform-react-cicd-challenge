@@ -1,11 +1,11 @@
 import React from "react";
-import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
+import { GalleryDisplay } from "../components/publicDisplayEtablissement/GalleryDisplay";
 import { getPrestataire } from "../services/prestataires.service";
 import { LuMapPin } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { PrestationWrapper } from "../components/prestacomponents/PrestationsWrapper";
-import { EmployeesCard } from "../components/prestacomponents/EmployeesCard";
-import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard";
+import { PrestationWrapper } from "../components/publicDisplayEtablissement/PrestationsWrapper";
+import { EmployeesCard } from "../components/publicDisplayEtablissement/EmployeesCard";
+import { OpeningDaysCard } from "../components/publicDisplayEtablissement/OpeningDaysCard";
 import { useParams } from "react-router-dom";
 import useCachedData from "../hooks/useCachedData";
 import { Spinner } from "flowbite-react";
@@ -13,7 +13,11 @@ import { ErrorComponent } from "../components/ErrorComponent";
 
 export const PageEtablissement = () => {
   const { id } = useParams();
-  const { data: prestataire, isLoading, error } = useCachedData(getPrestataire, id);
+  const {
+    data: prestataire,
+    isLoading,
+    error,
+  } = useCachedData(getPrestataire, id);
 
   const handleOnClick = () => {
     const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -23,15 +27,19 @@ export const PageEtablissement = () => {
   };
 
   if (isLoading) {
-    return <div className="h-screen mt-52">
-      <Spinner color="gray" size="xl" />
-    </div>;
+    return (
+      <div className="h-screen mt-52">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
   }
 
   if (error) {
-    return <div className="h-screen w-full errorbg">
-      <ErrorComponent status={error.status} />
-    </div>;
+    return (
+      <div className="h-screen w-full errorbg">
+        <ErrorComponent status={error} />
+      </div>
+    );
   }
 
   return (
