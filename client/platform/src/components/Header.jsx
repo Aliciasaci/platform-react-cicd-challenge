@@ -3,7 +3,7 @@ import { Button, Navbar } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
-    const [isLoggedIn, setisLoggedIn] = useState(true);
+    const [isLoggedIn, setisLoggedIn] = useState(false);
 
     const loginButton = isLoggedIn ? (
         <Link to="/user-profile">
@@ -27,21 +27,21 @@ const Header = () => {
                 </Link>
             </Navbar.Brand>
             <div className="flex md:order-2">
-                {/* <Link to="/reservation">
+                <Link to="/reservation">
                     <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">
                         Reservation
                     </Button>
-                </Link> */}
-                {/* <Link to="/">
+                </Link>
+                <Link to="/">
                     <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">
                         Accueil
                     </Button>
-                </Link> */}
-                {/* <Link to="/backoffice/admin-panel">
+                </Link>
+                <Link to="/backoffice/admin-panel">
                     <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">
                         Admin Panel
                     </Button>
-                </Link> */}
+                </Link>
                 <Link to="/prestataire-register">
                     <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">
                         Je suis prestataire

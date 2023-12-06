@@ -32,50 +32,50 @@ export default function Login() {
 
             if (res.data.token) {
                 setResponseMessage("SUCCESSS");
-                await submitForm();
                 navigate("/user-profile"); 
 
             }
 
         } catch (error) {
-            if (error.response.data.code == 401) {
-                setResponseMessage("Identifiants invalides.");
-            }
+            // if (error.response.data.code == 401) {
+            //     setResponseMessage("Identifiants invalides.");
+            // }
+            console.log(error);
         }
     };
 
     return (
         <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login">
-            <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl pt-6 pb-6">
-                <div className='pt-6'>
+            <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
+                <div>
                     {responseMessage && (<Alert color="failure" withBorderAccent>
                         <span>
                             <span className="font-medium">{responseMessage}</span>
                         </span>
                     </Alert>)}
-                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96 pt-6" >SE CONNECTER</p>
-                    <div className="form-group mb-5">
+                    <p className="capitalize text-zinc-900 text-xl text-center font-bold mb-4 w-96 pt-4" >SE CONNECTER</p>
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Email " />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Email*" />
                         </div>
-                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} />
+                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} required/>
                     </div>
-                    <div className="form-group mb-5">
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Mot de passe" />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Mot de passe*" />
                         </div>
-                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} />
+                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} required/>
                     </div>
-                    <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                    <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                         Se connecter
                     </Button>
                     <div className="mt-6 text-zinc-900">
                         <hr className='text-zinc-900 mt-4'></hr>
-                        <p className='mt-6'>Pas encore de compte ? </p>
+                        <p className='mt-4'>Pas encore de compte ? </p>
                         <Link to="/register">
-                            <button className="bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                            <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                                 Créer mon compte
-                            </button>
+                            </Button>
                         </Link>
                     </div>
                 </div>
