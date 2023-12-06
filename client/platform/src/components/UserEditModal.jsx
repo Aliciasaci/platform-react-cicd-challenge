@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 
 const UserEditModal = ({userData, onCloseModal}) => {
     const [openModal, setOpenModal] = useState(false);
-    const [values, setValues] = useState(userData);
+    const [values, setValues] = useState(userData);   
     const nameInputRef = useRef();
 
     const resetModal = () => {
@@ -28,13 +28,15 @@ const UserEditModal = ({userData, onCloseModal}) => {
         resetModal();
     };
 
+    const roles = ['ROLE_ADMIN', 'ROLE_PRESTATAIRE', 'ROLE_USER'];
+
     return (
         <>
             <Button className="sx: mb-2" color="gray" onClick={() => setOpenModal(true)}>
                 Editer
             </Button>
             <Modal show={openModal} onClose={resetModal} initialFocus={nameInputRef}>
-                <Modal.Header>Editer utilisateur: {userData.nom}</Modal.Header>
+                <Modal.Header>Editer utilisateur: {userData.nom} {userData.prenom} </Modal.Header>
                 <form onSubmit={(event) => {event.preventDefault(); editUser(); }}>
                     <Modal.Body>
                         <div className="mb-2 block">
@@ -76,7 +78,7 @@ const UserEditModal = ({userData, onCloseModal}) => {
                             <Label htmlFor="password" value="Mot de passe" />
                         </div>
                         <TextInput
-                            id="pasword"
+                            id="password"
                             name="password"
                             type="password"
                             placeholder="Mot de passe"
@@ -90,13 +92,16 @@ const UserEditModal = ({userData, onCloseModal}) => {
                         <Select
                             id="role"
                             name="roles"
+                            value={values.roles}
                             onChange={handleChange}
+                            // multiple={true}
                             required
                         >
-                        <option defaultValue>Sélectionner un rôle</option>
-                        <option value="ROLE_ADMIN">ROLE_ADMIN</option>
-                        <option value="ROLE_PRESTATAIRE">ROLE_PRESTATAIRE</option>
-                        <option value="ROLE_USER">ROLE_USER</option>
+                            {roles.map((role) => (
+                                <option key={role} value={role}>
+                                {role}
+                                </option>
+                            ))}
                         </Select>  
                     </Modal.Body>
                     <Modal.Footer>
