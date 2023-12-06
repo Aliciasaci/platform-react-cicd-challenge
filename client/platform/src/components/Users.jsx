@@ -80,9 +80,19 @@ const Users = () => {
     meta: {
       editRow: async (id, values) => {
         console.log('values', values);
+        values.roles = [values.roles];
         try {
-            const response = await axios.put(`http://localhost:8000/api/users/${id}`, {
-              values  
+            const response = await axios.patch(`http://localhost:8000/api/users/${id}`, {
+                nom: values.nom,
+                prenom: values.prenom,
+                email: values.email,
+                plainPassword: values.password,
+                roles: values.roles,  
+            },
+            {
+              headers: {
+                'Content-Type': 'application/merge-patch+json',
+              },
             });
             const data = response['data'];
             setUsers(users.map(user => {
