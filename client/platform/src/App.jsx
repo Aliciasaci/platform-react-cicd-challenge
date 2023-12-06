@@ -18,6 +18,8 @@ import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from "./pages/UserProfile";
 import UserInformations from './components/UserInformations';
+import PrestatairePanel from './pages/PrestatairePanel';
+import CrudEmploye from './pages/CrudEmploye';
 
 const routes = [
   {
@@ -32,28 +34,26 @@ const routes = [
       { path: '/register', element: <Register /> },
       { path: '/user-profile', element: <UserProfile /> },
       { path: '/mon-compte', element: <UserInformations /> },
-
     ]
   },
   {
-    path: '/backoffice',
+    path: '/backoffice/admin',
     element: <BackOfficeLayout />,
     children: [
       { path: 'admin-panel', element: <AdminPanel /> },
-      { 
-        path: 'users',
-        element: <CrudUser />
-      },
-      { 
-        path: 'categories',
-        element: <CrudCategory />,
-      },
-      { 
-        path: 'etablissements',
-        element: <CrudEtablissement />,
-      }
+      { path: 'users', element: <CrudUser /> },
+      { path: 'categories', element: <CrudCategory /> },
+      { path: 'etablissements', element: <CrudEtablissement /> }
     ]
   },
+  {
+    path: '/backoffice/prestataire',
+    element: <BackOfficeLayout />,
+    children: [
+      { path: 'prestataire-panel', element: <PrestatairePanel /> },
+      { path: 'employes', element: <CrudEmploye /> },
+    ]
+  }
 ]     
 
 const router = createBrowserRouter(
@@ -66,11 +66,10 @@ function App() {
 
     return (
       <>
-        <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
-          <RouterProvider router={router} />
-        </LoadScript>
+          <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+            <RouterProvider router={router} />
+          </LoadScript>
       </>
-
     );
 }
 
