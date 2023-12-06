@@ -5,8 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { createColumnHelper, flexRender, getCoreRowModel, useReactTable, getPaginationRowModel } from '@tanstack/react-table';
 import axios from 'axios';
 import { Outlet } from 'react-router-dom';
-// import CategoryModal from "./CategoryModal";
-// import CategoryEditCell from './CategoryEditCell';
+import EtablissementEditCell from './EtablissementEditCell';
 
 const columnHelper = createColumnHelper();
 
@@ -24,7 +23,6 @@ const columns = [
         header: 'Prestataire',
         // cell: props => {
         //     return (
-        //       <input value={props.getValue()} readOnly></input> 
         //     )
         // },
     }),
@@ -53,11 +51,11 @@ const columns = [
         id: 'horraires_ouverture',
         header: 'Horraires ouverture'
     }),
-    // columnHelper.display({
-    //     id: 'action',
-    //     header: 'Actions',
-    //     cell: CategoryEditCell,
-    // }),
+    columnHelper.display({
+        id: 'action',
+        header: 'Actions',
+        cell: EtablissementEditCell,
+    }),
 ]
 
 const Etablissements = () => {
@@ -68,7 +66,6 @@ const Etablissements = () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/etablissements');
                 const data = response['data']['hydra:member'];
-                console.log('data', data);
                 setEtablissements(data);
             } catch (error) {
                 console.log("error", error);
@@ -88,63 +85,26 @@ const Etablissements = () => {
             },
         },
         getCoreRowModel: getCoreRowModel(),
-        // meta: {
-        //     editRow: async (id, newName) => {
-        //         try {
-        //             const response = await axios.put(`http://localhost:8000/api/categories/${id}`, {
-        //                 headers: {
-        //                     'Content-Type': 'application/json'
-        //                 },
-        //                 name: newName
-        //             });
-        //             if (response.status === 200) {
-        //                 console.log("response", response);
-        //             }
-                    
-        //             // const data = response['data']['hydra:member'];
-        //             // setCategories(data);
-        //         } catch (error) {
-        //             console.log("error", error);
-        //         }
-        //     },
-        //     removeRow: async (id) => {
-        //         console.log('delete id', id);
-        //         try {
-        //             const response = await axios.delete(`http://localhost:8000/api/categories/${id}`);
-        //             if (response.status === 204) {
-        //                 console.log("response", response);
-        //             }
-        //             // const data = response['data']['hydra:member'];
-        //             // setCategories(data);
-        //         } catch (error) {
-        //             console.log("error", error);
-        //         }
-        //     },
-        // },
+        meta: {
+            removeRow: async (id) => {
+                try {
+                    const response = await axios.delete(`http://localhost:8000/api/etablissements/${id}`);
+                    if (response.status === 204) {
+                        console.log("response", response);
+                    }
+                    setEtablissements(etablissements.filter((etablissement) => etablissement.id !== id));
+                } catch (error) {
+                    console.log("error", error);
+                }
+            },
+        },
         getPaginationRowModel: getPaginationRowModel(),
     })
 
-    // const createEtablissement = async (name) => {
-    //     try {
-    //         const response = await axios.post('http://localhost:8000/api/categories', {
-    //             headers: {
-    //                 'Content-Type': 'application/json'
-    //             },
-    //             name: name
-    //         });
-    //         const newCategory = response['data']['hydra:member'];
-    //         setCategories([...categories, newCategory]);
-    //     } catch (error) {
-    //         console.log("error", error);
-    //     }
-    // }
 
     return (
         <>
             <Outlet />
-            {/* <div className="flex flex-end">
-                <CategoryModal onCloseModal={(name) => createCategory(name)} />
-            </div> */}
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-700 dark:text-gray-400">

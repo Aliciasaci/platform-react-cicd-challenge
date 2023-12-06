@@ -57,11 +57,7 @@ const Users = () => {
   useEffect(() => {
       const fetchUsers = async () => {
           try {
-              const response = await axios.get('http://localhost:8000/api/users', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-              });
+              const response = await axios.get('http://localhost:8000/api/users');
               const data = response['data']['hydra:member'];
               setUsers(data);
           } catch (error) {
@@ -82,13 +78,26 @@ const Users = () => {
     },
     getCoreRowModel: getCoreRowModel(),
     meta: {
-      editRow: async (id, newName) => {
+      editRow: async (id, values) => {
+        console.log('values', values);
+        values.roles = [values.roles];
         try {
-            const response = await axios.put(`http://localhost:8000/api/users/${id}`, {nom: newName});
+            const response = await axios.patch(`http://localhost:8000/api/users/${id}`, {
+                nom: values.nom,
+                prenom: values.prenom,
+                email: values.email,
+                plainPassword: values.password,
+                roles: values.roles,  
+            },
+            {
+              headers: {
+                'Content-Type': 'application/merge-patch+json',
+              },
+            });
             const data = response['data'];
             setUsers(users.map(user => {
                 if (user.id === id) {
-                    user.nom = data.nom;
+                    return data;
                 }
                 return user;
             }));
@@ -98,8 +107,11 @@ const Users = () => {
       },
       removeRow: async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/api/users/${id}`);
-            setUsers(users.filter(user => user.id !== id));
+          const response = await axios.delete(`http://localhost:8000/api/users/${id}`);
+          if (response.status === 204) {
+              console.log("response", response);
+          }
+          setUsers(users.filter((user) => user.id !== id));
         } catch (error) {
             console.log("error", error);
         }
@@ -109,21 +121,19 @@ const Users = () => {
   });
 
   const createUser = async (values) => {
-    console.log("values", values);
     values.roles = [values.roles];
     try {
         const response = await axios.post('http://localhost:8000/api/users', {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            ...values
+            nom: values.nom,
+            prenom: values.prenom,
+            email: values.email,
+            plainPassword: values.password,
+            roles: values.roles,
         });
         if (response.status === 201) {
             console.log("response", response);
         }
-        const data = response['data']['hydra:member'];
-        console.log("data", data)
-        setUsers(data);
+        setUsers([...users, response.data]);
     } catch (error) {
         console.log("error", error);
     }
