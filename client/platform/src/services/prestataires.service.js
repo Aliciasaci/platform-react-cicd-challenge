@@ -83,4 +83,5 @@ export async function getPrestataire(id) {
     .then((response) => {
       return response;
     });
+  return response;
 }

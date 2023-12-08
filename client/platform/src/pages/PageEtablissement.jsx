@@ -44,7 +44,7 @@ export const PageEtablissement = () => {
 
   return (
     prestataire && (
-      <div className="my-10 w-[60%]">
+      <div className="my-10 w-9/12">
         <div className="flex justify-between items-end">
           <div className="flex flex-col items-start">
             <h1 className="text-2xl text-black font-semibold">
