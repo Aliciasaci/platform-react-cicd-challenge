@@ -37,10 +37,9 @@ export default function Login() {
             }
 
         } catch (error) {
-            // if (error.response.data.code == 401) {
-            //     setResponseMessage("Identifiants invalides.");
-            // }
-            console.log(error);
+            if (error.response.data.code == 401) {
+                setResponseMessage("Identifiants invalides.");
+            }
         }
     };
 
@@ -48,9 +47,9 @@ export default function Login() {
         <div className="flex justify-center items-center h-screen w-screen bg-gray-200 login">
             <div className=" flex justify-center items-center w-1/3 h-3/5 bg-white rounded-xl">
                 <div>
-                    {responseMessage && (<Alert color="failure" withBorderAccent>
+                    {responseMessage && (<Alert className="p-2" color="failure" withBorderAccent>
                         <span>
-                            <span className="font-medium">{responseMessage}</span>
+                            <span className="p-2 font-medium">{responseMessage}</span>
                         </span>
                     </Alert>)}
                     <p className="capitalize text-zinc-900 text-xl text-center font-bold mb-4 w-96 pt-4" >SE CONNECTER</p>
