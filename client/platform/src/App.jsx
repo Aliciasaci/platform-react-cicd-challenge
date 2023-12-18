@@ -14,8 +14,8 @@ import Reservation from './pages/Reservation';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from "./pages/UserProfile";
+import { AppProvider } from './context';
 import UserInformations from './components/UserInformations';
-
 const routes = [
   {
     path: '/',
@@ -23,7 +23,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: 'prestataire-register', element: <PrestataireRegister /> },
-      { path: 'etablissement/:id', element: <PageEtablissement />}, // à supprimer
+      { path: 'etablissement/:id', element: <PageEtablissement /> }, // à supprimer
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
@@ -39,7 +39,7 @@ const routes = [
       { path: 'admin-panel', element: <AdminPanel /> },
     ]
   },
-]     
+]
 
 const router = createBrowserRouter(
   routes
@@ -49,14 +49,16 @@ function App() {
 
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
-    return (
-      <>
-        <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+  return (
+    <>
+      <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+        <AppProvider>
           <RouterProvider router={router} />
-        </LoadScript>
-      </>
+        </AppProvider>
+      </LoadScript>
+    </>
 
-    );
+  );
 }
 
 export default App

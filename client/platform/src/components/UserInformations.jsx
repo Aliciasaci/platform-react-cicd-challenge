@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useContext } from 'react';
+import { AppContext } from '../context';
 
 export default function UserInformations() {
-
+    const { userToken } = useContext(AppContext);
     const [userInfo, setUserInfo] = useState({
         nom: '',
         prenom: '',
         email: '',
     });
-
-
 
     useEffect(() => {
         axios.get('https://127.0.0.1:8000/api/users/45')
@@ -34,7 +34,6 @@ export default function UserInformations() {
                             readOnly
                         />
                     </div>
-
                     <div className="w-1/2 ml-4">
                         <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">Nom*</label>
                         <input type="text"

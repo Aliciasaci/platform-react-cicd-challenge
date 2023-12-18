@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button, Navbar } from 'flowbite-react';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../context';
+import { useContext } from 'react';
 
 const Header = () => {
-    const [isLoggedIn, setisLoggedIn] = useState(false);
+    const { userToken } = useContext(AppContext);
 
-    const loginButton = isLoggedIn ? (
+    const loginButton = userToken ? (
         <Link to="/user-profile">
             <Button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700">
                 Alicia

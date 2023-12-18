@@ -4,9 +4,11 @@ import { useState } from 'react';
 import { Alert } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { AppContext } from '../context';
 
 export default function Login() {
-
+    const { userToken, setUserToken } = useContext(AppContext);
     const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
@@ -31,9 +33,8 @@ export default function Login() {
             });
 
             if (res.data.token) {
-                setResponseMessage("SUCCESSS");
-                navigate("/user-profile"); 
-
+                setUserToken(res.data.token);
+                navigate("/user-profile");
             }
 
         } catch (error) {
@@ -57,13 +58,13 @@ export default function Login() {
                         <div className="block flex justify-start mb-2">
                             <Label htmlFor="base" className='text-sm text-center font-bold' value="Email*" />
                         </div>
-                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} required/>
+                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} required />
                     </div>
                     <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
                             <Label htmlFor="base" className='text-sm text-center font-bold' value="Mot de passe*" />
                         </div>
-                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} required/>
+                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} required />
                     </div>
                     <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                         Se connecter
