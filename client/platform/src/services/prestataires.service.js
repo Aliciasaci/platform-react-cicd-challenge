@@ -85,3 +85,15 @@ export async function getPrestataire(id) {
     });
   return response;
 }
+
+export async function getEtablissementList(filter) {
+  return {};
+  // const response = await axios
+  //   .get(`${import.meta.env.VITE_SERVER_URL}/etablissementPublic`, {
+  //     params: filter,
+  //   })
+  //   .then((response) => {
+  //     return response;
+  //   });
+  //   return response;
+}
