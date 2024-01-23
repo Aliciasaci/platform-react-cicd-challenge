@@ -35,6 +35,7 @@ export default function Login() {
             if (res.data.token) {
                 setUserToken(res.data.token);
                 navigate("/user-profile");
+                console.log(res); 
             }
 
         } catch (error) {
