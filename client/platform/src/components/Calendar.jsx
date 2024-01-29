@@ -5,6 +5,10 @@ export default function Calendar() {
   const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
   const [selectedSlot, setSelectedSlot] = useState();
 
+
+  //*
+  // const employeId = 1;
+  // const 
   const handleSlotClick = (slot, date) => {
     const selectedDateTime = date + " " + slot;
     console.log(selectedDateTime);

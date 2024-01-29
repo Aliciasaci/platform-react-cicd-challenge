@@ -9,6 +9,8 @@ import { AppContext } from '../context';
 
 export default function Login() {
     const { userToken, setUserToken } = useContext(AppContext);
+    const { userEmail, setUserEmail } = useContext(AppContext);
+
     const navigate = useNavigate();
     const [user, setUser] = useState({
         email: "",
@@ -33,15 +35,13 @@ export default function Login() {
             });
 
             if (res.data.token) {
-                setUserToken(res.data.token);
-                navigate("/user-profile");
-                console.log(res); 
+                localStorage.setItem('userToken', res.data.token);
+                setUserEmail(user.email);
+                navigate('/user-profile');
             }
-
         } catch (error) {
-            if (error.response.data.code == 401) {
-                setResponseMessage("Identifiants invalides.");
-            }
+            console.log(error);
+            setResponseMessage('Erreur lors de la connexion. Veuillez réessayer.');
         }
     };
 

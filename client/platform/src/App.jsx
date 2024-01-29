@@ -19,12 +19,9 @@ import Register from './components/Register';
 import UserProfile from "./pages/UserProfile";
 import { AppProvider } from './context';
 import UserInformations from './components/UserInformations';
-<<<<<<< HEAD
-=======
 import PrestatairePanel from './pages/PrestatairePanel';
 import CrudEmploye from './pages/CrudEmploye';
 
->>>>>>> dev
 const routes = [
   {
     path: '/',
@@ -50,9 +47,6 @@ const routes = [
       { path: 'etablissements', element: <CrudEtablissement /> }
     ]
   },
-<<<<<<< HEAD
-]
-=======
   {
     path: '/backoffice/prestataire',
     element: <BackOfficeLayout />,
@@ -62,7 +56,6 @@ const routes = [
     ]
   }
 ]     
->>>>>>> dev
 
 const router = createBrowserRouter(
   routes
@@ -72,7 +65,6 @@ function App() {
 
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
-<<<<<<< HEAD
   return (
     <>
       <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
@@ -83,15 +75,6 @@ function App() {
     </>
 
   );
-=======
-    return (
-      <>
-          <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
-            <RouterProvider router={router} />
-          </LoadScript>
-      </>
-    );
->>>>>>> dev
 }
 
 export default App
