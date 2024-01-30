@@ -2,7 +2,7 @@ import { Label, Select } from 'flowbite-react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export default function EmployesPrestation({ prestationId, sendEmployeData }) {
+export default function EmployesPrestation({ prestationId, handleSelect }) {
   const [employesPrestation, setEmployesPrestation] = useState([]);
 
   useEffect(() => {
@@ -10,11 +10,10 @@ export default function EmployesPrestation({ prestationId, sendEmployeData }) {
       try {
         const response = await axios.get(`https://127.0.0.1:8000/api/prestations/${prestationId}`, {
           headers: {
-            'accept': 'application/json'
+            'Accept': 'application/json'
           }
-      });
+        });
         setEmployesPrestation(response.data.employes);
-        console.log(response.data.employes);
       } catch (error) {
         console.error('Error fetching user information:', error);
       }
@@ -24,9 +23,8 @@ export default function EmployesPrestation({ prestationId, sendEmployeData }) {
   }, [prestationId]);
 
   const sendData = (e) => {
-    // Appelez la fonction de rappel du parent avec les données en tant qu'argument
-    console.log(e.target.value);
-    sendEmployeData(employesPrestation);
+    const selectedEmployeeId = e.target.value;
+    handleSelect(selectedEmployeeId);
   };
 
   return (
@@ -35,9 +33,10 @@ export default function EmployesPrestation({ prestationId, sendEmployeData }) {
         <Label htmlFor="employes" value="Choisir un employé" />
       </div>
       <Select id="employes" required onChange={sendData}>
+        <option value=""> </option>
         {employesPrestation.length > 0 ? (
-          employesPrestation.map((employe, index) => (
-            <option key={index} value={employe.id}>{employe.id} {employe.prenom} </option>
+          employesPrestation.map((employe) => (
+            <option key={employe.id} value={employe.id}>{employe.nom} {employe.prenom} </option>
           ))
         ) : (
           <option value="">Loading...</option>
