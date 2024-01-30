@@ -18,8 +18,8 @@ const columns = [
         id: 'nom',
         header: 'Nom'
     }),
-    columnHelper.accessor('prestataire', {
-        id: 'prestataire',
+    columnHelper.accessor('prestataire.nom', {
+        id: 'prestataire.nom',
         header: 'Prestataire',
         // cell: props => {
         //     return (
