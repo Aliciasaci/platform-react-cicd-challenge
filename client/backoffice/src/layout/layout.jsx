@@ -11,6 +11,7 @@ import AppTopbar from './AppTopbar';
 import AdminDashboard from '../pages/AdminDashboard';
 import { Routes, Route } from 'react-router-dom';
 import CrudUser from '../pages/CrudUser';
+import CrudCategory from '../pages/CrudCategory';
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -126,6 +127,7 @@ const Layout = (props) => {
                         <Routes>
                             <Route path="/admin/dashboard" element={<AdminDashboard />} />
                             <Route path="/admin/users" element={<CrudUser />} />
+                            <Route path="/admin/categories" element={<CrudCategory />} />
                         </Routes>
                     </div>
                 </div>

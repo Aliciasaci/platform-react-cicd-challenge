@@ -26,8 +26,8 @@ const CrudUser = () => {
     const [userDialog, setUserDialog] = useState(false);
     const [deleteUserDialog, setDeleteUserDialog] = useState(false);
     const [user, setUser] = useState(emptyUser);
-    const [selectedUsers, setSelectedUsers] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
     const [globalFilter, setGlobalFilter] = useState(null);
     const toast = useRef(null);
     const dt = useRef(null);
@@ -37,6 +37,7 @@ const CrudUser = () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/users');
                 const data = response['data']['hydra:member'];
+                console.log("fetchUser", data);
                 setUsers(data);
             } catch (error) {
                 console.log("error", error);
@@ -50,11 +51,13 @@ const CrudUser = () => {
         setUser(emptyUser);
         setSubmitted(false);
         setUserDialog(true);
+        setIsEdit(false);
     };
 
     const hideDialog = () => {
         setSubmitted(false);
         setUserDialog(false);
+        setIsEdit(false);
     };
 
     const hideDeleteUserDialog = () => {
@@ -63,6 +66,7 @@ const CrudUser = () => {
 
     const saveUser = async (user) => {
         setSubmitted(true);
+        setIsEdit(false);
         user.roles = [user.roles];
         if (user.nom.trim()) {
             let _users = [...users];
@@ -107,6 +111,7 @@ const CrudUser = () => {
     const editUser = async (user) => {
         setUser({ ...user });
         setUserDialog(true);
+        setIsEdit(true);
     };
 
     const confirmDeleteUser = (user) => {
@@ -257,8 +262,6 @@ const CrudUser = () => {
                     <DataTable
                         ref={dt}
                         value={users}
-                        selection={selectedUsers}
-                        onSelectionChange={(e) => setSelectedUsers(e.value)}
                         dataKey="id"
                         paginator
                         rows={10}
@@ -270,12 +273,11 @@ const CrudUser = () => {
                         emptyMessage="Aucun utilisateur trouvé."
                         header={header}
                     >
-                        <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
-                        <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="nom" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="prenom" header="Prénom" sortable body={prenomBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="email" header="Email" sortable body={emailBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="roles" header="Rôles" sortable body={rolesBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column field="id" header="ID" sortable body={idBodyTemplate}></Column>
+                        <Column field="nom" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="prenom" header="Prénom" sortable body={prenomBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="email" header="Email" sortable body={emailBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="roles" header="Rôles" sortable body={rolesBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
@@ -301,15 +303,15 @@ const CrudUser = () => {
                             <div className="formgrid grid">
 
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="role_user" name="role" value="ROLE_USER" onChange={onRoleChange} checked={user.roles === 'ROLE_USER'} />
+                                    <RadioButton inputId="role_user" name="role" value="ROLE_USER" onChange={onRoleChange} checked={user.roles && user.roles.indexOf('ROLE_USER')>-1} />
                                     <label htmlFor="role_user">ROLE_USER</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="role_admin" name="role" value="ROLE_ADMIN" onChange={onRoleChange} checked={user.roles === 'ROLE_ADMIN'} />
+                                    <RadioButton inputId="role_admin" name="role" value="ROLE_ADMIN" onChange={onRoleChange} checked={user.roles && user.roles.indexOf('ROLE_ADMIN')>-1} />
                                     <label htmlFor="role_admin">ROLE_ADMIN</label>
                                 </div>
                                 <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="role_prestataire" name="role" value="ROLE_PRESTATAIRE" onChange={onRoleChange} checked={user.roles === 'ROLE_PRESTATAIRE'} />
+                                    <RadioButton inputId="role_prestataire" name="role" value="ROLE_PRESTATAIRE" onChange={onRoleChange} checked={user.roles && user.roles.indexOf('ROLE_PRESTATAIRE')>-1} />
                                     <label htmlFor="role_prestataire">ROLE_PRESTATAIRE</label>
                                 </div>
                             </div>
@@ -317,7 +319,7 @@ const CrudUser = () => {
 
                         <div className="field">
                             <label htmlFor="password">Mot de passe</label>
-                            <Password id="password" value={user.password} onChange={(e) => onInputChange(e, 'password')} required className={classNames({ 'p-invalid': submitted && !user.password })} />
+                            <Password disabled={isEdit} id="password" value={user.password} onChange={(e) => onInputChange(e, 'password')} required className={classNames({ 'p-invalid': submitted && !user.password })} />
                             {submitted && !user.password && <small className="p-invalid">Champ obligatoire.</small>}
                         </div>
                     </Dialog>
