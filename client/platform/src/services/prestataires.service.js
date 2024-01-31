@@ -87,7 +87,542 @@ export async function getPrestataire(id) {
 }
 
 export async function getEtablissementList(filter) {
-  return {};
+  return [
+    {
+      id: 1,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8428732,
+      longitude: 2.3996645,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 2,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8643964,
+      longitude: 2.3786389,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 3,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8471871,
+      longitude: 2.3870859,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 4,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8459719,
+      longitude: 2.356,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 5,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8616437,
+      longitude: 2.2775704,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+    {
+      id: 6,
+      nom: "Medley Rive Droite Paris",
+      adresse: "21 Rue Vieille du Temple, 75004 Paris",
+      latitude: 48.8707028,
+      longitude: 2.3648959,
+      ville: "Paris",
+      codePostal: "75004",
+      prestation: [
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 2.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 0.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 2.54,
+            },
+            {
+              note_globale: 1.65,
+            },
+            {
+              note_globale: 4.55,
+            },
+          ],
+        },
+        {
+          feedback: [
+            {
+              note_globale: 4.54,
+            },
+            {
+              note_globale: 3.65,
+            },
+            {
+              note_globale: 3.55,
+            },
+          ],
+        },
+      ],
+    },
+  ];
   // const response = await axios
   //   .get(`${import.meta.env.VITE_SERVER_URL}/etablissementPublic`, {
   //     params: filter,
