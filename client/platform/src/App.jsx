@@ -17,6 +17,7 @@ import Reservation from './pages/Reservation';
 import Login from './components/Login';
 import Register from './components/Register';
 import UserProfile from "./pages/UserProfile";
+import { AppProvider } from './context';
 import UserInformations from './components/UserInformations';
 import PrestatairePanel from './pages/PrestatairePanel';
 import CrudEmploye from './pages/CrudEmploye';
@@ -28,7 +29,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       { path: 'prestataire-register', element: <PrestataireRegister /> },
-      { path: 'etablissement/:id', element: <PageEtablissement />}, // à supprimer
+      { path: 'etablissement/:id', element: <PageEtablissement /> }, // à supprimer
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
@@ -64,13 +65,16 @@ function App() {
 
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
 
-    return (
-      <>
-          <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
-            <RouterProvider router={router} />
-          </LoadScript>
-      </>
-    );
+  return (
+    <>
+      <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+        <AppProvider>
+          <RouterProvider router={router} />
+        </AppProvider>
+      </LoadScript>
+    </>
+
+  );
 }
 
 export default App
