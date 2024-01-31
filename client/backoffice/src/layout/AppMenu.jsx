@@ -15,9 +15,9 @@ const AppMenu = () => {
         {
             label: 'Gestion',
             items: [
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: 'admin/users' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/etablissements' },
-                { label: 'Table', icon: 'pi pi-fw pi-table', to: '/categories' },
+                { label: 'Utilisateurs', icon: 'pi pi-fw pi-table', to: '/admin/users' },
+                { label: 'Etablissements', icon: 'pi pi-fw pi-table', to: '/admin/etablissements' },
+                { label: 'Catégories', icon: 'pi pi-fw pi-table', to: '/admin/categories' },
                 {
                     label: 'Auth',
                     icon: 'pi pi-fw pi-user',

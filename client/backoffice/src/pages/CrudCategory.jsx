@@ -211,8 +211,8 @@ const CrudCategory = () => {
                         emptyMessage="Aucune catégorie trouvée."
                         header={header}
                     >
-                        <Column field="id" header="ID" sortable body={idBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="name" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column field="id" header="ID" sortable body={idBodyTemplate}></Column>
+                        <Column field="name" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 

@@ -34,16 +34,6 @@ const routes = [
       { path: '/mon-compte', element: <UserInformations /> },
     ]
   },
-  {
-    path: '/backoffice/admin',
-    element: <BackOfficeLayout />,
-    children: [
-      { path: 'admin-panel', element: <AdminPanel /> },
-      { path: 'users', element: <CrudUser /> },
-      { path: 'categories', element: <CrudCategory /> },
-      { path: 'etablissements', element: <CrudEtablissement /> }
-    ]
-  },
 ]     
 
 const router = createBrowserRouter(

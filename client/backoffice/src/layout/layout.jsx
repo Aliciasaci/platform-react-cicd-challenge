@@ -1,5 +1,3 @@
-// ... (previous imports and code)
-
 import { useEffect, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useEventListener, useUnmountEffect } from 'primereact/hooks';
@@ -12,6 +10,7 @@ import AdminDashboard from '../pages/AdminDashboard';
 import { Routes, Route } from 'react-router-dom';
 import CrudUser from '../pages/CrudUser';
 import CrudCategory from '../pages/CrudCategory';
+import CrudEtablissement from '../pages/CrudEtablissement';
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -128,6 +127,7 @@ const Layout = (props) => {
                             <Route path="/admin/dashboard" element={<AdminDashboard />} />
                             <Route path="/admin/users" element={<CrudUser />} />
                             <Route path="/admin/categories" element={<CrudCategory />} />
+                            <Route path="/admin/etablissements" element={<CrudEtablissement />} />
                         </Routes>
                     </div>
                 </div>
