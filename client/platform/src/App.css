@@ -139,6 +139,7 @@ body{
 }
 
 .login{
+  font-family: 'Inter', sans-serif;
   background-image: url("../src/assets/img/login.jpg");
 }
 
