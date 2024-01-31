@@ -6,12 +6,7 @@ import './App.css'
 import { LoadScript } from '@react-google-maps/api';
 import PrestataireRegister from './components/PrestataireRegister'
 import PlatformLayout from './layouts/PlatformLayout';
-import BackOfficeLayout from './layouts/BackofficeLayout';
 import Home from './pages/Home';
-import AdminPanel from './pages/AdminPanel';
-import CrudUser from './pages/CrudUser';
-import CrudCategory from './pages/CrudCategory';
-import CrudEtablissement from './pages/CrudEtablissement';
 import { PageEtablissement } from './pages/PageEtablissement';
 import Reservation from './pages/Reservation';
 import Login from './components/Login';
