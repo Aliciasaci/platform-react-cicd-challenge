@@ -1,41 +1,37 @@
-import { Card, Table, Button } from 'flowbite-react';
-import { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import axios from 'axios';
+import { Card, Table, Button } from 'flowbite-react';
 
-export default function Calendar({ employeId }) {
-  const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-  const [selectedSlot, setSelectedSlot] = useState();
-  const [indisponibilites, setIndisponibilites] = useState();
+export default function Calendar({ employeId, createReservation }) {
+    const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    const [selectedSlot, setSelectedSlot] = useState();
+    const [indisponibilites, setIndisponibilites] = useState([]);
 
-
-  useEffect(() => {
-    const getIndisponibiliteEmploye = async () => {
-      try {
-        const response = await axios.get(`https://127.0.0.1:8000/api/employes/${employeId}`, {
-          headers: {
-            'Accept': 'application/json'
-          }
-        });
-        if (response.data) {
-          setIndisponibilites(response.data.indisponibilites);
-
+    useEffect(() => {
+        const getIndisponibiliteEmploye = async () => {
+            try {
+                const response = await axios.get(`https://127.0.0.1:8000/api/employes/${employeId}`, {
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                if (response.data) {
+                    setIndisponibilites(response.data.indisponibilites);
+                }
+            } catch (error) {
+                console.error('Error fetching user information:', error);
+            }
         }
-      } catch (error) {
-        console.error('Error fetching user information:', error);
-      }
-    }
+        getIndisponibiliteEmploye();
+    }, [employeId]);
 
-    getIndisponibiliteEmploye();
-  }, [employeId]);
-
-
-  const handleSlotClick = (slot, date) => {
-    const selectedDateTime = date + " " + slot;
-    console.log(selectedDateTime);
-    // const selectedDateTime = new Date(`${date} ${slot}`);
-    setSelectedSlot(selectedDateTime);
-  };
-
+    const handleSlotClick = (slot, date) => {
+        const selectedDateTime = date + " " + slot;
+        if (window.confirm("Réserver pour le" + selectedDateTime + " ?")) {
+            createReservation(selectedDateTime);
+        }
+        setSelectedSlot(selectedDateTime);
+    };
   const generateTimeSlots = (dateSemaine) => {
 
     if (indisponibilites && indisponibilites.filter((indispo) => indispo.jour == dateSemaine.date).length > 0) {
@@ -112,7 +108,6 @@ export default function Calendar({ employeId }) {
 
   return (
     <div>
-      {selectedSlot && <span className='text-gray-900 text-xl'> {selectedSlot} </span>}
       <div className='flex justify-center items-center bg-gray-100 '>
         <Card className="flex justify-center items-center bg-white calendar-wrapper">
           <div className='flex justify-center justify-between'>

@@ -91,6 +91,11 @@ body{
   font-weight: bold;
 }
 
+.calendar-cell:hover{
+  background-color: #d3d3d399;
+}
+
+
 .py-4 {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
