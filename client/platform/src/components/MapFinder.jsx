@@ -43,7 +43,12 @@ function MapFinder({ onAddressSelect }) {
                     });
                     setZoom(18);
                     setInputValue(place.formatted_address);
-                    onAddressSelect(place.formatted_address);
+                    let address = {
+                        formatted_address: place.formatted_address,
+                        lat: place.geometry.location.lat(),
+                        lng: place.geometry.location.lng(),
+                    }
+                    onAddressSelect(address);
                 }
             });
         }
