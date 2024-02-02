@@ -166,11 +166,11 @@ function PrestataireRegister() {
     }
 
     const nextStep = () => {
-        // if (step === 3) {
-        //     if (!checkStepThree()) {
-        //         return;
-        //     }
-        // }
+        if (step === 3) {
+            if (!checkStepThree()) {
+                return;
+            }
+        }
 
         if (step === 4) {
             if (!checkStepFour()) {
