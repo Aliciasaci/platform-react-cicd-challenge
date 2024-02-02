@@ -1,23 +1,69 @@
 import { Button } from 'flowbite-react';
+import { ListGroup } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function ReservationsCard({ reservation }) {
  const { '@id': id, jour, creneau, prestation } = reservation;
  const { titre, description, duree, prix } = prestation;
  const dureeEnMinutes = duree * 30;
+ const navigate = useNavigate()
+ const handleDeplacement = () => {
+  // let idReservationArray = id.split('/')
+  let idPrestationArray = prestation["@id"].split('/')
+  // console.log(reservation)
+  // console.log(prestation)
+  navigate(`/reservation`, {
+   state: {
+    prestationId: idPrestationArray[idPrestationArray.length-1],
+    mode: "update",
+    reservation: reservation
+   },
+  });
+  // window.location.href = `/reservation/${url[url.length - 1]}`
+ }
 
  return (
-  <a href="#" className="m-2 flex flex-col items-center bg-white border border-gray-200 rounded-lg md:flex-row  dark:border-gray-700 dark:bg-gray-800">
-   <img className="object-cover w-full rounded-t-lg md:w-48 md:rounded-none md:rounded-l-lg" style={{ "max-height": "12rem" }} src="https://plus.unsplash.com/premium_photo-1663839412026-51a44cfadfb8?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGJpcnRoZGF5fGVufDB8fDB8fHww" alt={titre} />
-   <div className="flex flex-col justify-between p-4 leading-normal">
-    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">{titre}</h5>
-    <p className="mb-3 font-normal text-gray-900 dark:text-gray-400">{description}</p>
-    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-     Le <b>{jour}</b> à <b>{creneau}</b><br />
-     Durée: <b>{dureeEnMinutes} minutes</b><br />
-     <p className='text-green-700'>Prix: <b>{prix}€</b></p>
-    </p>
+  <ListGroup className="mt-2 resa">
+   <div className="w-full mx-3 my-2 p-2">
+    <div className="flex flex-row justify-between items-center">
+     <p className="text-light text-black">
+      {titre}
+     </p>
+     <div className="flex items-center mr-8">
+      <div className="mr-8">
+       <span className="text-gray-500 font-light">
+        {duree * 30}mins
+       </span>
+       <span className="text-gray-300"> • </span>
+       <span className="text-gray-500">
+        {prix} €
+       </span>
+      </div>
+      <div>
+       <button
+        type="button"
+        className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700 mr-2" onClick={handleDeplacement}>
+        Déplacer
+       </button>
+       <button
+        type="button"
+        className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700">
+        Annuler
+       </button>
+      </div>
+     </div>
+    </div>
+    {description && (
+     <div>
+      <p className="text-gray-500 my-2 font-light">
+       {description}
+      </p>
+     </div>
+    )}
+    <div className="text-gray-500">{jour} • {creneau}</div>
    </div>
-   <Button color="dark" style={{"margin-top": "6rem"}}>Annuler</Button>
-  </a>
+  </ListGroup>
  );
 }
