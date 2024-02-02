@@ -14,11 +14,11 @@ import CrudCategory from './pages/CrudCategory';
 import CrudEtablissement from './pages/CrudEtablissement';
 import { PageEtablissement } from './pages/PageEtablissement';
 import Reservation from './pages/Reservation';
-import Login from './components/Login';
-import Register from './components/Register';
+import Login from './components/userprofil/Login';
+import Register from './components/userprofil/Register';
 import UserProfile from "./pages/UserProfile";
 import { AppProvider } from './context';
-import UserInformations from './components/UserInformations';
+import UserInformations from './components/userprofil/UserInformations';
 import PrestatairePanel from './pages/PrestatairePanel';
 import CrudEmploye from './pages/CrudEmploye';
 

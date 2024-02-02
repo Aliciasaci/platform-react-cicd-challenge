@@ -27,7 +27,7 @@ export default function Calendar({ employeId, createReservation }) {
 
     const handleSlotClick = (slot, date) => {
         const selectedDateTime = date + " " + slot;
-        if (window.confirm("Réserver pour le" + selectedDateTime + " ?")) {
+        if (window.confirm("Réserver pour le " + selectedDateTime + " ?")) {
             createReservation(selectedDateTime);
         }
         setSelectedSlot(selectedDateTime);

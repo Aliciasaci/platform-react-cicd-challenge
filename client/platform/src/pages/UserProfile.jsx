@@ -1,5 +1,5 @@
-import UserReservationsCard from "../components/UserReservationsCard";
-import UserInformations from "../components/UserInformations";
+import UserReservations from "../components/userprofil/UserReservations";
+import UserInformations from "../components/userprofil/UserInformations";
 import { useState } from "react";
 
 export default function ProfilUser() {
@@ -33,7 +33,7 @@ export default function ProfilUser() {
           <p className="font-normal text-red-500">Se déconnecter</p>
         </div>
         {selectedTab === "rendez-vous" && (
-          <UserReservationsCard></UserReservationsCard>
+          <UserReservations></UserReservations>
         )}
         {selectedTab === "mon-compte" && (
           <UserInformations></UserInformations>
