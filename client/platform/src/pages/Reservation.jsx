@@ -9,6 +9,7 @@ import { Spinner } from "flowbite-react";
 import { ErrorComponent } from "../components/ErrorComponent";
 import { getEmployePrestations } from "../services/prestations.service";
 import useCachedData from "../hooks/useCachedData";
+import axios from "axios";
 
 export default function Reservation() {
   const location = useLocation();
@@ -55,10 +56,17 @@ export default function Reservation() {
     );
   }
 
+  const displayResponseMessage = (message) => {
+    setResponseMessage(message);
+
+    setTimeout(() => {
+      setResponseMessage("");
+    }, 3000);
+  };
+
   const createReservation = async (selectedDateTime) => {
     const [datePart, timePart] = selectedDateTime.split(' ');
 
-    
     try {
       const res = await axios.post(`https://127.0.0.1:8000/api/reservations`, {
         client: "/api/users/3",
@@ -72,13 +80,11 @@ export default function Reservation() {
 
 
       if (res.status === 201) {
-        setResponseMessage("Réservation confirmée");
-        console.log(responseMessage);
+        displayResponseMessage("Réservation confirmée.");
       }
 
     } catch (error) {
-      alert(prestationId);
-      setResponseMessage(error.response.data.detail);
+      console.log(error);
     }
   }
 
@@ -101,9 +107,13 @@ export default function Reservation() {
           <p className="normal-case text-gray-900 text-xl text-left title">
             3. Choix de la date & heure
           </p>
-          {responseMessage && <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400" role="alert">
-            <span class="font-medium"> {responseMessage} </span>
-          </div>}
+          {responseMessage && (
+            <div
+              className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
+              role="alert">
+              <span className="font-medium"> {responseMessage} </span>
+            </div>
+          )}
           {dataEmployesPrestation ? (
             <Calendar employeId={dataEmployesPrestation} createReservation={createReservation} />
           ) : (
@@ -120,3 +130,4 @@ export default function Reservation() {
     )
   );
 }
+

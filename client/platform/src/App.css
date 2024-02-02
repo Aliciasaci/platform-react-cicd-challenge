@@ -148,3 +148,10 @@ body{
   background-image: url("../src/assets/img/login.jpg");
 }
 
+.fade-out {
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-out.fade-out-active {
+  opacity: 0;
+}
