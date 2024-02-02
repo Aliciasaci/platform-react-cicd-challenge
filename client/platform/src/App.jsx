@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import './App.css'
 import { LoadScript } from '@react-google-maps/api';
-import PrestataireRegister from './components/PrestataireRegister'
+import PrestataireRegister from './pages/PrestataireRegister'
 import PlatformLayout from './layouts/PlatformLayout';
 import Home from './pages/Home';
 import { PageEtablissement } from './pages/PageEtablissement';
@@ -26,8 +26,6 @@ const routes = [
       { path: '/reservation', element: <Reservation /> },
       { path: '/login', element: <Login /> },
       { path: '/register', element: <Register /> },
-      { path: '/user-profile', element: <UserProfile /> },
-      { path: '/mon-compte', element: <UserInformations /> },
     ]
   },
 ]     

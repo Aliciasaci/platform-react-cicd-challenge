@@ -30,7 +30,8 @@ const Header = () => {
 
     return (
         <Navbar fluid>
-            <Navbar.Brand>
+            <Navbar.Brand >
+                {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
                 <Link to="/" className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">
                     PICKME
                 </Link>
@@ -51,12 +52,19 @@ const Header = () => {
                         Je suis prestataire
                     </Button>
                 </Link>
-                {loginButton}
                 <Navbar.Toggle />
             </div>
-            <Navbar.Collapse />
+            <Navbar.Collapse>
+                {/* <Navbar.Link href="#" active>
+                    Home
+                </Navbar.Link> */}
+                {/* <Navbar.Link href="#">About</Navbar.Link>
+                <Navbar.Link href="#">Services</Navbar.Link>
+                <Navbar.Link href="#">Pricing</Navbar.Link>
+                <Navbar.Link href="#">Contact</Navbar.Link> */}
+            </Navbar.Collapse>
         </Navbar>
     );
-};
+}
 
 export default Header;
