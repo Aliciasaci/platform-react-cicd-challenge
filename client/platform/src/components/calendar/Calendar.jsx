@@ -2,7 +2,7 @@ import { Card, Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Calendar({ employeId }) {
+export default function Calendar({ employeId,  createReservation }) {
   const daysOfWeek = [
     "Lundi",
     "Mardi",
