@@ -11,6 +11,7 @@ import { Routes, Route } from 'react-router-dom';
 import CrudUser from '../pages/CrudUser';
 import CrudCategory from '../pages/CrudCategory';
 import CrudEtablissement from '../pages/CrudEtablissement';
+import DemandePrestataire from '../pages/DemandePrestataire';
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -128,6 +129,7 @@ const Layout = (props) => {
                             <Route path="/admin/users" element={<CrudUser />} />
                             <Route path="/admin/categories" element={<CrudCategory />} />
                             <Route path="/admin/etablissements" element={<CrudEtablissement />} />
+                            <Route path="/admin/demandes" element={<DemandePrestataire />} />
                         </Routes>
                     </div>
                 </div>
