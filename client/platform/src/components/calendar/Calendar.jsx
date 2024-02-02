@@ -1,67 +1,89 @@
-import React, { useState, useEffect } from 'react'; 
-import axios from 'axios';
-import { Card, Table, Button } from 'flowbite-react';
+import { Card, Table, Button } from "flowbite-react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-export default function Calendar({ employeId, createReservation }) {
-    const daysOfWeek = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-    const [selectedSlot, setSelectedSlot] = useState();
-    const [indisponibilites, setIndisponibilites] = useState([]);
+export default function Calendar({ employeId }) {
+  const daysOfWeek = [
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+    "Dimanche",
+  ];
+  const [selectedSlot, setSelectedSlot] = useState();
+  const [indisponibilites, setIndisponibilites] = useState();
 
-    useEffect(() => {
-        const getIndisponibiliteEmploye = async () => {
-            try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/employes/${employeId}`, {
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-                if (response.data) {
-                    setIndisponibilites(response.data.indisponibilites);
-                }
-            } catch (error) {
-                console.error('Error fetching user information:', error);
-            }
+  useEffect(() => {
+    const getIndisponibiliteEmploye = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/employes/${employeId}`,
+          {
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
+        if (response.data) {
+          setIndisponibilites(response.data.indisponibilites);
         }
-        getIndisponibiliteEmploye();
-    }, [employeId]);
-
-    const handleSlotClick = (slot, date) => {
-        const selectedDateTime = date + " " + slot;
-        if (window.confirm("Réserver pour le " + selectedDateTime + " ?")) {
-            createReservation(selectedDateTime);
-        }
-        setSelectedSlot(selectedDateTime);
+      } catch (error) {
+        console.error("Error fetching user information:", error);
+      }
     };
-  const generateTimeSlots = (dateSemaine) => {
 
-    if (indisponibilites && indisponibilites.filter((indispo) => indispo.jour == dateSemaine.date).length > 0) {
-      let data = indisponibilites.filter((indispo) => indispo.jour == dateSemaine.date).map((indispo) => indispo.creneau);
+    getIndisponibiliteEmploye();
+  }, [employeId]);
+
+  const handleSlotClick = (slot, date) => {
+    const selectedDateTime = date + " " + slot;
+    if (window.confirm("Réserver pour le " + selectedDateTime + " ?")) {
+      createReservation(selectedDateTime);
+    }
+    setSelectedSlot(selectedDateTime);
+  };
+  
+  const generateTimeSlots = (dateSemaine) => {
+    if (
+      indisponibilites &&
+      indisponibilites.filter((indispo) => indispo.jour == dateSemaine.date)
+        .length > 0
+    ) {
+      let data = indisponibilites
+        .filter((indispo) => indispo.jour == dateSemaine.date)
+        .map((indispo) => indispo.creneau);
       const minutesPerSlot = 30;
-      let slotsPerDay = 24 * 60 / minutesPerSlot;
+      let slotsPerDay = (24 * 60) / minutesPerSlot;
       let slots = [];
 
       for (let i = 8; i <= 17; i++) {
         let slot = `${i}:00`;
         let slot2 = `${i}:30`;
-        if (data.some((indispo) => { return indispo === slot })) {
-          slots.push("Indisponible")
-        }
-        else {
+        if (
+          data.some((indispo) => {
+            return indispo === slot;
+          })
+        ) {
+          slots.push("Indisponible");
+        } else {
           slots.push(slot);
         }
-        if (data.some((indispo) => { return indispo === slot2 })) {
-          slots.push("Indisponible")
-        }
-        else {
+        if (
+          data.some((indispo) => {
+            return indispo === slot2;
+          })
+        ) {
+          slots.push("Indisponible");
+        } else {
           slots.push(slot2);
         }
-
       }
       return slots;
-    }
-    else {
+    } else {
       const minutesPerSlot = 30;
-      let slotsPerDay = 24 * 60 / minutesPerSlot;
+      let slotsPerDay = (24 * 60) / minutesPerSlot;
       let slots = [];
 
       for (let i = 8; i <= 17; i++) {
@@ -72,7 +94,6 @@ export default function Calendar({ employeId, createReservation }) {
       }
       return slots;
     }
-
   };
 
   const generateDailyTimeSlots = () => {
@@ -92,7 +113,11 @@ export default function Calendar({ employeId, createReservation }) {
     for (let i = 0; i < 7; i++) {
       datesSemaine.push({
         jour: daysOfWeek[i],
-        date: dateActuelle.toLocaleDateString('fr-FR', { day: 'numeric', month: 'numeric', year: 'numeric' })
+        date: dateActuelle.toLocaleDateString("fr-FR", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        }),
       });
 
       // Incrémentez la date de 1 jour pour passer au jour suivant
@@ -105,47 +130,54 @@ export default function Calendar({ employeId, createReservation }) {
   const datesSemaine = setDates();
   const dailyTimeSlots = generateDailyTimeSlots();
 
-
   return (
     <div>
-      <div className='flex justify-center items-center bg-gray-100 '>
-        <Card className="flex justify-center items-center bg-white calendar-wrapper">
-          <div className='flex justify-center justify-between'>
-            <Button color="light">🠔</Button>
-            <Button color="light">🠖</Button>
-          </div>
-
-          <Table>
-            <Table.Head className='bg-white'>
-              {datesSemaine.map((day, index) => (
-                <Table.HeadCell className='calendar-head' key={index}>{day.jour} <br /> {day.date}</Table.HeadCell>
-              ))}
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {dailyTimeSlots[daysOfWeek[0]].map((timeSlot, timeIndex) => (
-                <Table.Row key={timeIndex} className="bg-white calendar-row">
-                  {/* <Table.Cell className='calendar-cell'>{timeSlot}</Table.Cell> */}
-                  {daysOfWeek.map((day, dayIndex) => (
-                    <Table.Cell
-                      key={dayIndex}
-                      className={`calendar-cell ${dailyTimeSlots[day][timeIndex] === 'Indisponible' ? 'bg-white' : ''}`}
-                      onClick={() => {
-                        if (dailyTimeSlots[day][timeIndex] !== 'Indisponible') {
-                          handleSlotClick(dailyTimeSlots[day][timeIndex], datesSemaine[dayIndex].date);
-                        }
-                      }}
-                    >
-                      {dailyTimeSlots[day][timeIndex] !== 'Indisponible' && dailyTimeSlots[day][timeIndex]}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </Card>
-        <div>
+  <div className='flex justify-center items-center bg-gray-100 '>
+      <Card className="flex justify-center items-center bg-white calendar-wrapper">
+        <div className="flex justify-center justify-between">
+          <Button color="light">🠔</Button>
+          <Button color="light">🠖</Button>
         </div>
-      </div>
+
+        <Table>
+          <Table.Head className="bg-white">
+            {datesSemaine.map((day, index) => (
+              <Table.HeadCell className="calendar-head" key={index}>
+                {day.jour} <br /> {day.date}
+              </Table.HeadCell>
+            ))}
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {dailyTimeSlots[daysOfWeek[0]].map((timeSlot, timeIndex) => (
+              <Table.Row key={timeIndex} className="bg-white calendar-row">
+                {/* <Table.Cell className='calendar-cell'>{timeSlot}</Table.Cell> */}
+                {daysOfWeek.map((day, dayIndex) => (
+                  <Table.Cell
+                    key={dayIndex}
+                    className={`calendar-cell ${dailyTimeSlots[day][timeIndex] === "Indisponible"
+                        ? "bg-white"
+                        : ""
+                      }`}
+                    onClick={() => {
+                      if (dailyTimeSlots[day][timeIndex] !== "Indisponible") {
+                        handleSlotClick(
+                          dailyTimeSlots[day][timeIndex],
+                          datesSemaine[dayIndex].date
+                        );
+                      }
+                    }}
+                  >
+                    {dailyTimeSlots[day][timeIndex] !== "Indisponible" &&
+                      dailyTimeSlots[day][timeIndex]}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Card>
+      <div></div>
     </div>
+  </div>
   );
 }
