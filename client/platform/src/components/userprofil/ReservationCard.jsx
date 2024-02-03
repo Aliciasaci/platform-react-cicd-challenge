@@ -2,13 +2,16 @@ import { Button } from 'flowbite-react';
 import { ListGroup } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
+import { useEffect } from 'react';
 import axios from 'axios';
 
 export default function ReservationsCard({ reservation }) {
  const { '@id': id, jour, creneau, prestation, status } = reservation;
  const { titre, description, duree, prix } = prestation;
  const [responseMessage, setResponseMessage] = useState("");
+ const [indisponibilites, setIndisponibilites] = useState();
  const navigate = useNavigate()
+ const idEmploye = reservation.employe.split('/')[reservation.employe.split('/').length - 1]
 
  const displayResponseMessage = (message) => {
   setResponseMessage(message);
@@ -18,23 +21,75 @@ export default function ReservationsCard({ reservation }) {
   }, 5000);
  };
 
- const annulerReservation = async () => {
-  try {
-   const res = await axios.patch(`https://127.0.0.1:8000${id}`, {
-    status: "canceled",
-   },
-    {
-     headers: {
-      'Content-Type': 'application/merge-patch+json'
+
+ useEffect(() => {
+  const getIndisponibiliteEmploye = async () => {
+   try {
+    const response = await axios.get(
+     `${import.meta.env.VITE_SERVER_URL}/employes/${idEmploye}`,
+     {
+      headers: {
+       Accept: "application/json",
+      },
      }
+    );
+    if (response.data) {
+     setIndisponibilites(response.data.indisponibilites);
     }
-   );
-   if (res.status === 200) {
-    displayResponseMessage(`Réservation annulée.`);
+   } catch (error) {
+    console.error("Error fetching user information:", error);
    }
-  } catch (error) {
-   console.log(error);
+  };
+
+  getIndisponibiliteEmploye();
+ }, []);
+
+
+ const annulerReservation = async () => {
+  let indispoList = indisponibilites.filter((indispo) => (indispo.jour == reservation.jour) && (indispo.creneau == reservation.creneau))
+  if (indispoList.length > 0) {
+   let indispoId = indispoList[0].id
+   console.log(indispoId)
+   try {
+    const res = await axios.delete(`https://127.0.0.1:8000/api/indisponibilites/${indispoId}`, {
+    },
+     {
+      headers: {
+       'Content-Type': 'application/merge-patch+json'
+      }
+     }
+    );
+    if (res.status === 200) {
+     displayResponseMessage(`Indipo annulée.`);
+    }
+   } catch (error) {
+    console.log(error);
+   }
+
+   try {
+    const res = await axios.patch(`https://127.0.0.1:8000${id}`, {
+     status: "canceled",
+    },
+     {
+      headers: {
+       'Content-Type': 'application/merge-patch+json'
+      }
+     }
+    );
+    if (res.status === 200) {
+     displayResponseMessage(`Réservation annulée.`);
+     setTimeout(() => {
+      window.location.reload();
+     }, 4000);
+
+    }
+   } catch (error) {
+    console.log(error);
+   }
+
   }
+
+
  };
 
  const handleDeplacement = () => {

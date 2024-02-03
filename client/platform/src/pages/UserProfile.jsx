@@ -12,7 +12,7 @@ export default function ProfilUser() {
 
 
   return (
-    <div className="h-screen w-3/4">
+    <div className="w-3/4 mb-8">
       <div className="bg-gray-100 flex w-full justify-between">
         <div className="mt-10 mr-2 w-1/4 block p-6 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:hover:bg-gray-700">
           <h5 className="text-2xl font-semibold text-black mb-4">Mon compte</h5>

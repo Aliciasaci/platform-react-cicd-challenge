@@ -53,6 +53,7 @@ export default function Reservation() {
     }
   };
 
+
   if (isLoading) {
     return (
       <div className="h-screen mt-52">
@@ -137,7 +138,9 @@ export default function Reservation() {
         creneau: timePart,
         jour: datePart
       });
-      console.log(res);
+
+    //envoyer vers la page des résa 
+
     } catch (error) {
       console.log(error);
     }
