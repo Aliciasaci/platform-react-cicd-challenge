@@ -43,6 +43,10 @@ h1 {
   line-height: 1.1;
 }
 
+.no-padding-btn {
+  padding: 0 !important;
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

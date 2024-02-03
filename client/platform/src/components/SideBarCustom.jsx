@@ -9,7 +9,7 @@ export default function SideBar() {
                 <ul className="space-y-2">
                     <li>       
                         <a
-                        href="/backoffice/users"
+                        href="/backoffice/admin/users"
                         className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                         >
                         <FaUsers size={20} />
@@ -18,7 +18,7 @@ export default function SideBar() {
                     </li>
                     <li>
                         <a
-                        href="/backoffice/categories"
+                        href="/backoffice/admin/categories"
                         className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                         >
                         <FaList size={20} />
@@ -27,7 +27,7 @@ export default function SideBar() {
                     </li>
                     <li>
                         <a
-                        href="/backoffice/etablissements"
+                        href="/backoffice/admin/etablissements"
                         className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                         >
                         <FaBuilding size={20} />
@@ -36,11 +36,20 @@ export default function SideBar() {
                     </li>
                     <li>
                         <a
-                        href="/demandes-prestataire"
+                        href="/backoffice/admin/demandes-prestataire"
                         className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
                         >
                         <FaClipboardQuestion size={20} />
                         <span className="ml-3">Demandes Prestataire</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                        href="/backoffice/prestataire/employes"
+                        className="flex items-center p-2 text-base font-medium text-gray-900 rounded-lg transition duration-75 hover:bg-gray-100 dark:hover:bg-gray-700 dark:text-white group"
+                        >
+                        <FaUsers size={20} />
+                        <span className="ml-3">Employes</span>
                         </a>
                     </li>
                 </ul>
