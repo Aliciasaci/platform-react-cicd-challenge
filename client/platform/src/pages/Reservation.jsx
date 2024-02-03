@@ -25,14 +25,6 @@ export default function Reservation() {
     error,
   } = useCachedData(getEmployePrestations, prestationId);
 
-  // if (mode == "update") {
-  //   const reservation = location.state.reservation
-  //   let employeIRI = reservation.employe.split('/')
-  //   console.log(employeIRI[employeIRI.length - 1])
-  //   // setDataEmployesPrestation(employeIRI[employeIRI.length - 1])
-  //   // console.log(reservation)
-  // }
-
 
   const memoizedCallback = useCallback(() => {
     if (response) {
@@ -77,8 +69,6 @@ export default function Reservation() {
     );
   }
 
-
-
   const displayResponseMessage = (message) => {
     setResponseMessage(message);
 
@@ -104,17 +94,54 @@ export default function Reservation() {
 
         if (res.status === 201) {
           displayResponseMessage("Réservation confirmée.");
+          createIndisponibilite(selectedDateTime);
         }
 
       } catch (error) {
         console.log(error);
       }
     }
-    else{
-      // Update route
+    else {
+      const reservationId = location.state.reservation["@id"].split("/").pop();
+      try {
+        const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
+          status: "updated",
+          creneau: timePart,
+          duree: 0,
+          jour: datePart,
+        },
+          {
+            headers: {
+              'Content-Type': 'application/merge-patch+json'
+            }
+          }
+        );
+
+        if (res.status === 200) {
+          displayResponseMessage(`Réservation déplacée pour le ${datePart} à ${timePart}.`);
+          createIndisponibilite(selectedDateTime);
+        }
+
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
+  const createIndisponibilite = async (selectedDateTime) => {
+    const [datePart, timePart] = selectedDateTime.split(' ');
+    try {
+      console.log(`/api/employes/${dataEmployesPrestation}`);
+      const res = await axios.post(`https://127.0.0.1:8000/api/indisponibilites`, {
+        employe: `/api/employes/${dataEmployesPrestation}`,
+        creneau: timePart,
+        jour: datePart
+      });
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className="reservation h-full w-screen bg-gray-100">

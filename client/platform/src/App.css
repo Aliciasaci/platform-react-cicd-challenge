@@ -161,3 +161,8 @@ body {
   box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
 }
 
+.tag {
+  background: #fde4e4;
+  padding: 0.7rem;
+  border-radius: 41px;
+}

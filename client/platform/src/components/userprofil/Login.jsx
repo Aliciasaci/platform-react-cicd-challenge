@@ -8,7 +8,6 @@ import { useContext } from 'react';
 import { AppContext } from '../../context';
 
 export default function Login() {
-    const { userToken, setUserToken } = useContext(AppContext);
     const { userEmail, setUserEmail } = useContext(AppContext);
 
     const navigate = useNavigate();

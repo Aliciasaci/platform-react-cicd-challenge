@@ -2,18 +2,20 @@ import { Link } from "react-router-dom";
 import ReservationsCard from "./ReservationCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { AppContext } from '../../context';
+import { useContext } from "react";
 
 export default function UserReservations() {
+    const { userId } = useContext(AppContext);
 
     const [reservationsClient, setReservationsClient] = useState([]);
 
     useEffect(() => {
         const fetchReservationsInfos = async () => {
             try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/users/3`);
+                const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`);
                 if(response.status === 200){
                     setReservationsClient(response.data.reservationsClient);
-                    console.log(response.data.reservationsClient);
                 }
             } catch (error) {
                 console.error('Error fetching user information:', error);
