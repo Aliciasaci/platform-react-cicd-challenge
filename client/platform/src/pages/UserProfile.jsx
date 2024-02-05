@@ -22,7 +22,7 @@ export default function ProfilUser() {
   };
 
   return (
-    <div className="w-3/4 mb-8">
+    <div className="w-3/4 mb-8 h-90">
       <div className="bg-gray-100 flex w-full justify-between">
         <div className="mt-10 mr-2 w-1/4 block p-6 bg-white border border-gray-200 rounded-lg shadow dark:border-gray-700 dark:hover:bg-gray-700">
           <h5 className="text-xl text-gray-800">Mon compte</h5>
@@ -56,7 +56,7 @@ export default function ProfilUser() {
                 <svg class="w-5 h-5 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19V4c0-.6.4-1 1-1h12c.6 0 1 .4 1 1v13H7a2 2 0 0 0-2 2Zm0 0c0 1.1.9 2 2 2h12M9 3v14m7 0v4" />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Réservations passées</span>
+                <span class="flex-1 ms-3 whitespace-nowrap">Réservations passée(s)</span>
               </a>
             </li>
           </ul>
