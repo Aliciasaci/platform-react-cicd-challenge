@@ -4,7 +4,7 @@ import {
 } from 'react-router-dom';
 import './App.css'
 import { LoadScript } from '@react-google-maps/api';
-import PrestataireRegister from './components/PrestataireRegister'
+import PrestataireRegister from './pages/PrestataireRegister'
 import PlatformLayout from './layouts/PlatformLayout';
 import Home from './pages/Home';
 import { PageEtablissement } from './pages/PageEtablissement';
