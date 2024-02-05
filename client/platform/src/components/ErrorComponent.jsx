@@ -3,27 +3,26 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useTranslation } from "react-i18next";
 
-const t = useTranslation();
-
-const STATUS_MESSAGES = {
-  404: {
-    reason: t("Error_404_Reason"),
-    message: t("Error_404_Message"),
-  },
-  500: {
-    reason: t("Error_500_Reason"),
-    message: t("Error_500_Message"),
-  },
-  default: {
-    reason: t("Common_Error_Reason"),
-    message: t("Common_Error_Message"),
-  },
-};
-
 export const ErrorComponent = ({ status }) => {
+  const { t } = useTranslation();
   const [reason, setReason] = React.useState("");
   const [message, setMessage] = React.useState("");
   const navigate = useNavigate();
+
+  const STATUS_MESSAGES = {
+    404: {
+      reason: t("Error_404_Reason"),
+      message: t("Error_404_Message"),
+    },
+    500: {
+      reason: t("Error_500_Reason"),
+      message: t("Error_500_Message"),
+    },
+    default: {
+      reason: t("Common_Error_Reason"),
+      message: t("Common_Error_Message"),
+    },
+  };
 
   React.useEffect(() => {
     const statusMessage = STATUS_MESSAGES[status] || STATUS_MESSAGES.default;

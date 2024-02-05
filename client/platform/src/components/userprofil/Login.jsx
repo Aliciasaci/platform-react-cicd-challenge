@@ -9,6 +9,7 @@ import { AppContext } from "../../context";
 
 export default function Login() {
   const { userEmail, setUserEmail } = useContext(AppContext);
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -40,7 +41,7 @@ export default function Login() {
       }
     } catch (error) {
       console.log(error);
-      setResponseMessage("Erreur lors de la connexion. Veuillez réessayer.");
+      setResponseMessage(t("Error_Connecting_Try_Again"));
     }
   };
 
@@ -56,20 +57,20 @@ export default function Login() {
             </Alert>
           )}
           <p className="capitalize text-zinc-900 text-xl text-center font-bold mb-4 w-96 pt-4">
-            SE CONNECTER
+            {t("Common_Login")}
           </p>
           <div className="form-group mb-3">
             <div className="block flex justify-start mb-2">
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Email*"
+                value={t("Common_Email") + "*"}
               />
             </div>
             <TextInput
               id="base"
               type="text"
-              placeholder="Addresse email"
+              placeholder={t("Common_Email")}
               sizing="md"
               name="email"
               value={user.email}
@@ -82,7 +83,7 @@ export default function Login() {
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Mot de passe*"
+                value={t("Common_Password") + "*"}
               />
             </div>
             <TextInput
@@ -100,14 +101,14 @@ export default function Login() {
             onClick={handleSubmit}
             className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline"
           >
-            Se connecter
+            {t("Common_Login")}
           </Button>
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
-            <p className="mt-4">Pas encore de compte ? </p>
+            <p className="mt-4">{t("Login_NoAccount")} </p>
             <Link to="/register">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
-                Créer mon compte
+                {t("Common_CreateAccount")}
               </Button>
             </Link>
           </div>
