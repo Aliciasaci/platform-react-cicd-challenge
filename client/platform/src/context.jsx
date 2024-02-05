@@ -5,6 +5,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [userToken, setUserTokenState] = useState(() => localStorage.getItem('userToken') || "");
   const [userEmail, setUserEmailState] = useState(() => localStorage.getItem('userEmail') || "");
+  const [userId, setUserIdState] = useState(() => localStorage.getItem('userId') || null);
 
   const setUserToken = (token) => {
     localStorage.setItem('userToken', token);
@@ -14,6 +15,11 @@ const AppProvider = ({ children }) => {
   const setUserEmail = (email) => {
     localStorage.setItem('userEmail', email);
     setUserEmailState(email);
+  };
+
+  const setUserId = (id) => {
+    localStorage.setItem('userId', id);
+    setUserIdState(id);
   };
 
   useEffect(() => {
@@ -26,13 +32,20 @@ const AppProvider = ({ children }) => {
     if (storedEmail !== userEmail) {
       setUserEmailState(storedEmail);
     }
-  }, [userToken, userEmail]);
+
+    const storedUserId = localStorage.getItem('userId');
+    if (storedUserId !== userId) {
+      setUserIdState(storedUserId);
+    }
+  }, [userToken, userEmail, userId]);
 
   const contextValue = {
     userToken,
     setUserToken,
     userEmail,
-    setUserEmail
+    setUserEmail,
+    userId,
+    setUserId
   };
 
   return (

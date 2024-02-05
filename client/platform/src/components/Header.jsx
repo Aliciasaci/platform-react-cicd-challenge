@@ -37,9 +37,9 @@ const Header = () => {
                 </Link>
             </Navbar.Brand>
             <div className="flex md:order-2">
-                <Link to="/reservation">
+                <Link to="/etablissement/1">  
                     <Button type="button" className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700">
-                        Reservation
+                        Etablissements
                     </Button>
                 </Link>
                 <Link to="/">
