@@ -142,6 +142,7 @@ body {
 .footer {
   height: 15rem;
   padding-top: 3rem;
+  bottom: 0;
 }
 
 .login {

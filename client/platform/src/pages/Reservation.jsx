@@ -35,7 +35,7 @@ export default function Reservation() {
   }, [response]);
 
   useEffect(() => {
-    if (mode === "update" && location.state?.reservation) {
+    if ((mode === "update" || mode === "retake") && location.state?.reservation) {
       const reservation = location.state.reservation;
       const employeIRI = reservation.employe.split('/');
       setDataEmployesPrestation(employeIRI[employeIRI.length - 1]);
@@ -49,7 +49,6 @@ export default function Reservation() {
   const handleSelect = (data) => {
     if (mode == "create") {
       setDataEmployesPrestation(data);
-
     }
   };
 
@@ -104,27 +103,54 @@ export default function Reservation() {
     }
     else {
       const reservationId = location.state.reservation["@id"].split("/").pop();
-      try {
-        const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
-          status: "updated",
-          creneau: timePart,
-          duree: 0,
-          jour: datePart,
-        },
-          {
-            headers: {
-              'Content-Type': 'application/merge-patch+json'
+      if (mode == "update") {
+        try {
+          const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
+            status: "updated",
+            creneau: timePart,
+            duree: 0,
+            jour: datePart,
+          },
+            {
+              headers: {
+                'Content-Type': 'application/merge-patch+json'
+              }
             }
-          }
-        );
+          );
 
-        if (res.status === 200) {
-          displayResponseMessage(`Réservation déplacée pour le ${datePart} à ${timePart}.`);
-          createIndisponibilite(selectedDateTime);
+          if (res.status === 200) {
+            displayResponseMessage(`Réservation déplacée pour le ${datePart} à ${timePart}.`);
+            createIndisponibilite(selectedDateTime);
+          }
+
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      else{
+        try {
+          const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
+            status: "created",
+            creneau: timePart,
+            duree: 0,
+            jour: datePart,
+          },
+            {
+              headers: {
+                'Content-Type': 'application/merge-patch+json'
+              }
+            }
+          );
+
+          if (res.status === 200) {
+            displayResponseMessage(`Réservation récupéré pour le ${datePart} à ${timePart}.`);
+            createIndisponibilite(selectedDateTime);
+          }
+
+        } catch (error) {
+          console.log(error);
         }
 
-      } catch (error) {
-        console.log(error);
       }
     }
   }
@@ -139,7 +165,7 @@ export default function Reservation() {
         jour: datePart
       });
 
-    //envoyer vers la page des résa 
+      //envoyer vers la page des résa 
 
     } catch (error) {
       console.log(error);

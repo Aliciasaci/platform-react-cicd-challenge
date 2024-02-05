@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-export default function ReservationsCard({ reservation }) {
+export default function ReservationsCard({ reservation, mode }) {
  const { '@id': id, jour, creneau, prestation, status } = reservation;
  const { titre, description, duree, prix } = prestation;
  const [responseMessage, setResponseMessage] = useState("");
@@ -44,12 +44,22 @@ export default function ReservationsCard({ reservation }) {
   getIndisponibiliteEmploye();
  }, []);
 
+ const handleRecuperation = async () => {
+  let idPrestationArray = prestation["@id"].split('/')
+  navigate(`/reservation`, {
+   state: {
+    prestationId: idPrestationArray[idPrestationArray.length - 1],
+    mode: "retake",
+    reservation: reservation
+   }
+  })
+ }
+
 
  const annulerReservation = async () => {
   let indispoList = indisponibilites.filter((indispo) => (indispo.jour == reservation.jour) && (indispo.creneau == reservation.creneau))
   if (indispoList.length > 0) {
    let indispoId = indispoList[0].id
-   console.log(indispoId)
    try {
     const res = await axios.delete(`https://127.0.0.1:8000/api/indisponibilites/${indispoId}`, {
     },
@@ -60,7 +70,7 @@ export default function ReservationsCard({ reservation }) {
      }
     );
     if (res.status === 200) {
-     displayResponseMessage(`Indipo annulée.`);
+     console.log(`Indipo annulée.`);
     }
    } catch (error) {
     console.log(error);
@@ -88,8 +98,6 @@ export default function ReservationsCard({ reservation }) {
    }
 
   }
-
-
  };
 
  const handleDeplacement = () => {
@@ -130,7 +138,7 @@ export default function ReservationsCard({ reservation }) {
         </span>
        </div>
        <div>
-        {(status === "created" || status === "updated") && (
+        {mode === "futur" && (
          <>
           <button
            type="button"
@@ -144,15 +152,16 @@ export default function ReservationsCard({ reservation }) {
           </button>
          </>
         )}
-        {status === "canceled" && (
+        {mode === "canceled" && (
+         <>
          <span className="text-red-500 font-semibold mr-2 tag">Annulée</span>
-        )}
-        {status !== "created" && status !== "updated" && (
-         <button
+        
+          <button
           type="button"
-          className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" >
+          className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={handleRecuperation}>
           Récupérer
          </button>
+         </>
         )}
        </div>
       </div>
