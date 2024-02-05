@@ -5,13 +5,10 @@ import { Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AppContext } from "../context";
-import { useTranslation } from "react-i18next";
+import { AppContext } from "../../context";
 
 export default function Login() {
-  const { userToken, setUserToken } = useContext(AppContext);
   const { userEmail, setUserEmail } = useContext(AppContext);
-  const { t } = useTranslation();
 
   const navigate = useNavigate();
   const [user, setUser] = useState({
@@ -59,7 +56,7 @@ export default function Login() {
             </Alert>
           )}
           <p className="capitalize text-zinc-900 text-xl text-center font-bold mb-4 w-96 pt-4">
-            {t("Common_Login")}
+            SE CONNECTER
           </p>
           <div className="form-group mb-3">
             <div className="block flex justify-start mb-2">
@@ -103,14 +100,14 @@ export default function Login() {
             onClick={handleSubmit}
             className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline"
           >
-            {t("Common_Login")}
+            Se connecter
           </Button>
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
-            <p className="mt-4"> {t("Login_NoAccount")} </p>
+            <p className="mt-4">Pas encore de compte ? </p>
             <Link to="/register">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
-                {t("Common_CreateAccount")}
+                Créer mon compte
               </Button>
             </Link>
           </div>

@@ -2,7 +2,7 @@ import { Card, Table, Button } from "flowbite-react";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export default function Calendar({ employeId }) {
+export default function Calendar({ employeId,  createReservation }) {
   const daysOfWeek = [
     "Lundi",
     "Mardi",
@@ -39,11 +39,12 @@ export default function Calendar({ employeId }) {
 
   const handleSlotClick = (slot, date) => {
     const selectedDateTime = date + " " + slot;
-    console.log(selectedDateTime);
-    // const selectedDateTime = new Date(`${date} ${slot}`);
+    if (window.confirm("Réserver pour le " + selectedDateTime + " ?")) {
+      createReservation(selectedDateTime);
+    }
     setSelectedSlot(selectedDateTime);
   };
-
+  
   const generateTimeSlots = (dateSemaine) => {
     if (
       indisponibilites &&
@@ -131,56 +132,52 @@ export default function Calendar({ employeId }) {
 
   return (
     <div>
-      {selectedSlot && (
-        <span className="text-gray-900 text-xl"> {selectedSlot} </span>
-      )}
-      <div className="flex justify-center items-center bg-gray-100 ">
-        <Card className="flex justify-center items-center bg-white calendar-wrapper">
-          <div className="flex justify-center justify-between">
-            <Button color="light">🠔</Button>
-            <Button color="light">🠖</Button>
-          </div>
+  <div className='flex justify-center items-center bg-gray-100 '>
+      <Card className="flex justify-center items-center bg-white calendar-wrapper">
+        <div className="flex justify-center justify-between">
+          <Button color="light">🠔</Button>
+          <Button color="light">🠖</Button>
+        </div>
 
-          <Table>
-            <Table.Head className="bg-white">
-              {datesSemaine.map((day, index) => (
-                <Table.HeadCell className="calendar-head" key={index}>
-                  {day.jour} <br /> {day.date}
-                </Table.HeadCell>
-              ))}
-            </Table.Head>
-            <Table.Body className="divide-y">
-              {dailyTimeSlots[daysOfWeek[0]].map((timeSlot, timeIndex) => (
-                <Table.Row key={timeIndex} className="bg-white calendar-row">
-                  {/* <Table.Cell className='calendar-cell'>{timeSlot}</Table.Cell> */}
-                  {daysOfWeek.map((day, dayIndex) => (
-                    <Table.Cell
-                      key={dayIndex}
-                      className={`calendar-cell ${
-                        dailyTimeSlots[day][timeIndex] === "Indisponible"
-                          ? "bg-white"
-                          : ""
+        <Table>
+          <Table.Head className="bg-white">
+            {datesSemaine.map((day, index) => (
+              <Table.HeadCell className="calendar-head" key={index}>
+                {day.jour} <br /> {day.date}
+              </Table.HeadCell>
+            ))}
+          </Table.Head>
+          <Table.Body className="divide-y">
+            {dailyTimeSlots[daysOfWeek[0]].map((timeSlot, timeIndex) => (
+              <Table.Row key={timeIndex} className="bg-white calendar-row">
+                {/* <Table.Cell className='calendar-cell'>{timeSlot}</Table.Cell> */}
+                {daysOfWeek.map((day, dayIndex) => (
+                  <Table.Cell
+                    key={dayIndex}
+                    className={`calendar-cell ${dailyTimeSlots[day][timeIndex] === "Indisponible"
+                        ? "bg-white"
+                        : ""
                       }`}
-                      onClick={() => {
-                        if (dailyTimeSlots[day][timeIndex] !== "Indisponible") {
-                          handleSlotClick(
-                            dailyTimeSlots[day][timeIndex],
-                            datesSemaine[dayIndex].date
-                          );
-                        }
-                      }}
-                    >
-                      {dailyTimeSlots[day][timeIndex] !== "Indisponible" &&
-                        dailyTimeSlots[day][timeIndex]}
-                    </Table.Cell>
-                  ))}
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </Card>
-        <div></div>
-      </div>
+                    onClick={() => {
+                      if (dailyTimeSlots[day][timeIndex] !== "Indisponible") {
+                        handleSlotClick(
+                          dailyTimeSlots[day][timeIndex],
+                          datesSemaine[dayIndex].date
+                        );
+                      }
+                    }}
+                  >
+                    {dailyTimeSlots[day][timeIndex] !== "Indisponible" &&
+                      dailyTimeSlots[day][timeIndex]}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </Card>
+      <div></div>
     </div>
+  </div>
   );
 }
