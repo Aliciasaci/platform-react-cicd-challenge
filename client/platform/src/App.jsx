@@ -14,6 +14,8 @@ import Register from './components/userprofil/Register';
 import UserProfile from "./pages/UserProfile";
 import { AppProvider } from './context';
 import UserInformations from './components/userprofil/UserInformations';
+import Prestation from './pages/Prestation';
+import CancelledReservations from './components/userprofil/CancelledReservations';
 // import PrestatairePanel from './pages/PrestatairePanel';
 // import CrudEmploye from './pages/CrudEmploye';
 
@@ -30,6 +32,8 @@ const routes = [
       { path: '/register', element: <Register /> },
       { path: '/user-profile', element: <UserProfile /> },
       { path: '/mon-compte', element: <UserInformations /> },
+      { path: '/cancelled-reservations', element: <CancelledReservations /> },
+      { path: 'prestations/:id', element: <Prestation /> },
     ]
   },
 ]     
