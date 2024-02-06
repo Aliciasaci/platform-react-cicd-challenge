@@ -2,7 +2,8 @@ import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Feedback from "../components/Feedback";
+import RatingStars from "../components/ratings/RatingStars";
+import RatingGeneral from "../components/ratings/RatingGeneral";
 
 export default function Prestation() {
 
@@ -52,7 +53,8 @@ export default function Prestation() {
       </Link>
      </div>
      <GalleryDisplay className="w-full" />
-     <Feedback />
+     <RatingGeneral></RatingGeneral>
+     <RatingStars></RatingStars>
     </div>
    )}
   </div>
