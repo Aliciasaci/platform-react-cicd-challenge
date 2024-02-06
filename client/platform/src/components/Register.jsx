@@ -21,8 +21,6 @@ export default function Register() {
             ...user,
             [name]: value,
         });
-
-        console.log(user);
     }
 
     const handleSubmit = async () => {
@@ -52,41 +50,41 @@ export default function Register() {
                             <span className="font-medium">{responseMessage}</span>
                         </span>
                     </Alert>)}
-                    <p className="capitalize text-zinc-900 text-2xl text-center font-bold mb-8 w-96" >Créer mon compte</p>
-                    <div className="form-group mb-5">
+                    <p className="capitalize text-zinc-900 text-xl text-center font-bold mb-4 w-96 pt-4" >Créer mon compte</p>
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Nom" />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Nom*" />
                         </div>
-                        <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="nom" value={user.nom} onChange={handleInput} />
+                        <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="nom" value={user.nom} onChange={handleInput} required/>
                     </div>
-                    <div className="form-group mb-5">
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Prénom" />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Prénom*" />
                         </div>
-                        <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prenom" value={user.prenom} onChange={handleInput} />
+                        <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prenom" value={user.prenom} onChange={handleInput} required/>
                     </div>
-                    <div className="form-group mb-5">
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Email " />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Email*" />
                         </div>
-                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} />
+                        <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" value={user.email} onChange={handleInput} required/>
                     </div>
-                    <div className="form-group mb-5">
+                    <div className="form-group mb-3">
                         <div className="block flex justify-start mb-2">
-                            <Label htmlFor="base" className='text-xl text-center font-bold' value="Mot de passe" />
+                            <Label htmlFor="base" className='text-sm text-center font-bold' value="Mot de passe*" />
                         </div>
-                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} />
+                        <TextInput id="base" type="password" placeholder="*******" sizing="md" name="password" value={user.password} onChange={handleInput} required/>
                     </div>
-                    <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                    <Button onClick={handleSubmit} className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                         Créer mon compte
                     </Button>
                     <div className="mt-6 text-zinc-900">
                         <hr className='text-zinc-900 mt-4'></hr>
                         <p className='mt-4'>Vous avez déjà un compte ? </p>
                         <Link to="/login">
-                            <button className="mt-3 bg-zinc-800 uppercase w-full hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" >
+                            <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full hover:bg-gray-700 font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline" >
                                 Se connecter
-                            </button>
+                            </Button>
                         </Link>
                     </div>
                 </div>

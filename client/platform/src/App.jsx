@@ -3,20 +3,14 @@ import "./App.css";
 import { LoadScript } from "@react-google-maps/api";
 import PrestataireRegister from "./components/PrestataireRegister";
 import PlatformLayout from "./layouts/PlatformLayout";
-import BackOfficeLayout from "./layouts/BackofficeLayout";
 import Home from "./pages/Home";
-import AdminPanel from "./pages/AdminPanel";
-import CrudUser from "./pages/CrudUser";
-import CrudCategory from "./pages/CrudCategory";
-import CrudEtablissement from "./pages/CrudEtablissement";
 import { PageEtablissement } from "./pages/PageEtablissement";
 import Reservation from "./pages/Reservation";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import UserProfile from "./pages/UserProfile";
+import { AppProvider } from "./context";
 import UserInformations from "./components/UserInformations";
-import PrestatairePanel from "./pages/PrestatairePanel";
-import CrudEmploye from "./pages/CrudEmploye";
 
 const routes = [
   {
@@ -33,24 +27,6 @@ const routes = [
       { path: "/mon-compte", element: <UserInformations /> },
     ],
   },
-  {
-    path: "/backoffice/admin",
-    element: <BackOfficeLayout />,
-    children: [
-      { path: "admin-panel", element: <AdminPanel /> },
-      { path: "users", element: <CrudUser /> },
-      { path: "categories", element: <CrudCategory /> },
-      { path: "etablissements", element: <CrudEtablissement /> },
-    ],
-  },
-  {
-    path: "/backoffice/prestataire",
-    element: <BackOfficeLayout />,
-    children: [
-      { path: "prestataire-panel", element: <PrestatairePanel /> },
-      { path: "employes", element: <CrudEmploye /> },
-    ],
-  },
 ];
 
 const router = createBrowserRouter(routes);
@@ -61,7 +37,9 @@ function App() {
   return (
     <>
       <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
-        <RouterProvider router={router} />
+        <AppProvider>
+          <RouterProvider router={router} />
+        </AppProvider>
       </LoadScript>
     </>
   );
