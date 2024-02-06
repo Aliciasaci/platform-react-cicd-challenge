@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Lato&family=Open+Sans:wght@300;400;500&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Agbalumo&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Lato&family=Open+Sans:wght@300;400;500&display=swap');
 
-body{
+body {
   font-family: 'Inter', sans-serif;
 }
 
@@ -91,6 +91,11 @@ body{
   font-weight: bold;
 }
 
+.calendar-cell:hover {
+  background-color: #d3d3d399;
+}
+
+
 .py-4 {
   padding-top: 6px !important;
   padding-bottom: 6px !important;
@@ -113,16 +118,17 @@ body{
   margin: auto;
 }
 
-.reservation{
+.reservation {
   margin-bottom: 16rem;
 }
+
 .reservation-wrapper .title {
   margin-top: 2rem;
   margin-bottom: 1rem;
   font-weight: 600;
 }
 
-.home>div{
+.home>div {
   background-image: url("../src/assets/img/fond.jpg");
   background-size: cover;
 }
@@ -133,13 +139,31 @@ body{
   background-size: cover;
 }
 
-.footer{
+.footer {
   height: 15rem;
   padding-top: 3rem;
+  bottom: 0;
 }
 
-.login{
+.login {
   font-family: 'Inter', sans-serif;
   background-image: url("../src/assets/img/login.jpg");
 }
 
+.fade-out {
+  transition: opacity 0.5s ease-out;
+}
+
+.fade-out.fade-out-active {
+  opacity: 0;
+}
+
+.resa {
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+}
+
+.tag {
+  background: #fde4e4;
+  padding: 0.7rem;
+  border-radius: 41px;
+}
