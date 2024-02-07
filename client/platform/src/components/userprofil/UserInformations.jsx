@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { AppContext } from '../context';
+import { AppContext } from '../../context';
 
 export default function UserInformations() {
     const { userEmail } = useContext(AppContext);
@@ -43,9 +43,7 @@ export default function UserInformations() {
     return (
         <div className="flex flex-col w-3/4">
             <div className="mt-10 ml-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="#">
-                    <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-800 dark:text-white">Mes coordonnées</h5>
-                </a>
+                    <h5 className="text-xl text-gray-800 mb-4">Mes coordonnées</h5>
                 <div className="mb-6 flex">
                     <div className="w-1/2 mr-4">
                         <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">Prénom*</label>
@@ -82,7 +80,7 @@ export default function UserInformations() {
             </div>
             <div className="mt-10 ml-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <div href="#">
-                    <h5 className="mb-2 text-xl font-bold text-gray-800">Mot de passe</h5>
+                    <h5 className="text-xl text-gray-800 mb-4">Mot de passe</h5>
                     <p className="mb-2 text-gray-900">Pour modifier votre mot de passe, veuillez saisir votre mot de passe actuel pour confirmer votre identité.</p>
                 </div>
                 <div className="mb-6 flex">

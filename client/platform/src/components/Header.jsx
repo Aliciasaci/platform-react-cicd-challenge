@@ -37,6 +37,7 @@ const Header = () => {
   return (
     <Navbar fluid>
       <Navbar.Brand>
+        {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
         <Link
           to="/"
           className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo"
@@ -45,12 +46,12 @@ const Header = () => {
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2">
-        <Link to="/reservation">
+        <Link to="/etablissement/1">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
           >
-            Reservation
+            Etablissements
           </Button>
         </Link>
         <Link to="/">
@@ -69,10 +70,17 @@ const Header = () => {
             Je suis prestataire
           </Button>
         </Link>
-        {loginButton}
         <Navbar.Toggle />
       </div>
-      <Navbar.Collapse />
+      <Navbar.Collapse>
+        {/* <Navbar.Link href="#" active>
+                    Home
+                </Navbar.Link> */}
+        {/* <Navbar.Link href="#">About</Navbar.Link>
+                <Navbar.Link href="#">Services</Navbar.Link>
+                <Navbar.Link href="#">Pricing</Navbar.Link>
+                <Navbar.Link href="#">Contact</Navbar.Link> */}
+      </Navbar.Collapse>
     </Navbar>
   );
 };

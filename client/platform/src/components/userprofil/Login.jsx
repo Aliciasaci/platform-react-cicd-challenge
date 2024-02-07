@@ -5,10 +5,9 @@ import { Alert } from 'flowbite-react';
 import { Link } from 'react-router-dom';
 import { useNavigate } from "react-router-dom";
 import { useContext } from 'react';
-import { AppContext } from '../context';
+import { AppContext } from '../../context';
 
 export default function Login() {
-    const { userToken, setUserToken } = useContext(AppContext);
     const { userEmail, setUserEmail } = useContext(AppContext);
 
     const navigate = useNavigate();

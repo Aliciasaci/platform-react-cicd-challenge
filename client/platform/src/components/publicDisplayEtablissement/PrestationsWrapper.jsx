@@ -2,6 +2,7 @@ import { PrestationListGroup } from "./PrestationListGroup";
 
 export const PrestationWrapper = ({ prestations }) => {
   const groupedPrestations = prestations.reduce((acc, prestation) => {
+
     const category = prestation.category.name;
     if (!acc[category]) {
       acc[category] = [];

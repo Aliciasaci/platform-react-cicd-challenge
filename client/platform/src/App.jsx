@@ -1,16 +1,20 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import { LoadScript } from "@react-google-maps/api";
-import PrestataireRegister from "./components/PrestataireRegister";
+import PrestataireRegister from "./pages/PrestataireRegister";
 import PlatformLayout from "./layouts/PlatformLayout";
 import Home from "./pages/Home";
 import { PageEtablissement } from "./pages/PageEtablissement";
 import Reservation from "./pages/Reservation";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./components/userprofil/Login";
+import Register from "./components/userprofil/Register";
 import UserProfile from "./pages/UserProfile";
 import { AppProvider } from "./context";
-import UserInformations from "./components/UserInformations";
+import UserInformations from "./components/userprofil/UserInformations";
+import Prestation from "./pages/Prestation";
+import CancelledReservations from "./components/userprofil/CancelledReservations";
+// import PrestatairePanel from './pages/PrestatairePanel';
+// import CrudEmploye from './pages/CrudEmploye';
 
 const routes = [
   {
@@ -19,12 +23,14 @@ const routes = [
     children: [
       { path: "/", element: <Home /> },
       { path: "prestataire-register", element: <PrestataireRegister /> },
-      { path: "etablissement/:id", element: <PageEtablissement /> },
+      { path: "etablissement/:id", element: <PageEtablissement /> }, // à supprimer
       { path: "/reservation", element: <Reservation /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
       { path: "/user-profile", element: <UserProfile /> },
       { path: "/mon-compte", element: <UserInformations /> },
+      { path: "/cancelled-reservations", element: <CancelledReservations /> },
+      { path: "prestations/:id", element: <Prestation /> },
     ],
   },
 ];
