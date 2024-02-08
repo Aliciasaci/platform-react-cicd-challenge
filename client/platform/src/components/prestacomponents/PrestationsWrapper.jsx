@@ -1,8 +1,9 @@
 import { PrestationListGroup } from "./PrestationListGroup";
+import { useTranslation } from "react-i18next";
 
 export const PrestationWrapper = ({ prestations }) => {
+  const { t } = useTranslation();
   const groupedPrestations = prestations.reduce((acc, prestation) => {
-
     const category = prestation.category.name;
     if (!acc[category]) {
       acc[category] = [];
@@ -21,7 +22,7 @@ export const PrestationWrapper = ({ prestations }) => {
             </h2>
             <PrestationListGroup
               prestations={groupedPrestations[category]}
-              buttonContent={"Choisir"}
+              buttonContent={t("Common_Choose")}
               linkTo={"/reservation/"}
             />
           </div>
