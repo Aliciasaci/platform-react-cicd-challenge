@@ -51,7 +51,7 @@ export default function RatingDetail({prestationId}) {
     // console.log(ratings)
     // console.log(ratings["Note générale"]['id'])
     if (Object.keys(ratings).length > 0){
-      for (const [key, rating] of Object.entries(ratings)) {
+      for (const [key, rating] of Object.entries(object)) {
         try {
           const res = await axios.post(`https://127.0.0.1:8000/api/feedback`, {
             client: `/api/users/${userId}`,
