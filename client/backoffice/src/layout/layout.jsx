@@ -13,6 +13,7 @@ import CrudCategory from '../pages/admin/CrudCategory';
 import CrudEtablissement from '../pages/admin/CrudEtablissement';
 import DemandePrestataire from '../pages/admin/DemandePrestataire';
 import CrudEmploye from '../pages/prestataire/CrudEmploye';
+import CrudPrestation from '../pages/prestataire/CrudPrestation';
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -133,6 +134,7 @@ const Layout = (props) => {
                             <Route path="/admin/demandes" element={<DemandePrestataire />} />
 
                             <Route path="/prestataire/employes" element={<CrudEmploye />} />
+                            <Route path="/prestataire/prestations" element={<CrudPrestation />} />
                         </Routes>
                     </div>
                 </div>
