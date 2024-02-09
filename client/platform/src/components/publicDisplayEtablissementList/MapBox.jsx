@@ -3,32 +3,34 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
 
 export const MapBox = ({ choosenCoords, locations }) => {
-  const [lat, setLat] = useState(choosenCoords[0] ?? 48.866667);
-  const [lng, setLng] = useState(choosenCoords[1] ?? 2.333333);
-  const [map, setMap] = useState(null);
+  const [lat, setLat] = React.useState(48.866667);
+  const [lng, setLng] = React.useState(2.333333);
+  const [zoom, setZoom] = React.useState(12);
+  const mapContainer = React.useRef(null);
+  const map = React.useRef(null);
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
-  useEffect(() => {
-    map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
+  React.useEffect(() => {
+    if (map.current) return; // initialize map only once
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: "mapbox://styles/mapbox/streets-v12",
       center: [lng, lat],
-      zoom: 12,
+      zoom: zoom,
     });
 
-    locations.forEach((location) => {
+    /*locations.forEach((location) => {
       new mapboxgl.Marker({
         color: "#FFFFFF",
       })
         .setLngLat([location.longitude, location.latitude])
         .addTo(map);
-    });
-    setMap(map);
-  }, [locations]);
+    });*/
+  }, []);
 
   return (
     <div>
-      <div id="map" style={{ width: "100%", height: "100%" }}></div>
+      <div ref={mapContainer} className="map-container"></div>
     </div>
   );
 };

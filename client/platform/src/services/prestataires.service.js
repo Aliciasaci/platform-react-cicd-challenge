@@ -90,7 +90,7 @@ export async function getEtablissementList(filter) {
   return [
     {
       id: 1,
-      nom: "Medley Rive Droite Paris",
+      nom: "Rive Droite Paris",
       adresse: "21 Rue Vieille du Temple, 75004 Paris",
       latitude: 48.8428732,
       longitude: 2.3996645,
@@ -251,19 +251,6 @@ export async function getEtablissementList(filter) {
             },
           ],
         },
-        {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
-        },
       ],
     },
     {
@@ -275,19 +262,6 @@ export async function getEtablissementList(filter) {
       ville: "Paris",
       codePostal: "75004",
       prestation: [
-        {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
-        },
         {
           feedback: [
             {
