@@ -6,6 +6,7 @@ import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
 import { Dropdown } from 'primereact/dropdown';
+import { InputTextarea } from 'primereact/inputtextarea';
 import { classNames } from 'primereact/utils';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
@@ -328,7 +329,6 @@ const CrudPrestation = () => {
                         <Column field="titre" header="Titre" sortable body={titreBodyTemplate} headerStyle={{ minWidth: '20rem' }}></Column>
                         <Column field="duree" header="Durée" sortable body={dureeBodyTemplate} headerStyle={{ minWidth: '5rem' }}></Column>
                         <Column field="prix" header="Prix" sortable body={prixBodyTemplate} headerStyle={{ minWidth: '5rem' }}></Column>
-                        <Column field="description" header="Description" sortable body={descriptionBodyTemplate} headerStyle={{ minWidth: '30rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
@@ -360,7 +360,7 @@ const CrudPrestation = () => {
                         </div>
                         <div className="field">
                             <label htmlFor="description">Description</label>
-                            <InputText id="description" value={prestation.description} onChange={(e) => onInputChange(e, 'description')} required className={classNames({ 'p-invalid': submitted && !prestation.description })} />
+                            <InputTextarea id="description" value={prestation.description} rows={5} onChange={(e) => onInputChange(e, 'description')} required className={classNames({ 'p-invalid': submitted && !prestation.description })} />
                             {submitted && !prestation.description && <small className="p-invalid">Champ obligatoire.</small>}
                         </div>
                     </Dialog>

@@ -13,7 +13,7 @@ import axios from 'axios';
 const CrudEmploye = () => {
     let emptyEmploye = {
         id: null,
-        etablissement_id: null,
+        etablissement: null,
         nom: '',
         prenom: '',
         horraires_service: '',
@@ -68,7 +68,7 @@ const CrudEmploye = () => {
             let _employe = { ...employe };
             if (employe.id) {
                 const response = await axios.patch(`http://localhost:8000/api/employes/${employe.id}`, {
-                    etablissement_id: employe.etablissement_id,
+                    etablissement: employe.etablissement_id,
                     nom: employe.nom,
                     prenom: employe.prenom,
                     horraires_services: employe.horraires_services,
@@ -86,7 +86,7 @@ const CrudEmploye = () => {
                 toast.current.show({ severity: 'success', summary: 'Succès', detail: 'Employé modifié', life: 3000 });
             } else {
                 const response = await axios.post('http://localhost:8000/api/employes', {
-                    etablissement_id: employe.etablissement_id,
+                    etablissement: employe.etablissement_id,
                     nom: employe.nom,
                     prenom: employe.prenom,
                     horraires_services: employe.horraires_services,

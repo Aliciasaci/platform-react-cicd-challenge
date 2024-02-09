@@ -10,10 +10,11 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 import { Routes, Route } from 'react-router-dom';
 import CrudUser from '../pages/admin/CrudUser';
 import CrudCategory from '../pages/admin/CrudCategory';
-import CrudEtablissement from '../pages/admin/CrudEtablissement';
+import AdminEtablissement from '../pages/admin/AdminEtablissement';
 import DemandePrestataire from '../pages/admin/DemandePrestataire';
 import CrudEmploye from '../pages/prestataire/CrudEmploye';
 import CrudPrestation from '../pages/prestataire/CrudPrestation';
+import CrudEtablissement from '../pages/prestataire/CrudEtablissement';
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -130,11 +131,12 @@ const Layout = (props) => {
                             <Route path="/admin/dashboard" element={<AdminDashboard />} />
                             <Route path="/admin/users" element={<CrudUser />} />
                             <Route path="/admin/categories" element={<CrudCategory />} />
-                            <Route path="/admin/etablissements" element={<CrudEtablissement />} />
+                            <Route path="/admin/etablissements" element={<AdminEtablissement />} />
                             <Route path="/admin/demandes" element={<DemandePrestataire />} />
 
                             <Route path="/prestataire/employes" element={<CrudEmploye />} />
                             <Route path="/prestataire/prestations" element={<CrudPrestation />} />
+                            <Route path="/prestataire/etablissements" element={<CrudEtablissement />} />
                         </Routes>
                     </div>
                 </div>
