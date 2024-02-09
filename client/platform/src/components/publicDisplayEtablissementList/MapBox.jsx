@@ -5,7 +5,7 @@ import mapboxgl from "mapbox-gl";
 export const MapBox = ({ choosenCoords, locations }) => {
   const [lat, setLat] = React.useState(48.866667);
   const [lng, setLng] = React.useState(2.333333);
-  const [zoom, setZoom] = React.useState(12);
+  const [zoom, setZoom] = React.useState(15);
   const mapContainer = React.useRef(null);
   const map = React.useRef(null);
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
@@ -19,18 +19,18 @@ export const MapBox = ({ choosenCoords, locations }) => {
       zoom: zoom,
     });
 
-    /*locations.forEach((location) => {
+    locations.forEach((location) => {
       new mapboxgl.Marker({
         color: "#FFFFFF",
       })
         .setLngLat([location.longitude, location.latitude])
         .addTo(map);
-    });*/
+    });
   }, []);
 
   return (
     <div>
-      <div ref={mapContainer} className="map-container"></div>
+      <div ref={mapContainer} className="map-container" />
     </div>
   );
 };
