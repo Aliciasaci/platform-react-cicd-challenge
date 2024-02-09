@@ -98,82 +98,22 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 1.0,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 3.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 2.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 3.65,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 3.55,
         },
       ],
     },
@@ -187,69 +127,22 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 5.0,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 1.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 2.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 4.65,
+        },
+        {
+          note_generale: 3.55,
         },
       ],
     },
@@ -263,69 +156,19 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 1.65,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 3.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 2.65,
         },
       ],
     },
@@ -339,82 +182,22 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 1.99,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 3.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 2.04,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 3.65,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 3.55,
         },
       ],
     },
@@ -428,82 +211,22 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 1.5,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 0.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 2.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 4.65,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 3.55,
         },
       ],
     },
@@ -517,82 +240,58 @@ export async function getEtablissementList(filter) {
       codePostal: "75004",
       prestation: [
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 2.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 1.0,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 3.55,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 0.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.54,
         },
         {
-          feedback: [
-            {
-              note_globale: 2.54,
-            },
-            {
-              note_globale: 1.65,
-            },
-            {
-              note_globale: 4.55,
-            },
-          ],
+          note_generale: 4.65,
         },
         {
-          feedback: [
-            {
-              note_globale: 4.54,
-            },
-            {
-              note_globale: 3.65,
-            },
-            {
-              note_globale: 3.55,
-            },
-          ],
+          note_generale: 4.55,
+        },
+        {
+          note_generale: 4.54,
+        },
+        {
+          note_generale: 1.0,
+        },
+        {
+          note_generale: 3.55,
+        },
+        {
+          note_generale: 4.54,
+        },
+        {
+          note_generale: 4.65,
+        },
+        {
+          note_generale: 4.55,
+        },
+        {
+          note_generale: 4.54,
+        },
+        {
+          note_generale: 1.0,
+        },
+        {
+          note_generale: 3.55,
+        },
+        {
+          note_generale: 4.54,
+        },
+        {
+          note_generale: 4.65,
+        },
+        {
+          note_generale: 4.55,
         },
       ],
     },

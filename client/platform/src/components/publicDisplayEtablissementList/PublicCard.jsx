@@ -18,10 +18,8 @@ export const PublicCard = ({ etablissement, image }) => {
 
   function calculateAverageRating(prestation) {
     prestation.forEach((item) => {
-      item.feedback.forEach((feedback) => {
-        totalSum += feedback.note_globale;
-        totalCount++;
-      });
+      totalSum += item.note_generale;
+      totalCount++;
     });
 
     return (totalSum / totalCount).toFixed(2);

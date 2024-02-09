@@ -12,7 +12,7 @@ export const MapBox = ({ initialLat, initialLng, locations }) => {
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
   React.useEffect(() => {
-    if (map.current && locationsRef.current) return; // initialize map only once
+    if (map.current && locationsRef.current.length > 0) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
