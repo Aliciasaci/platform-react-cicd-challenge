@@ -192,6 +192,9 @@ body {
 }
 
 .map-container {
-  position: fixed;
   height: 93vh;
+}
+
+.markerPopupText {
+  font-weight: 600;
 }

@@ -18,6 +18,8 @@ export const EtablissementsList = ({ filter }) => {
           id: etablissement.id,
           latitude: etablissement.latitude,
           longitude: etablissement.longitude,
+          nom: etablissement.nom,
+          adresse: etablissement.adresse,
         }))
       );
     };
@@ -26,12 +28,12 @@ export const EtablissementsList = ({ filter }) => {
 
   return (
     <div className="w-full grid" style={{ gridTemplateColumns: "1fr 1.5fr" }}>
-      <div className="">
+      <div className="h-[93vh] overflow-y-auto">
         {etablissements.map((etablissement) => (
           <PublicCard key={etablissement.id} etablissement={etablissement} />
         ))}
       </div>
-      <div className="h-96">
+      <div className="h-[93vh]">
         <MapBox locations={locations} />
       </div>
     </div>
