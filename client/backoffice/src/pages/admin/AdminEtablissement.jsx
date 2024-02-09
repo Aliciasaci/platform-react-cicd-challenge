@@ -5,13 +5,13 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-const CrudEtablissement = () => {
+const AdminEtablissement = () => {
     let emptyEtablissement = {
         id: null,
-        prestataire_id: null,
+        prestataire: null,
         nom: '',
         adresse: '',
         kbis: '',
@@ -208,4 +208,4 @@ const CrudEtablissement = () => {
     );
 };
 
-export default CrudEtablissement;
+export default AdminEtablissement;
