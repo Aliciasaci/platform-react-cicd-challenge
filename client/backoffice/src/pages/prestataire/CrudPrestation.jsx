@@ -85,20 +85,19 @@ const CrudPrestation = () => {
         setDeletePrestationDialog(false);
     };
 
-    const savePrestation = async (prestation) => { 
+    const savePrestation = async (prestation) => {
         setSubmitted(true);
         if (prestation.titre.trim()) {
             let _prestations = [...prestations];
             let _prestation = { ...prestation };
             if (prestation.id) {
                 const response = await axios.patch(`http://localhost:8000/api/prestations/${prestation.id}`, {
-                    id: prestation.id,
                     titre: prestation.titre,
                     duree: prestation.duree,
                     prix: prestation.prix,
                     description: prestation.description,
-                    category_id: selectedCategory,
-                    etablissement_id: selectedEtablissement,
+                    category: selectedCategory,
+                    etablissement: selectedEtablissement,
                 },
                 {
                     headers: {
@@ -132,17 +131,18 @@ const CrudPrestation = () => {
     };
 
     const editPrestation = async (prestation) => {
+        fetchCategories();
+        fetchEtablissements();
         setPrestation({ ...prestation });
         setPrestationDialog(true);
-        console.log("test", prestation.category.name);
-        // if (prestation.category) {
-        //     let cat = categories.find((el) => el.id === prestation.category.id);
-        //     setSelectedCategory(cat);
-        // }
-        // if (prestation.etablissement) {
-        //     let etab = etablissements.find((el) => el.id === prestation.etablissement.id);
-        //     setSelectedEtablissement(etab);
-        // }
+        if (prestation.category) {
+            let cat = categories.find((el) => el.name === prestation.category.name);
+            setSelectedCategory(cat);
+        }
+        if (prestation.etablissement) {
+            let etab = etablissements.find((el) => el.nom === prestation.etablissement.nom);
+            setSelectedEtablissement(etab);
+        }
     };
 
     const confirmDeletePrestation = (prestation) => {
