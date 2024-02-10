@@ -16,8 +16,6 @@ import ContentLoader from "react-content-loader";
 import React, { useState, useEffect } from "react";
 import Prestation from "./pages/Prestation";
 import CancelledReservations from "./components/userprofil/CancelledReservations";
-// import PrestatairePanel from './pages/PrestatairePanel';
-// import CrudEmploye from './pages/CrudEmploye';
 
 const routes = [
   {
