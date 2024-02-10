@@ -11,7 +11,10 @@ export default function Prestation() {
  const [prestation, setPrestation] = useState(null);
  const url = window.location.href.split("/");
  const prestationsId = url[url.length - 1];
+<<<<<<< HEAD
  const [notes, setNotes] = useState([]);
+=======
+>>>>>>> d1a9f2f253dd21dd8cef00d52a1d35d690eb518e
 
  useEffect(() => {
   const fetchPrestation = async () => {
@@ -76,8 +79,13 @@ export default function Prestation() {
       </Link>
      </div>
      <GalleryDisplay className="w-full" />
+<<<<<<< HEAD
      <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
      <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
+=======
+     <RatingGeneral></RatingGeneral>
+     <RatingDetail prestationId={prestationsId}></RatingDetail>
+>>>>>>> d1a9f2f253dd21dd8cef00d52a1d35d690eb518e
     </div>
    )}
   </div>
