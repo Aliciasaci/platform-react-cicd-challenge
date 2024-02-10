@@ -15,6 +15,7 @@ export default function UserReservations() {
         const fetchReservationsInfos = async () => {
             try {
                 const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`);
+                console.log(response)
                 if (response.status === 200) {
                     const today = new Date();
 

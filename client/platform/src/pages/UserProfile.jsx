@@ -5,21 +5,25 @@ import PastReservations from "../components/userprofil/PastReservations";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { Dropdown } from 'flowbite-react';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context";
 
 
 export default function ProfilUser() {
   const [selectedTab, setSelectedTab] = useState('reservations');
-  // const location = useLocation();
+  const navigate = useNavigate();
+  const { userToken, setUserToken } = useContext(AppContext);
 
-  // if (location.state.page) {
-  //   setSelectedTab(location.state.page);
-  // }else{
-  //   setSelectedTab()
-  // }
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
   };
+
+  const logout = () => {
+    setUserToken("");
+    navigate('/login');
+  }
 
   return (
     <div className="w-3/4 mb-8 h-90">
@@ -61,7 +65,8 @@ export default function ProfilUser() {
             </li>
           </ul>
           <hr className="mt-6 mb-6"></hr>
-          <p className="font-normal text-red-500">Se déconnecter</p>
+
+          <button  onClick={logout} type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Se déconnecter</button>
         </div>
         {selectedTab === "mon-compte" && (
           <UserInformations></UserInformations>

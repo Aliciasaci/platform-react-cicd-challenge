@@ -2,18 +2,19 @@ import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import RatingStars from "../components/ratings/RatingStars";
+import RatingDetail from "../components/ratings/RatingDetail";
 import RatingGeneral from "../components/ratings/RatingGeneral";
+
 
 export default function Prestation() {
 
  const [prestation, setPrestation] = useState(null);
+ const url = window.location.href.split("/");
+ const prestationsId = url[url.length - 1];
 
  useEffect(() => {
   const fetchPrestation = async () => {
    try {
-    const url = window.location.href.split("/");
-    const prestationsId = url[url.length - 1];
     const response = await axios.get(`https://127.0.0.1:8000/api/prestations/${prestationsId}`);
     setPrestation(response.data);
    } catch (error) {
@@ -54,7 +55,7 @@ export default function Prestation() {
      </div>
      <GalleryDisplay className="w-full" />
      <RatingGeneral></RatingGeneral>
-     <RatingStars></RatingStars>
+     <RatingDetail prestationId={prestationsId}></RatingDetail>
     </div>
    )}
   </div>
