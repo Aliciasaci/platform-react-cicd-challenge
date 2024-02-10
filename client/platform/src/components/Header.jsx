@@ -52,11 +52,8 @@ const Header = () => {
                         Je suis prestataire
                     </Button>
                 </Link>
-<<<<<<< HEAD
                 {/* Place loginButton here */}
                 {loginButton}
-=======
->>>>>>> d1a9f2f253dd21dd8cef00d52a1d35d690eb518e
                 <Navbar.Toggle />
             </div>
             <Navbar.Collapse>
