@@ -2,6 +2,7 @@ import React from "react";
 import { Button, Card } from "flowbite-react";
 import { LuMapPin } from "react-icons/lu";
 import { IoIosStarOutline } from "react-icons/io";
+import { useTranslation } from "react-i18next";
 
 const cardStyle = {
   height: "20rem",
@@ -13,6 +14,7 @@ const cardStyle = {
 };
 
 export const PublicCard = ({ etablissement, image }) => {
+  const { t } = useTranslation();
   let totalCount = 0;
   let totalSum = 0;
 
@@ -60,9 +62,8 @@ export const PublicCard = ({ etablissement, image }) => {
               <span className="text-gray-500 font-light">
                 <IoIosStarOutline className="inline-block mr-1 mb-1" />
                 {calculateAverageRating(etablissement?.prestation) +
-                  " (" +
-                  totalCount +
-                  " avis)"}
+                  " " +
+                  t("Common_Feedbacks", { count: totalCount })}
               </span>
             )}
           </div>
@@ -76,7 +77,7 @@ export const PublicCard = ({ etablissement, image }) => {
             handleOnClick(event, etablissement.id);
           }}
         >
-          Voir plus
+          {t("Common_See_More")}
         </Button>
       </div>
     </Card>
