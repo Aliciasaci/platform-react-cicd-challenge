@@ -14,8 +14,7 @@ export default function UserReservations() {
     useEffect(() => {
         const fetchReservationsInfos = async () => {
             try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`);
-                console.log(response)
+                const response = await axios.get(`https://127.0.0.1:8000/api/users/3`);
                 if (response.status === 200) {
                     const today = new Date();
 

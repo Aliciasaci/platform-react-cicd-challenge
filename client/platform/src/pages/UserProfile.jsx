@@ -2,19 +2,25 @@ import UserInformations from "../components/userprofil/UserInformations";
 import UserReservations from "../components/userprofil/UserReservations";
 import CancelledReservations from "../components/userprofil/CancelledReservations";
 import PastReservations from "../components/userprofil/PastReservations";
-import { useLocation } from "react-router-dom";
-import { useState } from "react";
-import { Dropdown } from 'flowbite-react';
+import { useState, useEffect  } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context";
+import axios from 'axios';
 
 
 export default function ProfilUser() {
   const [selectedTab, setSelectedTab] = useState('reservations');
   const navigate = useNavigate();
+  const { userId, setUserId } = useContext(AppContext);
   const { userToken, setUserToken } = useContext(AppContext);
+  const { userEmail } = useContext(AppContext);
 
+  const [userInfo, setUserInfo] = useState({
+    nom: '',
+    prenom: '',
+    email: '',
+});
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -24,6 +30,26 @@ export default function ProfilUser() {
     setUserToken("");
     navigate('/login');
   }
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+        try {
+            const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${userEmail}`);
+            const hydraMember = response.data['hydra:member'];
+            if (hydraMember.length > 0) {
+                const user = hydraMember[0];
+                setUserInfo(user);
+                setUserId(user.id);
+            } else {
+                console.log('Aucun utilisateur trouvé');
+            }
+        } catch (error) {
+            console.error('Error fetching user information:', error);
+        }
+    };
+
+    fetchUserInfo();
+}, [userEmail]);
 
   return (
     <div className="w-3/4 mb-8 h-90">
@@ -69,7 +95,7 @@ export default function ProfilUser() {
           <button  onClick={logout} type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Se déconnecter</button>
         </div>
         {selectedTab === "mon-compte" && (
-          <UserInformations></UserInformations>
+          <UserInformations userInfo={userInfo}></UserInformations>
         )}
         {selectedTab === "cancelled-reservations" && (
           <CancelledReservations></CancelledReservations>
