@@ -11,6 +11,9 @@ import Register from "./components/userprofil/Register";
 import UserProfile from "./pages/UserProfile";
 import { AppProvider } from "./context";
 import UserInformations from "./components/userprofil/UserInformations";
+import resourcesLoaded from "./i18n";
+import ContentLoader from "react-content-loader";
+import React, { useState, useEffect } from "react";
 import Prestation from "./pages/Prestation";
 import CancelledReservations from "./components/userprofil/CancelledReservations";
 import { EtablissementsList } from "./pages/EtablissementsList";
@@ -41,6 +44,28 @@ const router = createBrowserRouter(routes);
 
 function App() {
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    resourcesLoaded.then(() => {
+      setLoading(false);
+    });
+  }, []);
+
+  if (loading) {
+    return (
+      <ContentLoader
+        speed={2}
+        width={"100%"}
+        height="100vh"
+        backgroundColor="#c4c4c4"
+        foregroundColor="#ececec"
+      >
+        <rect x="25%" y="300" rx="2" ry="2" width="800" height="100" />
+        <rect x="0" y="0" rx="2" ry="2" width="100%" height="50" />
+      </ContentLoader>
+    );
+  }
 
   return (
     <>

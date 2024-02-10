@@ -1,26 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
-
-const STATUS_MESSAGES = {
-  404: {
-    reason: "Page non trouvée",
-    message: "Nous n'avons pas pu trouver la page que vous recherchez.",
-  },
-  500: {
-    reason: "Erreur serveur",
-    message: "Une erreur serveur est survenue.",
-  },
-  default: {
-    reason: "Erreur",
-    message: "Une erreur est survenue.",
-  },
-};
+import { useTranslation } from "react-i18next";
 
 export const ErrorComponent = ({ status }) => {
+  const { t } = useTranslation();
   const [reason, setReason] = React.useState("");
   const [message, setMessage] = React.useState("");
   const navigate = useNavigate();
+
+  const STATUS_MESSAGES = {
+    404: {
+      reason: t("Error_404_Reason"),
+      message: t("Error_404_Message"),
+    },
+    500: {
+      reason: t("Error_500_Reason"),
+      message: t("Error_500_Message"),
+    },
+    default: {
+      reason: t("Common_Error_Reason"),
+      message: t("Common_Error_Message"),
+    },
+  };
 
   React.useEffect(() => {
     const statusMessage = STATUS_MESSAGES[status] || STATUS_MESSAGES.default;
@@ -35,7 +37,7 @@ export const ErrorComponent = ({ status }) => {
       <p className="opacity-70 font-medium mt-5">{message}</p>
       <button type="button" className="mt-8" onClick={() => navigate(-1)}>
         <FaArrowLeft className="inline-block mr-2 mb-1" />
-        Retourner en arrière
+        {t("Common_Go_Back")}
       </button>
     </div>
   );

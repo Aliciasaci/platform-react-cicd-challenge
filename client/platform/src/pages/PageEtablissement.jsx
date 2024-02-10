@@ -10,8 +10,10 @@ import { useParams } from "react-router-dom";
 import useCachedData from "../hooks/useCachedData";
 import { Spinner } from "flowbite-react";
 import { ErrorComponent } from "../components/ErrorComponent";
+import { useTranslation } from "react-i18next";
 
 export const PageEtablissement = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const {
     data: prestataire,
@@ -37,7 +39,7 @@ export const PageEtablissement = () => {
   if (error) {
     return (
       <div className="h-screen w-full errorbg">
-        <ErrorComponent status={error} />
+        <ErrorComponent status={error.status} />
       </div>
     );
   }
@@ -63,30 +65,30 @@ export const PageEtablissement = () => {
               type="button"
               className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
             >
-              Prendre RDV
+              {t("Common_Book_Appointment")}
             </button>
           </Link>
         </div>
         <GalleryDisplay className="w-full" />
         <div className="flex items-start mb-10">
           <h1 className="text-2xl font-semibold text-black">
-            Reservez en ligne pour un RDV chez {prestataire?.nom}
+            {t("Provider_Page_Book_Title", { name: prestataire?.nom })}
           </h1>
         </div>
         <div className="grid-page">
           <div className="flex flex-col items-start my-3">
             <h1 className="text-2xl font-semibold text-black">
-              Choix de la prestation
+              {t("Provider_Page_Choose_Service")}
             </h1>
             <PrestationWrapper prestations={prestataire?.prestation} />
             <h1 className="text-2xl mb-3 font-semibold text-black">
-              Collaborateurs
+              {t("Common_Employees")}
             </h1>
             <EmployeesCard employees={prestataire?.employes} />
           </div>
           <div className="flex flex-col items-start mt-9">
             <h1 className="text-2xl mb-3 font-semibold text-black">
-              Horaires d'ouverture
+              {t("Provider_Page_Opening_Hours")}
             </h1>
             <OpeningDaysCard
               openingDays={prestataire?.jours_ouverture}

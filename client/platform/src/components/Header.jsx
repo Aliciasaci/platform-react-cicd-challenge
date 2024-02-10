@@ -3,9 +3,12 @@ import { Button, Navbar } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { AppContext } from "../context";
 import { useState } from "react";
+import { LanguageChanger } from "./LanguageChanger";
+import { useTranslation } from "react-i18next";
 
 const Header = () => {
   const { userToken, setUserToken } = useContext(AppContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const storedToken = localStorage.getItem("userToken");
@@ -45,13 +48,13 @@ const Header = () => {
           PICKME
         </Link>
       </Navbar.Brand>
-      <div className="flex md:order-2">
-        <Link to="/etablissement/1">
+      <div className="flex md:order-2 items-start">
+        <Link to="/reservation">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
           >
-            Etablissements
+            {t("Common_Reservation")}
           </Button>
         </Link>
         <Link to="/">
@@ -59,7 +62,7 @@ const Header = () => {
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
           >
-            Accueil
+            {t("Common_Home")}
           </Button>
         </Link>
         <Link to="/prestataire-register">
@@ -67,10 +70,11 @@ const Header = () => {
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
           >
-            Je suis prestataire
+            {t("Header_Provider_Phrase")}
           </Button>
         </Link>
         <Navbar.Toggle />
+        <LanguageChanger />
       </div>
       <Navbar.Collapse>
         {/* <Navbar.Link href="#" active>
