@@ -11,6 +11,7 @@ export default function Prestation() {
  const [prestation, setPrestation] = useState(null);
  const url = window.location.href.split("/");
  const prestationsId = url[url.length - 1];
+ const [notes, setNotes] = useState([]);
 
  useEffect(() => {
   const fetchPrestation = async () => {
@@ -24,6 +25,27 @@ export default function Prestation() {
 
   fetchPrestation();
  }, []);
+
+ useEffect(() => {
+  const fetchNotesPerPrestation = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/prestations/${prestationsId}`, {
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      if (response.data) {
+        setNotes(response.data.feedback);
+      }
+    } catch (error) {
+      console.error('Error fetching information:', error);
+    }
+  };
+
+  fetchNotesPerPrestation();
+}, [prestationsId]);
+
+
 
  return (
   <div className="my-10 w-[60%]">
@@ -54,8 +76,8 @@ export default function Prestation() {
       </Link>
      </div>
      <GalleryDisplay className="w-full" />
-     <RatingGeneral></RatingGeneral>
-     <RatingDetail prestationId={prestationsId}></RatingDetail>
+     <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
+     <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
     </div>
    )}
   </div>
