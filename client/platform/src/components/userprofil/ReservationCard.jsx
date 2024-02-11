@@ -13,6 +13,7 @@ export default function ReservationsCard({ reservation, mode }) {
  const navigate = useNavigate()
  const idEmploye = reservation.employe.split('/')[reservation.employe.split('/').length - 1]
 
+
  const displayResponseMessage = (message) => {
   setResponseMessage(message);
 
@@ -75,7 +76,6 @@ export default function ReservationsCard({ reservation, mode }) {
    } catch (error) {
     console.log(error);
    }
-
    try {
     const res = await axios.patch(`https://127.0.0.1:8000${id}`, {
      status: "canceled",
@@ -109,6 +109,13 @@ export default function ReservationsCard({ reservation, mode }) {
     reservation: reservation
    },
   });
+ };
+
+
+ const handleClick = () => {
+  let idPrestationArray = prestation["@id"].split('/');
+  let prestationId = idPrestationArray[idPrestationArray.length - 1];
+  navigate('/prestations/1', { replace: true });
  };
 
 
@@ -154,15 +161,23 @@ export default function ReservationsCard({ reservation, mode }) {
         )}
         {mode === "canceled" && (
          <>
-         <span className="text-red-500 font-semibold mr-2 tag">Annulée</span>
-        
+          <span className="text-red-500 font-semibold mr-2 tag">Annulée</span>
           <button
-          type="button"
-          className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={handleRecuperation}>
-          Récupérer
-         </button>
+           type="button"
+           className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={handleRecuperation}>
+           Récupérer
+          </button>
          </>
         )}
+        {mode === "past" && (
+         <>
+          <span className="text-gray-50 font-semibold mr-2 tag-past">Passée</span>
+          <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={handleClick} >
+           Laisser un avis ➜
+          </button>
+         </>
+        )}
+
        </div>
       </div>
      </div>

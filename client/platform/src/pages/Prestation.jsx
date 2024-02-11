@@ -2,17 +2,20 @@ import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Feedback from "../components/Feedback";
+import RatingDetail from "../components/ratings/RatingDetail";
+import RatingGeneral from "../components/ratings/RatingGeneral";
+
 
 export default function Prestation() {
 
  const [prestation, setPrestation] = useState(null);
+ const url = window.location.href.split("/");
+ const prestationsId = url[url.length - 1];
+ const [notes, setNotes] = useState([]);
 
  useEffect(() => {
   const fetchPrestation = async () => {
    try {
-    const url = window.location.href.split("/");
-    const prestationsId = url[url.length - 1];
     const response = await axios.get(`https://127.0.0.1:8000/api/prestations/${prestationsId}`);
     setPrestation(response.data);
    } catch (error) {
@@ -22,6 +25,27 @@ export default function Prestation() {
 
   fetchPrestation();
  }, []);
+
+ useEffect(() => {
+  const fetchNotesPerPrestation = async () => {
+    try {
+      const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/prestations/${prestationsId}`, {
+        headers: {
+          Accept: 'application/json',
+        },
+      });
+      if (response.data) {
+        setNotes(response.data.feedback);
+      }
+    } catch (error) {
+      console.error('Error fetching information:', error);
+    }
+  };
+
+  fetchNotesPerPrestation();
+}, [prestationsId]);
+
+
 
  return (
   <div className="my-10 w-[60%]">
@@ -52,7 +76,8 @@ export default function Prestation() {
       </Link>
      </div>
      <GalleryDisplay className="w-full" />
-     <Feedback />
+     <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
+     <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
     </div>
    )}
   </div>
