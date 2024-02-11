@@ -37,7 +37,7 @@ export default function PastReservations() {
   <div className="h-full w-screen bg-gray-100">
    <div className="mt-10 ml-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <a href="#">
-     <h5 className="text-xl text-gray-800 mb-4">Réservations passées</h5>
+     <h5 className="text-xl text-gray-800 mb-4">Réservations passée(s)</h5>
     </a>
     {pret ? (
      reservationsClient.map((reservation, index) => (
