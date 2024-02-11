@@ -5,6 +5,7 @@ import * as EmailValidator from 'email-validator';
 import MapFinder from '../components/MapFinder';
 import TimeRangePicker from '../components/TimeRangePicker';
 import PrestationCreateModal from '../components/PrestationCreate';
+import axios from 'axios';
 
 function PrestataireRegister() {
     const [step, setStep] = useState(1);
@@ -14,7 +15,6 @@ function PrestataireRegister() {
     const [passwordError, setPasswordError] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isMailExisted, setMailExist] = useState(false);
-    const [jobCategories, setJobCategories] = useState([]);
     const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
     const [passwordSafety, setPasswordSafety] = useState(0);
     const [formData, setFormData] = useState({
@@ -25,7 +25,6 @@ function PrestataireRegister() {
             email: '',
         },
         nom: '',
-        password: '',
         adresse: '',
         ville: '',
         codePostal: '',
@@ -33,9 +32,7 @@ function PrestataireRegister() {
         latitude: '',
         longitude: '',
         kbis: null,
-        categories: [],
-        companySize: '',
-        horairesouverture: {
+        horairesOuverture: {
             lundi: { checked: false, timeRange: { startTime: '', endTime: '' } },
             mardi: { checked: false, timeRange: { startTime: '', endTime: '' } },
             mercredi: { checked: false, timeRange: { startTime: '', endTime: '' } },
@@ -44,7 +41,6 @@ function PrestataireRegister() {
             samedi: { checked: false, timeRange: { startTime: '', endTime: '' } },
             dimanche: { checked: false, timeRange: { startTime: '', endTime: '' } },
         },
-        prestations: [],
     });
     const [lundiChecked, setLundiChecked] = useState(false);
     const [mardiChecked, setMardiChecked] = useState(false);
@@ -59,14 +55,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 lundi: {
-                    ...prevData.horairesouverture.lundi,
+                    ...prevData.horairesOuverture.lundi,
                     checked: lundiChecked,
                     timeRange:  
-                        (prevData.horairesouverture.lundi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.lundi.timeRange 
+                        (prevData.horairesOuverture.lundi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.lundi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -76,14 +72,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 mardi: {
-                    ...prevData.horairesouverture.mardi,
+                    ...prevData.horairesOuverture.mardi,
                     checked: mardiChecked,
                     timeRange:
-                        (prevData.horairesouverture.mardi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.mardi.timeRange 
+                        (prevData.horairesOuverture.mardi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.mardi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -93,14 +89,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 mercredi: {
-                    ...prevData.horairesouverture.mercredi,
+                    ...prevData.horairesOuverture.mercredi,
                     checked: mercrediChecked,
                     timeRange:
-                        (prevData.horairesouverture.mercredi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.mercredi.timeRange 
+                        (prevData.horairesOuverture.mercredi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.mercredi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -110,14 +106,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 jeudi: {
-                    ...prevData.horairesouverture.jeudi,
+                    ...prevData.horairesOuverture.jeudi,
                     checked: jeudiChecked,
                     timeRange:
-                        (prevData.horairesouverture.jeudi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.jeudi.timeRange 
+                        (prevData.horairesOuverture.jeudi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.jeudi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -127,14 +123,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 vendredi: {
-                    ...prevData.horairesouverture.vendredi,
+                    ...prevData.horairesOuverture.vendredi,
                     checked: vendrediChecked,
                     timeRange:
-                        (prevData.horairesouverture.vendredi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.vendredi.timeRange 
+                        (prevData.horairesOuverture.vendredi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.vendredi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -144,14 +140,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 samedi: {
-                    ...prevData.horairesouverture.samedi,
+                    ...prevData.horairesOuverture.samedi,
                     checked: samediChecked,
                     timeRange: 
-                        (prevData.horairesouverture.samedi.timeRange.startTime !== '' 
-                            ? prevData.horairesouverture.samedi.timeRange 
+                        (prevData.horairesOuverture.samedi.timeRange.startTime !== '' 
+                            ? prevData.horairesOuverture.samedi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -161,14 +157,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            horairesouverture: {
-                ...prevData.horairesouverture,
+            horairesOuverture: {
+                ...prevData.horairesOuverture,
                 dimanche: {
-                    ...prevData.horairesouverture.dimanche,
+                    ...prevData.horairesOuverture.dimanche,
                     checked: dimancheChecked,
                     timeRange: 
-                        (prevData.horairesouverture.dimanche.timeRange.startTime !== ''
-                            ? prevData.horairesouverture.dimanche.timeRange 
+                        (prevData.horairesOuverture.dimanche.timeRange.startTime !== ''
+                            ? prevData.horairesOuverture.dimanche.timeRange 
                             : { startTime: '09:00', endTime: '19:00' })
                 },
             },
@@ -215,10 +211,10 @@ function PrestataireRegister() {
     const handleTimeRangeChange = (timeRange, day) => {
         setFormData({
             ...formData,
-            horairesouverture: {
-                ...formData.horairesouverture,
+            horairesOuverture: {
+                ...formData.horairesOuverture,
                 [day]: {
-                    ...formData.horairesouverture[day],
+                    ...formData.horairesOuverture[day],
                     timeRange: timeRange,
                 },
             },
@@ -252,6 +248,29 @@ function PrestataireRegister() {
             setNameError(newNameError);
             setSalonNameError(newSalonNameError);
             return false;
+        }
+    }
+    const sendPost = async () => {    
+        let content = new FormData();
+        content.append("nom", formData.nom);
+        content.append("adresse", formData.adresse);
+        content.append("horairesOuverture", `"${JSON.stringify(formData.horairesOuverture)}"` ); 
+        content.append("prestataire", JSON.stringify(formData.prestataire));
+        content.append("kbisFile", formData.kbis);
+        content.append("latitude", formData.latitude);
+        content.append("longitude", formData.longitude);
+        content.append("ville", formData.ville);
+        content.append("codePostal", formData.codePostal);
+    
+        try {
+            const response = await axios.post(`${SERVER_ENDPOINT}/etablissements`, content, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error:', error);
         }
     }
 
@@ -334,38 +353,6 @@ function PrestataireRegister() {
         return score;
     };
 
-    const handleCloseCreatePrestation = () => {
-        setCreateModal(false);
-    }
-
-    const handleSubmitCreatePrestation = (prestationInfo) => {
-        let prestation = {
-            titre: prestationInfo.name,
-            prix: prestationInfo.price,
-            duree: parseInt(prestationInfo.durationHours) * 60 + parseInt(prestationInfo.durationMinutes) + '',
-        };
-        setFormData({ ...formData, prestations: [...formData.prestations, prestation] });
-        setCreateModal(false);
-    }
-
-    const fetchCategories = async () => {
-        try {
-            const response = await fetch(`${SERVER_ENDPOINT}/categories`); // Replace with the actual API endpoint
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            const categories = data['hydra:member'];
-            let categoriesArray = [];
-            categories.forEach(category => {
-                categoriesArray.push({ [category.id]: category.name });
-            });
-            setJobCategories(categoriesArray);
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
     const resetEmail = () => {
         setFormData({
             ...formData,
@@ -412,9 +399,9 @@ function PrestataireRegister() {
         if (step === 2) {
             checkMailExist();
         }
-        if (step === 4) {
-            fetchCategories();
-        }
+        // if (step === 4) {
+        //     fetchCategories();
+        // }
 
     }, [step]);
 
@@ -792,64 +779,8 @@ function PrestataireRegister() {
                             </div>
                         </div>
                         <div className='flex w-full mt-4 justify-center'>
-                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    const renderStepNine = () => {
-        return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
-                    <div>
-                        <div className='flex w-full items-center justify-center px-2'>
-                            <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
-                            <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step / MAX_STEP * 100} color="green" />
-                            <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
-                        </div>
-                        <div className="form-group justify-center mt-10 mb-10">
-                            <div className="mb-2 w-full flex justify-center">
-                                <Label htmlFor="base" className='text-3xl text-center w-3/5 font-bold' value="Commencer à ajouter des prestations" />
-                            </div>
-                            <div className='flex justify-center'>
-                                <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Ajouter au moins une prestation maintenant. Plus tard, vous pourrez en ajouter d&apos;autres, modifier les informations, et regrouper les prestations en catégories.
-                                </p>
-                            </div>
-                            <div className='block mt-4 w-full justify-center items-center'>
-                                <div className='w-full block mt-3 justify-center'>
-                                    {formData.prestations.length > 0 &&
-                                        <div className='w-full flex justify-center'>
-                                            <div className='block w-4/5'>
-                                                {formData.prestations.map((prestation, index) => (
-                                                    <div key={index} className='flex w-full justify-around items-center'>
-                                                        <Label className='text-lg text-center w-1/4' value={`Nom: ${prestation.titre}`} />
-                                                        <div className='flex gap-1 justify-center w-1/4'>
-                                                            <Label className='text-sm text-center' value={`${prestation.duree} Minute(s)`} />
-                                                        </div>
-                                                        <Label className='text-sm text-center w-1/4' value={`${prestation.prix}€`} />
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        </div>
-                                    }
-                                    <div className='w-full flex mt-3 justify-center'>
-                                        <Button color="gray" onClick={() => setCreateModal(true)}>
-                                            <FaPlus className="mr-2 h-5 w-5" />
-                                            Ajouter une prestation
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex w-full mt-4 justify-center'>
-                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
+                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={sendPost}>
+                                Confirmer
                             </Button>
                         </div>
                     </div>
@@ -861,27 +792,23 @@ function PrestataireRegister() {
     return (
         <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
             {
-                createModal
-                    ? <PrestationCreateModal onClose={handleCloseCreatePrestation} onSubmitPrestation={handleSubmitCreatePrestation} />
-                    : step === 1
-                        ? renderStepOne()
-                        : step === 2
-                            ? renderStepTwo()
-                            : step === 3
-                                ? renderStepThree()
-                                : step === 4
-                                    ? renderStepFour()
-                                    : step === 5
-                                        ? renderStepFive()
-                                        : step === 6
-                                            ? renderStepSix()
-                                            : step === 7
-                                                ? renderStepSeven()
-                                                : step === 8
-                                                    ? renderStepEight()
-                                                    : step === 9
-                                                        ? renderStepNine()
-                                                        : null
+                step === 1
+                    ? renderStepOne()
+                    : step === 2
+                        ? renderStepTwo()
+                        : step === 3
+                            ? renderStepThree()
+                            : step === 4
+                                ? renderStepFour()
+                                : step === 5
+                                    ? renderStepFive()
+                                    : step === 6
+                                        ? renderStepSix()
+                                        : step === 7
+                                            ? renderStepSeven()
+                                            : step === 8
+                                                ? renderStepEight()
+                                                : null
             }
         </form>
     );
