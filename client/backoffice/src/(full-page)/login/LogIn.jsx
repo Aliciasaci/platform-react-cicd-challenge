@@ -8,7 +8,7 @@ import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { Toast } from "primereact/toast";
-import axios from "axios";
+import axios from "../../api/axios";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
@@ -23,13 +23,10 @@ const LoginPage = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/login`,
-        {
-          email: email,
-          password: password,
-        }
-      );
+      const response = await axios.post("/login", {
+        email: email,
+        password: password,
+      });
       if (response.data.token) {
         const accessToken = response.data.token;
         verifyUserRole(accessToken);
@@ -46,14 +43,10 @@ const LoginPage = () => {
 
   const verifyUserRole = async (accessToken) => {
     try {
-      const response = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/verify-role`,
-        {
-          email: email,
-        }
-      );
+      const response = await axios.post(`/verify-role`, {
+        email: email,
+      });
       if (response.status === 200) {
-        localStorage.setItem("accessToken", accessToken);
         setAuth({
           email: email,
           accessToken,
