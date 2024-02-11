@@ -5,13 +5,14 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Toast } from 'primereact/toast';
 import { Toolbar } from 'primereact/toolbar';
-import React, { useEffect, useRef, useState } from 'react';
+import { Badge } from 'primereact/badge';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 
-const CrudEtablissement = () => {
+const AdminEtablissement = () => {
     let emptyEtablissement = {
         id: null,
-        prestataire_id: null,
+        prestataire: null,
         nom: '',
         adresse: '',
         kbis: '',
@@ -32,6 +33,7 @@ const CrudEtablissement = () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/etablissements');
                 const data = response['data']['hydra:member'];
+                console.log("data", data);
                 setEtablissements(data);
             } catch (error) {
                 console.log("error", error);
@@ -85,7 +87,7 @@ const CrudEtablissement = () => {
         return (
             <>
                 <span className="p-column-title">Prestataire</span>
-                {rowData.prestataire_id}
+                {rowData.prestataire.nom} {rowData.prestataire.prenom}
             </>
         );
     };
@@ -113,7 +115,7 @@ const CrudEtablissement = () => {
         return (
             <>
                 <span className="p-column-title">Validation</span>
-                {rowData.validation}
+                <Badge value={rowData.validation === false ? "En attente" : "Validé"} severity={rowData.validation === false ? "warning" : rowData.validation === true ? "success" : "danger"} />
             </>
         );
     };
@@ -208,4 +210,4 @@ const CrudEtablissement = () => {
     );
 };
 
-export default CrudEtablissement;
+export default AdminEtablissement;

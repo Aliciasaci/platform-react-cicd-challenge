@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch } from 'flowbite-react';
+import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch,FileInput } from 'flowbite-react';
 import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus } from "react-icons/fa6";
 import * as EmailValidator from 'email-validator';
 import MapFinder from '../components/MapFinder';
@@ -17,7 +17,6 @@ function PrestataireRegister() {
     const [prefix, setPrefix] = useState('');
     const [telephone, setTelephone] = useState('');
     const [telephoneError, setTelephoneError] = useState('');
-    const [prestations, setPrestations] = useState([]);
     const [jobCategories, setJobCategories] = useState([]);
     const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
     const [passwordSafety, setPasswordSafety] = useState(0);
@@ -26,55 +25,165 @@ function PrestataireRegister() {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
         address: '',
         city: '',
-        state: '',
         zip: '',
         pays: '',
-        phone: '',
-        companyName: '',
-        companyAddress: '',
-        companyCity: '',
-        companyState: '',
-        companyZip: '',
-        companyPhone: '',
+        kbis: null,
+        categories: [],
+        companySize: '',
+        timetable: {
+            lundi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            mardi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            mercredi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            jeudi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            vendredi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            samedi: { checked: false, timeRange: { startTime: '', endTime: '' } },
+            dimanche: { checked: false, timeRange: { startTime: '', endTime: '' } },
+        },
+        prestations: [],
     });
+    const [lundiChecked, setLundiChecked] = useState(false);
+    const [mardiChecked, setMardiChecked] = useState(false);
+    const [mercrediChecked, setMercrediChecked] = useState(false);
+    const [jeudiChecked, setJeudiChecked] = useState(false);
+    const [vendrediChecked, setVendrediChecked] = useState(false);
+    const [samediChecked, setSamediChecked] = useState(false);
+    const [dimancheChecked, setDimancheChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('');
-    const [lundi, setLundi] = useState(true);
-    const [mardi, setMardi] = useState(true);
-    const [mercredi, setMercredi] = useState(true);
-    const [jeudi, setJeudi] = useState(true);
-    const [vendredi, setVendredi] = useState(true);
-    const [samedi, setSamedi] = useState(false);
-    const addressString = useMemo(() => {
-        return selectedAddress.split(',')[0];
-    }, [selectedAddress]);
-    const [postalCode, city, pays] = useMemo(() => {
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                lundi: {
+                    ...prevData.timetable.lundi,
+                    checked: lundiChecked,
+                    timeRange:  
+                        (prevData.timetable.lundi.timeRange.startTime !== '' 
+                            ? prevData.timetable.lundi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [lundiChecked]);     
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                mardi: {
+                    ...prevData.timetable.mardi,
+                    checked: mardiChecked,
+                    timeRange:
+                        (prevData.timetable.mardi.timeRange.startTime !== '' 
+                            ? prevData.timetable.mardi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [mardiChecked]);
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                mercredi: {
+                    ...prevData.timetable.mercredi,
+                    checked: mercrediChecked,
+                    timeRange:
+                        (prevData.timetable.mercredi.timeRange.startTime !== '' 
+                            ? prevData.timetable.mercredi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [mercrediChecked]);
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                jeudi: {
+                    ...prevData.timetable.jeudi,
+                    checked: jeudiChecked,
+                    timeRange:
+                        (prevData.timetable.jeudi.timeRange.startTime !== '' 
+                            ? prevData.timetable.jeudi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [jeudiChecked]);
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                vendredi: {
+                    ...prevData.timetable.vendredi,
+                    checked: vendrediChecked,
+                    timeRange:
+                        (prevData.timetable.vendredi.timeRange.startTime !== '' 
+                            ? prevData.timetable.vendredi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [vendrediChecked]);
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                samedi: {
+                    ...prevData.timetable.samedi,
+                    checked: samediChecked,
+                    timeRange: 
+                        (prevData.timetable.samedi.timeRange.startTime !== '' 
+                            ? prevData.timetable.samedi.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' }) 
+                },
+            },
+        }));
+    }, [samediChecked]);
+
+    useEffect(() => {
+        setFormData((prevData) => ({
+            ...prevData,
+            timetable: {
+                ...prevData.timetable,
+                dimanche: {
+                    ...prevData.timetable.dimanche,
+                    checked: dimancheChecked,
+                    timeRange: 
+                        (prevData.timetable.dimanche.timeRange.startTime !== ''
+                            ? prevData.timetable.dimanche.timeRange 
+                            : { startTime: '09:00', endTime: '19:00' })
+                },
+            },
+        }));
+    }, [dimancheChecked]);
+
+    useEffect(() => {
         const parts = selectedAddress.split(',');
         if (parts.length > 1) {
             const secondPart = parts[1].trim(); // "45000 Orléans"
             const thirdPart = parts[2].trim();
             const [code, ...cityParts] = secondPart.split(' ');
-            return [code, cityParts.join(' ').trim(), thirdPart];
+            setFormData({ ...formData, address: parts[0], zip: code, city: cityParts.join(' ').trim(), pays: thirdPart });
+        } else {
+            setFormData({ ...formData, address: '', zip: '', city: '', pays: '' });
         }
-        return ['', ''];
     }, [selectedAddress]);
-    const MAX_STEP = 7;
-    const JOB_CATEGORIES = {
-        '1': 'Coiffeur',
-        '2': 'Esthéticienne',
-        '3': 'Manucure',
-        '4': 'Pédicure',
-        '5': 'Maquilleur',
-        '6': 'Styliste',
-        '7': 'Barbier',
-        '8': 'Tatoueur',
-        '9': 'Piercing',
-        '10': 'Autre',
-    }
-
+    const MAX_STEP = 11;
 
     const { firstName, lastName, email, password, confirmPassword, state, zip, phone, companyName, companyAddress, companyCity, companyState, companyZip, companyPhone } = formData;
 
@@ -82,13 +191,34 @@ function PrestataireRegister() {
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleAddressChange = (newAddress) => {
-        console.log(newAddress);
         setSelectedAddress(newAddress.formatted_address);
     };
 
     const onSubmit = (e) => {
         e.preventDefault();
         // TODO: Implement form submission logic
+    };
+
+    const handleCategoryCheck = (e) => {
+        const { id, checked } = e.target; 
+        if (checked) {
+            setFormData({ ...formData, categories: [...formData.categories, id] }); 
+        } else {
+            setFormData({ ...formData, categories: formData.categories.filter((category) => category !== id) }); 
+        }
+    };
+
+    const handleTimeRangeChange = (timeRange, day) => {
+        setFormData({
+            ...formData,
+            timetable: {
+                ...formData.timetable,
+                [day]: {
+                    ...formData.timetable[day],
+                    timeRange: timeRange,
+                },
+            },
+        });
     };
 
     const checkStepThree = () => {
@@ -178,6 +308,9 @@ function PrestataireRegister() {
             }
         }
 
+        if (step >= 11)
+            console.log(formData);
+
         setStep(step + 1);
     };
 
@@ -213,7 +346,7 @@ function PrestataireRegister() {
     }
 
     const handleSubmitCreatePrestation = (prestationInfo) => {
-        setPrestations([...prestations, prestationInfo]);
+        setFormData({ ...formData, prestations: [...formData.prestations, prestationInfo] });
         setCreateModal(false);
     }
 
@@ -240,11 +373,11 @@ function PrestataireRegister() {
         setStep(1);
     }
 
-    const resetStepThreeError = () => {
-        setNameError('');
-        setSalonNameError('');
-        setTelephoneError('');
-    }
+    const handleFileChange = (event) => {
+        if (event.target.files.length > 0) {
+            setFormData({ ...formData, kbis: event.target.files[0] });
+        }
+    };
 
     const checkMailExist = async () => {
         try {
@@ -390,9 +523,12 @@ function PrestataireRegister() {
                                     </p>
                                 </div>
                             }
-                            <div className='flex justify-between'>
+                            <div className='flex mb-4 justify-between'>
                                 <TextInput className='w-3/12' id="base" type="text" placeholder="Prefix" icon={FaPlus} sizing="md" onChange={() => setPrefix(event.target.value)} value={prefix} />
                                 <TextInput className='w-8/12' id="base" type="text" placeholder="Votre numéro de mobile" sizing="md" onChange={() => setTelephone(event.target.value)} value={telephone} />
+                            </div>
+                            <div>
+                                <FileInput id="file-upload" helperText="Téléchargez votre Kbis" onChange={handleFileChange} />
                             </div>
                         </div>
                         <div className='flex w-full justify-center'>
@@ -564,10 +700,10 @@ function PrestataireRegister() {
                                 </p>
                             </div>
                             <div className='mt-4'>
-                                <TextInput id="address" className='w-full mb-2' placeholder="Adresse et numéro" sizing="md" name="addresse" onChange={onChange} value={addressString} />
-                                <TextInput id="city" className='w-full mb-2' placeholder="Ville" sizing="md" name="city" onChange={onChange} value={city} />
-                                <TextInput id="postalCode" className='w-full mb-2' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={postalCode} />
-                                <TextInput id="pays" className='w-full' placeholder="Pays" sizing="md" name="pays" onChange={onChange} value={pays} />
+                                <TextInput id="address" className='w-full mb-2' placeholder="Adresse et numéro" sizing="md" name="addresse" onChange={onChange} value={formData.address} />
+                                <TextInput id="city" className='w-full mb-2' placeholder="Ville" sizing="md" name="city" onChange={onChange} value={formData.city} />
+                                <TextInput id="postalCode" className='w-full mb-2' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={formData.zip} />
+                                <TextInput id="pays" className='w-full' placeholder="Pays" sizing="md" name="pays" onChange={onChange} value={formData.pays}/>
                             </div>
                         </div>
                         <div className='flex w-full justify-center'>
@@ -604,19 +740,19 @@ function PrestataireRegister() {
                                 <div className='w-full mx-10'>
                                     <div className='w-full justify-center pt-2 mb-2 mt-4'>
                                         <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="solo" />
+                                            <Checkbox id="solo" onChange={() => setFormData({ ...formData, companySize: "solo" })} />
                                             <Label className='text-lg' htmlFor="solo">Je suis seul</Label>
                                         </div>
                                         <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="small" />
+                                            <Checkbox id="small" onChange={() => setFormData({ ...formData, companySize: "small" })} />
                                             <Label className='text-lg' htmlFor="small">2 à 3 collaborateurs</Label>
                                         </div>
                                         <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="medium" />
+                                            <Checkbox id="medium" onChange={() => setFormData({ ...formData, companySize: "medium" })} />
                                             <Label className='text-lg' htmlFor="medium">4 à 6 collaborateurs</Label>
                                         </div>
                                         <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="large" />
+                                            <Checkbox id="large" onChange={() => setFormData({ ...formData, companySize: "large" })} />
                                             <Label className='text-lg' htmlFor="large">Plus de 6 collaborateurs</Label>
                                         </div>
                                     </div>
@@ -657,39 +793,45 @@ function PrestataireRegister() {
                                 <div className='w-full'>
                                     <div className='w-full mb-2 mt-4 max-w-md flex-col'>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={lundi} label="Lundi" onChange={setLundi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={lundiChecked} label="Lundi" onChange={setLundiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {lundi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={lundiChecked} day="lundi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={mardi} label="Mardi" onChange={setMardi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mardiChecked} label="Mardi" onChange={setMardiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {mardi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={mardiChecked} day="mardi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={mercredi} label="Mercredi" onChange={setMercredi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mercrediChecked} label="Mercredi" onChange={setMercrediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {mercredi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={mercrediChecked} day="mercredi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={jeudi} label="Jeudi" onChange={setJeudi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={jeudiChecked} label="Jeudi" onChange={setJeudiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {jeudi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={jeudiChecked} day="jeudi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={vendredi} label="Vendredi" onChange={setVendredi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={vendrediChecked} label="Vendredi" onChange={setVendrediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {vendredi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={vendrediChecked} day="vendredi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex justify-between mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn'  checked={samedi} label="Samedi" onChange={setSamedi} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={samediChecked} label="Samedi" onChange={setSamediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
-                                                {samedi ? <TimeRangePicker /> : <span className='text-sm text-black' >Fermé</span>}
+                                                <TimeRangePicker show={samediChecked} day="samedi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
+                                            </div>
+                                        </div>
+                                        <div className="flex justify-between mb-3">
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={dimancheChecked} label="Dimanche" onChange={setDimancheChecked} />
+                                            <div className='flex w-4/5 max-w-xs justify-center'>
+                                                <TimeRangePicker show={dimancheChecked} day="dimanche" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                     </div>
@@ -728,21 +870,20 @@ function PrestataireRegister() {
                             </div>
                             <div className='block mt-4 w-full justify-center items-center'>
                                 <div className='w-full block mt-3 justify-center'>
-                                    {prestations.length > 0 &&
+                                    {formData.prestations.length > 0 &&
                                         <div className='w-full flex justify-center'>
                                             <div className='block w-4/5'>
-                                                {prestations.map((prestation, index) => (
+                                                {formData.prestations.map((prestation, index) => (
                                                     <div key={index} className='flex w-full justify-around items-center'>
                                                         <Label className='text-lg text-center w-1/4' value={`Nom: ${prestation.name}`} />
-                                                        <div className='flex justify-center w-1/4'>
-                                                            <Label className='text-sm text-center' value={`${prestation.durationHours}H`} />
-                                                            <Label className='text-sm text-center' value={`${prestation.durationMinutes}M`} />
+                                                        <div className='flex gap-1 justify-center w-1/4'>
+                                                            {prestation.durationHours > 0 && <Label className='text-sm text-center' value={`${prestation.durationHours}H`} />}
+                                                            {prestation.durationMinutes > 0 && <Label className='text-sm text-center' value={`${prestation.durationMinutes}Minute(s)`} />}
                                                         </div>
                                                         <Label className='text-sm text-center w-1/4' value={`${prestation.price}€`} />
                                                     </div>
                                                 ))}
                                             </div>
-
                                         </div>
                                     }
                                     <div className='w-full flex mt-3 justify-center'>
@@ -771,13 +912,12 @@ function PrestataireRegister() {
             const categoryName = item[categoryId]; // Get the categoryName
             return (
                 <div className='w-full h-8 pt-2 mb-2 mt-4' key={index}>
-                    <Checkbox id={categoryId} />
+                    <Checkbox id={categoryId} onChange={handleCategoryCheck} />
                     <Label htmlFor={`checkbox-${index}`} value={categoryName} className='text-md ml-4 text-center' />
                 </div>
             );
         });
     };
-
 
     return (
         <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
@@ -808,7 +948,6 @@ function PrestataireRegister() {
                                                                 ? renderStepEleven()
                                                                 : null
             }
-
         </form>
     );
 }

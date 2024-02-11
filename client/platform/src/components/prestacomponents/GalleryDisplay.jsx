@@ -1,10 +1,12 @@
 import * as React from "react";
 import ImageViewer from "react-simple-image-viewer";
+import { useTranslation } from "react-i18next";
 
 export const GalleryDisplay = ({ images }) => {
   const [current, setCurrent] = React.useState(0);
   const [isViewerOpen, setIsViewerOpen] = React.useState(false);
   const [imageList, setImageList] = React.useState([]);
+  const { t } = useTranslation();
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -41,34 +43,36 @@ export const GalleryDisplay = ({ images }) => {
 
   return (
     <div className="my-10">
-        <div>
-          <div className="h-[372px] grid grid-wrapper gap-3">
-            {imageList.map((src, index) => (
-              <div
-                className={imageClass(index)}
-                key={index}
-                onClick={() => openLightbox(index)}
-              >
-                <img
-                  src={src}
-                  className="h-full w-full rounded-xl cursor-pointer"
-                />
-                {index === 4 && (
-                  <button className="style-none border-none text-center text-white text-sm bottom-0 h-full absolute w-full right-0 bg-[rgba(0,0,0,0.3)]">
-                    Voir les {imageList.length} images
-                  </button>
-                )}
-              </div>
-            ))}
-          </div>
-          {isViewerOpen && (
-            <ImageViewer
-              src={imageList}
-              currentIndex={current}
-              onClose={closeLightbox}
-            />
-          )}
+      <div>
+        <div className="h-[372px] grid grid-wrapper gap-3">
+          {imageList.map((src, index) => (
+            <div
+              className={imageClass(index)}
+              key={index}
+              onClick={() => openLightbox(index)}
+            >
+              <img
+                src={src}
+                className="h-full w-full rounded-xl cursor-pointer"
+              />
+              {index === 4 && (
+                <button className="style-none border-none text-center text-white text-sm bottom-0 h-full absolute w-full right-0 bg-[rgba(0,0,0,0.3)]">
+                  {t("Provider_Page_See_More_Pictures", {
+                    imageList: imageList.length,
+                  })}
+                </button>
+              )}
+            </div>
+          ))}
         </div>
+        {isViewerOpen && (
+          <ImageViewer
+            src={imageList}
+            currentIndex={current}
+            onClose={closeLightbox}
+          />
+        )}
+      </div>
     </div>
   );
 };

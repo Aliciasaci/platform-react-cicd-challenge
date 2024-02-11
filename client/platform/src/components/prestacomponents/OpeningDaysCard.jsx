@@ -1,7 +1,9 @@
 import { Card } from "flowbite-react";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 export const OpeningDaysCard = ({ openingDays, openingHours }) => {
+  const { t } = useTranslation();
   const openingDaysMap = React.useCallback(() => {
     return openingDays.split(",");
   }, []);
@@ -25,7 +27,7 @@ export const OpeningDaysCard = ({ openingDays, openingHours }) => {
                 <span className="text-black font-medium dark:text-white">
                   {openingHoursArray[index] !== "-"
                     ? openingHoursArray[index]
-                    : "Fermé"}
+                    : t("Common_Closed")}
                 </span>
               </div>
             </li>

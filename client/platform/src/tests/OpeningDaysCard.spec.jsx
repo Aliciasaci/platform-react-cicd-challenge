@@ -18,7 +18,7 @@ describe("OpeningDaysCard", () => {
     expect(screen.getByText("10:00-20:00")).toBeInTheDocument();
   });
 
-  it('displays "Fermé" for closed days', () => {
+  it('displays "Common_Closed" for closed days', () => {
     const closedOpeningHours =
       "9:00 AM - 5:00 PM,-,9:00 AM - 5:00 PM,-,9:00 AM - 5:00 PM,-,-";
 
@@ -31,7 +31,7 @@ describe("OpeningDaysCard", () => {
 
     const days = screen.getAllByText("9:00 AM - 5:00 PM");
     expect(days).toHaveLength(3);
-    const closedDays = screen.getAllByText("Fermé");
+    const closedDays = screen.getAllByText("Common_Closed");
     expect(closedDays).toHaveLength(4);
   });
 });

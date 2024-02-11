@@ -1,9 +1,11 @@
 import { Label, Select } from "flowbite-react";
+import { useTranslation } from "react-i18next";
 
 export default function EmployesPrestation({
   employesPrestation,
   handleSelect,
 }) {
+  const { t } = useTranslation();
   const sendData = (e) => {
     e.stopPropagation();
     const selectedEmployeeId = e.target.value;
@@ -13,15 +15,20 @@ export default function EmployesPrestation({
   return (
     <div className="max-w-md">
       <div className="mb-2 block">
-        <Label htmlFor="employes" value="Choisir un employé" />
+        <Label
+          htmlFor="employes"
+          value={t("Reservation_Page_Selected_Employee")}
+        />
       </div>
       <Select
         id="employes"
         required
-        defaultValue={"Selectionnez un employé"}
+        defaultValue={t("Reservation_Page_Select_Employee_Placeholder")}
         onChange={sendData}
       >
-        <option disabled>Selectionnez un employé</option>
+        <option disabled>
+          {t("Reservation_Page_Select_Employee_Placeholder")}
+        </option>
         {employesPrestation.length > 0 ? (
           employesPrestation.map((employe) => (
             <option key={employe.id} value={employe.id}>
@@ -29,7 +36,7 @@ export default function EmployesPrestation({
             </option>
           ))
         ) : (
-          <option value="">Loading...</option>
+          <option value="">{t("Common_Loading")}</option>
         )}
       </Select>
     </div>
