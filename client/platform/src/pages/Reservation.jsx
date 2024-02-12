@@ -171,6 +171,7 @@ export default function Reservation() {
 
   const createIndisponibilite = async (selectedDateTime) => {
     const [datePart, timePart] = selectedDateTime.split(" ");
+   
     try {
       console.log(`/api/employes/${dataEmployesPrestation}`);
       const res = await axios.post(
@@ -181,7 +182,7 @@ export default function Reservation() {
           jour: datePart,
         }
       );
-
+      console.log("indisponibilite"+res);
       //envoyer vers la page des résa
     } catch (error) {
       console.log(error);
