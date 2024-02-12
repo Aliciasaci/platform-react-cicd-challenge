@@ -78,5 +78,7 @@ export default function Prestation() {
      <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
      <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
     </div>
-  );
+   )}
+   </div>
+ )
 }

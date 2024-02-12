@@ -1,6 +1,5 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LayoutProvider } from './layout/context/layoutcontext.jsx';
 import Layout from './layout/layout.jsx';
 import AdminDashboard from './pages/admin/AdminDashboard.jsx';
@@ -11,6 +10,7 @@ import DemandePrestataire from './pages/admin/DemandePrestataire';
 import CrudEmploye from './pages/prestataire/CrudEmploye';
 import CrudPrestation from './pages/prestataire/CrudPrestation';
 import CrudEtablissement from './pages/prestataire/CrudEtablissement';
+import HistoriqueReservation from './pages/prestataire/HistoriqueReservation';
 
 function App() {
     return (
@@ -28,6 +28,7 @@ function App() {
                             <Route path="/prestataire/employes" element={<CrudEmploye />} />
                             <Route path="/prestataire/prestations" element={<CrudPrestation />} />
                             <Route path="/prestataire/etablissements" element={<CrudEtablissement />} />
+                            <Route path="/prestataire/historique-reservations" element={<HistoriqueReservation />} />
                         </Routes>
                     </Layout>
                 </LayoutProvider>
