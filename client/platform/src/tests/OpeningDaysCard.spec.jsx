@@ -55,8 +55,10 @@ describe("OpeningDaysCard", () => {
     },
   };
 
+  const stringObject = JSON.stringify(openingDays);
+
   it("renders opening days and hours correctly", () => {
-    render(<OpeningDaysCard openingDays={openingDays} />);
+    render(<OpeningDaysCard openingDays={stringObject} />);
 
     const days = screen.getAllByText("10:00-19:00");
     const closed = screen.getAllByText("Common_Closed");
