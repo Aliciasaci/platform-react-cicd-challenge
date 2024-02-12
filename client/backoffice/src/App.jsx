@@ -14,6 +14,8 @@ import CrudEtablissement from "./pages/prestataire/CrudEtablissement";
 import LogIn from "./(full-page)/Login/LogIn.jsx"; // Ensure the casing matches the actual file path
 import SimpleLayout from "./(full-page)/layout.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";
+import PersistLogin from "./(full-page)/login/PersistLogin.jsx";
+import NotFoundPage from "./(full-page)/access/NotFoundPage.jsx";
 
 function App() {
   return (
@@ -21,86 +23,107 @@ function App() {
       <Router>
         <LayoutProvider>
           <Routes>
-            <Route element={<RequireAuth />}>
+            <Route element={<PersistLogin />}>
               <Route
-                path="/"
                 element={
-                  <Layout>
-                    <AdminDashboard />
-                  </Layout>
+                  <RequireAuth
+                    allowedRoles={["ROLE_ADMIN", "ROLE_PRESTATAIRE"]}
+                  />
                 }
-              />
+              >
+                <Route
+                  path="/"
+                  element={
+                    <Layout>
+                      <AdminDashboard />
+                    </Layout>
+                  }
+                />
+              </Route>
+              <Route element={<RequireAuth allowedRoles={["ROLE_ADMIN"]} />}>
+                <Route
+                  path="/admin/dashboard"
+                  element={
+                    <Layout>
+                      <AdminDashboard />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/admin/users"
+                  element={
+                    <Layout>
+                      <CrudUser />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/admin/categories"
+                  element={
+                    <Layout>
+                      <CrudCategory />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/admin/etablissements"
+                  element={
+                    <Layout>
+                      <AdminEtablissement />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/admin/demandes"
+                  element={
+                    <Layout>
+                      <DemandePrestataire />
+                    </Layout>
+                  }
+                />
+              </Route>
               <Route
-                path="/admin/dashboard"
-                element={
-                  <Layout>
-                    <AdminDashboard />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/admin/users"
-                element={
-                  <Layout>
-                    <CrudUser />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/admin/categories"
-                element={
-                  <Layout>
-                    <CrudCategory />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/admin/etablissements"
-                element={
-                  <Layout>
-                    <AdminEtablissement />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/admin/demandes"
-                element={
-                  <Layout>
-                    <DemandePrestataire />
-                  </Layout>
-                }
-              />
-
-              <Route
-                path="/prestataire/employes"
-                element={
-                  <Layout>
-                    <CrudEmploye />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/prestataire/prestations"
-                element={
-                  <Layout>
-                    <CrudPrestation />
-                  </Layout>
-                }
-              />
-              <Route
-                path="/prestataire/etablissements"
-                element={
-                  <Layout>
-                    <CrudEtablissement />
-                  </Layout>
-                }
-              />
+                element={<RequireAuth allowedRoles={["ROLE_PRESTATAIRE"]} />}
+              >
+                <Route
+                  path="/prestataire/employes"
+                  element={
+                    <Layout>
+                      <CrudEmploye />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/prestataire/prestations"
+                  element={
+                    <Layout>
+                      <CrudPrestation />
+                    </Layout>
+                  }
+                />
+                <Route
+                  path="/prestataire/etablissements"
+                  element={
+                    <Layout>
+                      <CrudEtablissement />
+                    </Layout>
+                  }
+                />
+              </Route>
             </Route>
             <Route
-              path="/signin"
+              path="/login"
               element={
                 <SimpleLayout>
                   <LogIn />
+                </SimpleLayout>
+              }
+            />
+            <Route
+              path="*"
+              element={
+                <SimpleLayout>
+                  <NotFoundPage />
                 </SimpleLayout>
               }
             />
