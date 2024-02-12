@@ -1,6 +1,5 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { LayoutProvider } from "./layout/context/LayoutContext.jsx";
 import Layout from "./layout/layout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
@@ -16,6 +15,7 @@ import SimpleLayout from "./(full-page)/layout.jsx";
 import RequireAuth from "./pages/auth/RequireAuth.jsx";
 import PersistLogin from "./(full-page)/login/PersistLogin.jsx";
 import NotFoundPage from "./(full-page)/access/NotFoundPage.jsx";
+import HistoriqueReservation from "./pages/prestataire/HistoriqueReservation";
 
 function App() {
   return (

@@ -120,15 +120,6 @@ const AdminEtablissement = () => {
         );
     };
 
-    const joursBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">Jours ouverture</span>
-                {rowData.jours_ouverture}
-            </>
-        );
-    };
-
     const horrairesBodyTemplate = (rowData) => {
         return (
             <>
@@ -185,11 +176,10 @@ const AdminEtablissement = () => {
                         header={header}
                     >
                         <Column field="id" header="ID" sortable body={idBodyTemplate}></Column>
-                        <Column field="prestataire_id" header="Prestataire" sortable body={idPrestataireBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="prestataire_id" header="Prestataire" sortable body={idPrestataireBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column field="nom" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="adresse" header="Adresse" sortable body={adresseBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
+                        <Column field="adresse" header="Adresse" sortable body={adresseBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column field="validation" header="Validation" sortable body={validationBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="jours_ouverture" header="Jours ouverture" sortable body={joursBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column field="horraires_ouverture" header="Horraires ouverture" sortable body={horrairesBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
