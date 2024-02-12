@@ -1,27 +1,23 @@
 import { Button } from 'flowbite-react';
 import { ListGroup } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export default function ReservationsCard({ reservation, mode }) {
  const { '@id': id, jour, creneau, prestation, status } = reservation;
  const { titre, description, duree, prix } = prestation;
  const [responseMessage, setResponseMessage] = useState("");
- const [indisponibilites, setIndisponibilites] = useState();
+ const [indisponibilites, setIndisponibilites] = useState([]);
  const navigate = useNavigate()
  const idEmploye = reservation.employe.split('/')[reservation.employe.split('/').length - 1]
 
-
  const displayResponseMessage = (message) => {
   setResponseMessage(message);
-
   setTimeout(() => {
    setResponseMessage("");
   }, 5000);
  };
-
 
  useEffect(() => {
   const getIndisponibiliteEmploye = async () => {
@@ -43,7 +39,7 @@ export default function ReservationsCard({ reservation, mode }) {
   };
 
   getIndisponibiliteEmploye();
- }, []);
+ }, [idEmploye]);
 
  const handleRecuperation = async () => {
   let idPrestationArray = prestation["@id"].split('/')
@@ -88,15 +84,10 @@ export default function ReservationsCard({ reservation, mode }) {
     );
     if (res.status === 200) {
      displayResponseMessage(`Réservation annulée.`);
-     setTimeout(() => {
-      window.location.reload();
-     }, 4000);
-
     }
    } catch (error) {
     console.log(error);
    }
-
   }
  };
 
@@ -152,11 +143,13 @@ export default function ReservationsCard({ reservation, mode }) {
            className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700 mr-2" onClick={handleDeplacement}>
            Déplacer
           </button>
-          <button
-           type="button"
-           className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={annulerReservation}>
-           Annuler
-          </button>
+          {indisponibilites &&
+           <button
+            type="button"
+            className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={annulerReservation}>
+            Annuler
+           </button>
+          }
          </>
         )}
         {mode === "canceled" && (

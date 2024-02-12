@@ -10,11 +10,14 @@ import { ErrorComponent } from "../components/ErrorComponent";
 import { getEmployePrestations } from "../services/prestations.service";
 import useCachedData from "../hooks/useCachedData";
 import axios from "axios";
+import { useContext } from "react";
+import { AppContext } from "../context";
 
 export default function Reservation() {
   const location = useLocation();
   const prestationId = location.state.prestationId;
   const mode = location.state.mode;
+  const { userId } = useContext(AppContext);
   const [prestation, setPrestation] = useState([]);
   const [dataEmployesPrestation, setDataEmployesPrestation] = useState(null);
   const [employesPrestation, setEmployesPrestation] = useState([]);
@@ -85,13 +88,18 @@ export default function Reservation() {
         const res = await axios.post(
           `https://127.0.0.1:8000/api/reservations`,
           {
-            client: "/api/users/3",
+            client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             employe: `/api/employes/${dataEmployesPrestation}`,
             status: "created",
             creneau: timePart,
             duree: 0,
             jour: datePart,
+          },
+          {
+            headers: {
+              Accept: 'application/ld+json',
+            }
           }
         );
 
@@ -102,6 +110,7 @@ export default function Reservation() {
       } catch (error) {
         console.log(error);
       }
+
     } else {
       const reservationId = location.state.reservation["@id"].split("/").pop();
       if (mode == "update") {
@@ -162,6 +171,7 @@ export default function Reservation() {
 
   const createIndisponibilite = async (selectedDateTime) => {
     const [datePart, timePart] = selectedDateTime.split(" ");
+   
     try {
       console.log(`/api/employes/${dataEmployesPrestation}`);
       const res = await axios.post(
@@ -172,7 +182,7 @@ export default function Reservation() {
           jour: datePart,
         }
       );
-
+      console.log("indisponibilite"+res);
       //envoyer vers la page des résa
     } catch (error) {
       console.log(error);

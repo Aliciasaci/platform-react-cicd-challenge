@@ -7,14 +7,13 @@ import { useContext } from "react";
 
 export default function UserReservations() {
     const { userId } = useContext(AppContext);
-
     const [reservationsClient, setReservationsClient] = useState([]);
     const [pret, setPret] = useState(false);
 
     useEffect(() => {
         const fetchReservationsInfos = async () => {
             try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/users/3`);
+                const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`);
                 if (response.status === 200) {
                     const today = new Date();
 
