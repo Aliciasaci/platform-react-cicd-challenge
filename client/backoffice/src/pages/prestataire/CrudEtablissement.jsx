@@ -267,7 +267,6 @@ const CrudEtablissement = () => {
                         <Column field="nom" header="Nom" sortable body={nomBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="adresse" header="Adresse" sortable body={adresseBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="validation" header="Validation" sortable body={validationBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="jours_ouverture" header="Jours ouverture" sortable body={joursBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
                         <Column field="horraires_ouverture" header="Horraires ouverture" sortable body={horrairesBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
@@ -282,11 +281,6 @@ const CrudEtablissement = () => {
                             <label htmlFor="adresse">Adresse</label>
                             <InputText id="adresse" value={etablissement.adresse} onChange={(e) => onInputChange(e, 'adresse')} required className={classNames({ 'p-invalid': submitted && !etablissement.adresse })} />
                             {submitted && !etablissement.adresse && <small className="p-invalid">Champ obligatoire.</small>}
-                        </div>
-                        <div className="field">
-                            <label htmlFor="jours_ouverture">Jours d'ouverture</label>
-                            <InputText id="jours_ouverture" value={etablissement.jours_ouverture} onChange={(e) => onInputChange(e, 'jours_ouverture')} required className={classNames({ 'p-invalid': submitted && !etablissement.jours_ouverture })} />
-                            {submitted && !etablissement.jours_ouverture && <small className="p-invalid">Champ obligatoire.</small>}
                         </div>
                         <div className="field">
                             <label htmlFor="horraires_ouverture">Horraires d'ouverture</label>

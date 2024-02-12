@@ -5,12 +5,11 @@ import { useEffect, useState } from "react";
 import RatingDetail from "../components/ratings/RatingDetail";
 import RatingGeneral from "../components/ratings/RatingGeneral";
 
-
 export default function Prestation() {
   const [prestation, setPrestation] = useState(null);
+  const [notes, setNotes] = useState([]);
   const url = window.location.href.split("/");
   const prestationsId = url[url.length - 1];
-  const [notes, setNotes] = useState([]);
 
   useEffect(() => {
     const fetchPrestation = async () => {
@@ -73,8 +72,8 @@ export default function Prestation() {
             </Link>
           </div>
           <GalleryDisplay className="w-full" />
-          <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
-          <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
+          <RatingGeneral prestationId={prestationsId} notes={notes} />
+          <RatingDetail prestationId={prestationsId} notes={notes} />
         </div>
       )}
     </div>

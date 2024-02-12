@@ -53,6 +53,7 @@ const AppMenu = () => {
                 { label: 'Employes', icon: 'pi pi-fw pi-table', to: '/prestataire/employes' },
                 { label: 'Etablissements', icon: 'pi pi-fw pi-table', to: '/prestataire/etablissements' },
                 { label: 'Prestations', icon: 'pi pi-fw pi-table', to: '/prestataire/prestations' },
+                { label: 'Historique Réservations', icon: 'pi pi-fw pi-table', to: '/prestataire/historique-reservations' },
             ]
         },
     ];

@@ -1,6 +1,6 @@
-import { Card } from "flowbite-react";
 import React from "react";
 import { useTranslation } from "react-i18next";
+import { Card } from "flowbite-react";
 
 export const OpeningDaysCard = ({ openingDays }) => {
   const { t } = useTranslation();
