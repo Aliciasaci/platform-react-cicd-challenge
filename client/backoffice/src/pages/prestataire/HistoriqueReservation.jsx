@@ -17,6 +17,7 @@ const HistoriqueReservation = () => {
             try {
                 const response = await axios.get('http://localhost:8000/api/reservations');
                 const data = response['data']['hydra:member'];
+                console.log("data", data);
                 setReservations(data);
             } catch (error) {
                 console.log("error", error);
@@ -38,20 +39,11 @@ const HistoriqueReservation = () => {
         );
     };
 
-    const idBodyTemplate = (rowData) => {
-        return (
-            <>
-                <span className="p-column-title">ID</span>
-                {rowData.id}
-            </>
-        );
-    };
-
     const clientBodyTemplate = (rowData) => {
         return (
             <>
                 <span className="p-column-title">Client</span>
-                {rowData.user.nom} 
+                {rowData.client.nom} {rowData.client.prenom}
             </>
         );
     };
@@ -69,7 +61,7 @@ const HistoriqueReservation = () => {
         return (
             <>
                 <span className="p-column-title">Employé</span>
-                {rowData.employe.nom}
+                {rowData.employe.nom} {rowData.employe.prenom}
             </>
         );
     };
@@ -78,7 +70,7 @@ const HistoriqueReservation = () => {
         return (
             <>
                 <span className="p-column-title">Statut</span>
-                <Badge value={rowData.status} severity={rowData.status === "Updated" ? "warning" : rowData.status === "Canceled" ? "danger" : "success"} />
+                <Badge value={rowData.status === "created" ? "Crée" : rowData.status === "updated" ? "Modifié" : rowData.status === "canceled" ? "Annulé" : "Passé"} severity={rowData.status === "updated" ? "warning" : rowData.status === "canceled" ? "danger" : "success"} />
             </>
         );
     };
@@ -140,7 +132,6 @@ const HistoriqueReservation = () => {
                         emptyMessage="Aucunne reservation trouvée."
                         header={header}
                     >
-                        <Column field="id" header="ID" sortable body={idBodyTemplate}></Column>
                         <Column field="client" header="Client" sortable body={clientBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="prestation" header="Prestation" sortable body={prestationBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                         <Column field="employe" header="Employé" sortable body={employeBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
