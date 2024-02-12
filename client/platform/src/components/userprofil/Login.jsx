@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../../context";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const { userEmail, setUserEmail } = useContext(AppContext);
@@ -29,7 +30,7 @@ export default function Login() {
 
   const handleSubmit = async () => {
     try {
-      const res = await axios.post(`https://127.0.0.1:8000/api/login`, {
+      const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/login`, {
         email: user.email,
         password: user.password,
       });

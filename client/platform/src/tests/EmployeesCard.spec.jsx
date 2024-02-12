@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen, fireEvent } from "@testing-library/react";
-import { EmployeesCard } from "../components/prestacomponents/EmployeesCard";
+import { EmployeesCard } from "../components/publicDisplayEtablissement/EmployeesCard";
 
 describe("EmployeesCard", () => {
   it("renders employee cards correctly", () => {
