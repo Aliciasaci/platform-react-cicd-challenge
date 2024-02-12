@@ -1,34 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
-import axios from 'axios';
-import { AppContext } from '../../context';
 
-export default function UserInformations() {
-    const { userEmail } = useContext(AppContext);
-    const [userInfo, setUserInfo] = useState({
-        nom: '',
-        prenom: '',
-        email: '',
-    });
-
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${userEmail}`);
-                const hydraMember = response.data['hydra:member'];
-                if (hydraMember.length > 0) {
-                    const user = hydraMember[0];
-                    setUserInfo(user);
-                } else {
-                    console.log('Aucun utilisateur trouvé');
-                }
-            } catch (error) {
-                console.error('Error fetching user information:', error);
-            }
-        };
-
-        fetchUserInfo();
-    }, [userEmail]);
-
+export default function UserInformations({userInfo}) {
+    
     const changePassword = async (e) => {
         try {
             const response = await axios.patch(`https://127.0.0.1:8000/api/users/${userInfo.id}`, {
