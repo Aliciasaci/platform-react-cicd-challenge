@@ -90,10 +90,7 @@ export const PageEtablissement = () => {
             <h1 className="text-2xl mb-3 font-semibold text-black">
               {t("Provider_Page_Opening_Hours")}
             </h1>
-            <OpeningDaysCard
-              openingDays={prestataire?.jours_ouverture}
-              openingHours={prestataire?.horraires_ouverture}
-            />
+            <OpeningDaysCard openingDays={prestataire?.horairesOuverture} />
           </div>
         </div>
       </div>
