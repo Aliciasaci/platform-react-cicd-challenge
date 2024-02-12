@@ -55,7 +55,8 @@ describe("OpeningDaysCard", () => {
     },
   };
 
-  const stringObject = JSON.stringify(openingDays);
+  const stringObject =
+    '{"lundi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"mardi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"mercredi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"jeudi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"vendredi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"samedi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"dimanche":{"checked":true,"timeRange":{"startTime":"10:00","endTime":"20:00"}}}';
 
   it("renders opening days and hours correctly", () => {
     render(<OpeningDaysCard openingDays={stringObject} />);
