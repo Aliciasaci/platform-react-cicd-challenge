@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom'
 
 export default function PlatformLayout() {
     return (
-        <div className='layout-wrapper bg-gray-100'>
+        <div className='layout-wrapper bg-gray-100 h-full'>
             <Header />
             <main className='flex justify-center'>
                 <Outlet />
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </div>
     )
 }

@@ -49,14 +49,6 @@ const Header = () => {
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2 items-start">
-        <Link to="/reservation">
-          <Button
-            type="button"
-            className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
-          >
-            {t("Common_Reservation")}
-          </Button>
-        </Link>
         <Link to="/">
           <Button
             type="button"
@@ -74,17 +66,9 @@ const Header = () => {
           </Button>
         </Link>
         <Navbar.Toggle />
+             {loginButton}
         <LanguageChanger />
       </div>
-      <Navbar.Collapse>
-        {/* <Navbar.Link href="#" active>
-                    Home
-                </Navbar.Link> */}
-        {/* <Navbar.Link href="#">About</Navbar.Link>
-                <Navbar.Link href="#">Services</Navbar.Link>
-                <Navbar.Link href="#">Pricing</Navbar.Link>
-                <Navbar.Link href="#">Contact</Navbar.Link> */}
-      </Navbar.Collapse>
     </Navbar>
   );
 };

@@ -1,15 +1,27 @@
 import { useLocation, Navigate, Outlet } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
+import AccessDeniedPage from "../../(full-page)/access/AccessDeniedPage";
+import SimpleLayout from "../../(full-page)/layout";
 
-const RequireAuth = () => {
+const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
+  const isAllowed =
+    auth?.roles && allowedRoles.some((role) => auth.roles.includes(role));
 
-  return auth?.email ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/signin" state={{ from: location }} replace />
-  ); // Redirect to the sign in page
+  return (
+    <>
+      {isAllowed ? (
+        <Outlet />
+      ) : auth ? (
+        <SimpleLayout>
+          <AccessDeniedPage />
+        </SimpleLayout>
+      ) : (
+        <Navigate to="/login" state={{ from: location }} replace />
+      )}
+    </>
+  );
 };
 
 export default RequireAuth;

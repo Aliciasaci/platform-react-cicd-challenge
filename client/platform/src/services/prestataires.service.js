@@ -79,7 +79,7 @@ export async function getPrestataire(id) {
   //   ],
   // };
   const response = await axios
-    .get(`${import.meta.env.VITE_SERVER_URL}/etablissements/${id}`)
+    .get(`${import.meta.env.VITE_SERVER_URL}/public/etablissementPublic/${id}`)
     .then((response) => {
       return response;
     });
