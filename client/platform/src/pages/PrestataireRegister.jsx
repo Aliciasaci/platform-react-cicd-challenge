@@ -1,5 +1,7 @@
 import { useState, useMemo, useEffect } from 'react';
-import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch,FileInput } from 'flowbite-react';
+import { useNavigate } from 'react-router-dom';
+import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch,FileInput, Toast } from 'flowbite-react';
+import { HiCheck, HiX } from 'react-icons/hi';
 import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus } from "react-icons/fa6";
 import * as EmailValidator from 'email-validator';
 import MapFinder from '../components/MapFinder';
@@ -13,6 +15,7 @@ function PrestataireRegister() {
     const [nameError, setNameError] = useState('');
     const [salonNameError, setSalonNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [kbisError,setKbisError] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isMailExisted, setMailExist] = useState(false);
     const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
@@ -24,6 +27,7 @@ function PrestataireRegister() {
             plainPassword: '',
             email: '',
         },
+        userId: '',
         nom: '',
         adresse: '',
         ville: '',
@@ -51,6 +55,10 @@ function PrestataireRegister() {
     const [dimancheChecked, setDimancheChecked] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
     const [selectedAddress, setSelectedAddress] = useState('');
+    const [showSuccessToast, setShowSuccessToast] = useState(false);
+    const [showUnsuccessToast, setUnsuccessToast] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         setFormData((prevData) => ({
@@ -182,7 +190,7 @@ function PrestataireRegister() {
             setFormData({ ...formData, adresse: '', codePostal: '', ville: '', pays: '' });
         }
     }, [selectedAddress]);
-    const MAX_STEP = 11;
+    const MAX_STEP = 8;
 
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -220,44 +228,67 @@ function PrestataireRegister() {
             },
         });
     };
-
     const checkStepThree = () => {
         const isValidSalonName = formData.nom !== '';
         const isValidPrestataireName = formData.prestataire.nom !== '';
         const isValidPrestatairePrename = formData.prestataire.prenom !== '';
+        const isKbisEmpty = formData.kbis === null;
     
-        // Initialize error messages
         let newNameError = '';
         let newSalonNameError = '';
-
-        if (isValidPrestataireName && isValidPrestatairePrename && isValidSalonName ) {
-            console.log('here');
-            return true;
-        } else {
-            if (!isValidPrestataireName) {
-                newNameError = 'Prestataire last name is required ';
-            } 
-            if (!isValidPrestatairePrename) {
-                newNameError += 'Prestataire first name is required ';
-            }
-            if (!isValidSalonName) {
-                newSalonNameError = 'Salon name is required';
-            }
+        let newKbisError = '';
     
-            // Set the error states at once
-            setNameError(newNameError);
-            setSalonNameError(newSalonNameError);
-            return false;
+        if (isMailExisted) {
+            if (isValidSalonName && !isKbisEmpty) {
+                return true;
+            } else {
+                if (!isValidSalonName) {
+                    newSalonNameError = 'Salon name is required';
+                }
+                if (isKbisEmpty) {
+                    newKbisError = 'Kbis is required';
+                }
+                setSalonNameError(newSalonNameError);
+                setKbisError(newKbisError);
+                return false;
+            }
+        } else {
+            if (isValidPrestataireName && isValidPrestatairePrename && isValidSalonName && !isKbisEmpty) {
+                return true;
+            } else {
+                if (!isValidPrestataireName) {
+                    newNameError = 'Prestataire last name is required ';
+                }
+                if (!isValidPrestatairePrename) {
+                    newNameError += 'Prestataire first name is required ';
+                }
+                if (!isValidSalonName) {
+                    newSalonNameError = 'Salon name is required';
+                }
+                if (isKbisEmpty) {
+                    newKbisError = 'Kbis is required';
+                }
+    
+                setNameError(newNameError);
+                setSalonNameError(newSalonNameError);
+                setKbisError(newKbisError);
+                return false;
+            }
         }
-    }
+    };
+    
     const sendPost = async () => {    
         let content = new FormData();
         content.append("nom", formData.nom);
         content.append("adresse", formData.adresse);
         content.append("horairesOuverture", `"${JSON.stringify(formData.horairesOuverture)}"` ); 
-        content.append("prestataire", JSON.stringify(formData.prestataire));
+        if (isMailExisted) {
+            content.append("prestataire", formData.userId);
+        } else {
+            content.append("prestataire", JSON.stringify(formData.prestataire));
+        }
         content.append("kbisFile", formData.kbis);
-        content.append("latitude", formData.latitude);
+        content.append("latitude", formData.latitude);  
         content.append("longitude", formData.longitude);
         content.append("ville", formData.ville);
         content.append("codePostal", formData.codePostal);
@@ -268,7 +299,18 @@ function PrestataireRegister() {
                     'Content-Type': 'multipart/form-data'
                 }
             });
-            console.log(response.data);
+
+            if (response.status >= 200 && response.status < 300) {
+                setShowSuccessToast(true);
+                setTimeout(() => {
+                    console.log('Redirecting to home page');
+                    navigate('/')
+                }, 5000); 
+            } else {
+                setUnsuccessToast(true);
+                setStep(1);
+            }
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -312,6 +354,10 @@ function PrestataireRegister() {
             if (!checkStepThree()) {
                 return;
             }
+            if (isMailExisted) {
+                setStep(step + 2);
+                return;
+            }
         }
 
         if (step === 4) {
@@ -319,14 +365,14 @@ function PrestataireRegister() {
                 return;
             }
         }
-
-        if (step >= 11)
-            console.log(formData);
-
         setStep(step + 1);
     };
 
     const prevStep = () => {
+        if (step === 5 && isMailExisted) {
+            setStep(step-2);
+            return;
+        }
         setStep(step - 1);
     };
 
@@ -380,6 +426,7 @@ function PrestataireRegister() {
             const users = data['hydra:member'];
             if (users.length > 0) {
                 setMailExist(true);
+                setFormData({...formData, userId: users[0]['@id'] + ''});
             }
         } catch (error) {
             console.error('Error:', error);
@@ -399,9 +446,6 @@ function PrestataireRegister() {
         if (step === 2) {
             checkMailExist();
         }
-        // if (step === 4) {
-        //     fetchCategories();
-        // }
 
     }, [step]);
 
@@ -485,8 +529,13 @@ function PrestataireRegister() {
                                 <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Configurez votre profil PickMe" />
                             </div>
                             <div className='flex justify-center'>
-                                <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Il semble que vous soyez nouveau ici. Laissez-nous vous guider lors de l&apos;installation de votre PickMe.
+                            <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
+                                    {isMailExisted === false && (
+                                        <>Il semble que vous soyez nouveau ici. Laissez-nous vous guider lors de l'installation de votre PickMe.</>
+                                    )}
+                                    {isMailExisted === true && (
+                                        <>Il semble que vous etes deja ici. Laissez-nous vous guider lors de l'installation de votre PickMe.</>
+                                    )}
                                 </p>
                             </div>
                         </div>
@@ -522,7 +571,12 @@ function PrestataireRegister() {
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Parlez-nous plus en détail de vous et de votre entreprise.
+                                    {isMailExisted === false && (
+                                        <>Parlez-nous plus en détail de vous et de votre entreprise.</>
+                                    )}
+                                    {isMailExisted === true && (
+                                        <>Parlez-nous plus en détail de votre entreprise.</>
+                                    )}
                                 </p>
                             </div>
                             {
@@ -542,10 +596,20 @@ function PrestataireRegister() {
                                     </p>
                                 </div>
                             }
-                            <div className='flex mb-4 justify-between'>
-                                <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="prestataire.nom" onChange={setNom} value={formData.prestataire.nom} />
-                                <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prestataire.prenom" onChange={setPrenom} value={formData.prestataire.prenom} />
-                            </div>
+                            { isMailExisted === false &&
+                                <div className='flex mb-4 justify-between'>
+                                    <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="prestataire.nom" onChange={setNom} value={formData.prestataire.nom} />
+                                    <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prestataire.prenom" onChange={setPrenom} value={formData.prestataire.prenom} />
+                                </div>
+                            }
+                            {
+                                kbisError !== '' &&
+                                <div className='flex mb-1 justify-center'>
+                                    <p className="text-center w-4/5 text-sm font-normal text-red-500">
+                                        {kbisError}
+                                    </p>
+                                </div>
+                            }
                             <div>
                                 <FileInput id="file-upload" helperText="Téléchargez votre Kbis" onChange={handleFileChange} />
                             </div>
@@ -791,6 +855,24 @@ function PrestataireRegister() {
 
     return (
         <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
+            {showSuccessToast &&
+                <Toast className="fixed bottom-4 right-4 flex items-center">
+                    <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
+                        <HiCheck className="h-5 w-5" />
+                    </div>
+                    <div className="ml-3 text-sm font-normal">Votre demande a été envoyée avec succès.</div>
+                    <Toast.Toggle />
+                </Toast>
+            }
+            {showUnsuccessToast &&
+                <Toast className="fixed bottom-4 right-4 flex items-center">
+                    <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
+                        <HiX className="h-5 w-5" />
+                    </div>
+                    <div className="ml-3 text-sm font-normal">Échec de l'envoi de votre demande</div>
+                    <Toast.Toggle />
+                </Toast>
+            }
             {
                 step === 1
                     ? renderStepOne()
