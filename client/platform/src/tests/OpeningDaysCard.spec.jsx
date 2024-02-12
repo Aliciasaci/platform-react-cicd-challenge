@@ -1,37 +1,70 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard";
+import { OpeningDaysCard } from "../components/publicDisplayEtablissement/OpeningDaysCard";
 
 describe("OpeningDaysCard", () => {
-  const openingDays = "Lundi,Mardi,Mercredi,Jeudi,Vendredi,Samedi,Dimanche";
+  const openingDays = {
+    lundi: {
+      checked: true,
+      timeRange: {
+        startTime: "09:00",
+        endTime: "19:00",
+      },
+    },
+    mardi: {
+      checked: true,
+      timeRange: {
+        startTime: "09:00",
+        endTime: "19:00",
+      },
+    },
+    mercredi: {
+      checked: true,
+      timeRange: {
+        startTime: "09:00",
+        endTime: "19:00",
+      },
+    },
+    jeudi: {
+      checked: false,
+      timeRange: {
+        startTime: "",
+        endTime: "",
+      },
+    },
+    vendredi: {
+      checked: false,
+      timeRange: {
+        startTime: "",
+        endTime: "",
+      },
+    },
+    samedi: {
+      checked: false,
+      timeRange: {
+        startTime: "",
+        endTime: "",
+      },
+    },
+    dimanche: {
+      checked: true,
+      timeRange: {
+        startTime: "10:00",
+        endTime: "20:00",
+      },
+    },
+  };
+
+  const stringObject =
+    '{"lundi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"mardi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"mercredi":{"checked":true,"timeRange":{"startTime":"09:00","endTime":"19:00"}},"jeudi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"vendredi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"samedi":{"checked":false,"timeRange":{"startTime":"","endTime":""}},"dimanche":{"checked":true,"timeRange":{"startTime":"10:00","endTime":"20:00"}}}';
 
   it("renders opening days and hours correctly", () => {
-    const openingHours =
-      "10:00-19:00,10:00-19:00,10:00-19:00,10:00-20:00,10:00-19:00,10:00-19:00,10:00-19:00";
+    render(<OpeningDaysCard openingDays={stringObject} />);
 
-    render(
-      <OpeningDaysCard openingDays={openingDays} openingHours={openingHours} />
-    );
-
-    const days = screen.getAllByText("10:00-19:00");
-    expect(days).toHaveLength(6);
-    expect(screen.getByText("10:00-20:00")).toBeInTheDocument();
-  });
-
-  it('displays "Fermé" for closed days', () => {
-    const closedOpeningHours =
-      "9:00 AM - 5:00 PM,-,9:00 AM - 5:00 PM,-,9:00 AM - 5:00 PM,-,-";
-
-    render(
-      <OpeningDaysCard
-        openingDays={openingDays}
-        openingHours={closedOpeningHours}
-      />
-    );
-
-    const days = screen.getAllByText("9:00 AM - 5:00 PM");
+    const days = screen.getAllByText("09:00 - 19:00");
+    const closed = screen.getAllByText("Common_Closed");
     expect(days).toHaveLength(3);
-    const closedDays = screen.getAllByText("Fermé");
-    expect(closedDays).toHaveLength(4);
+    expect(screen.getByText("10:00 - 20:00")).toBeInTheDocument();
+    expect(closed).toHaveLength(3);
   });
 });

@@ -13,11 +13,12 @@ const AppMenu = () => {
             items: [{ label: 'Tableau de bord', icon: 'pi pi-fw pi-home', to: '/' }]
         },
         {
-            label: 'Gestion',
+            label: 'Admin Gestion',
             items: [
                 { label: 'Utilisateurs', icon: 'pi pi-fw pi-table', to: '/admin/users' },
                 { label: 'Etablissements', icon: 'pi pi-fw pi-table', to: '/admin/etablissements' },
                 { label: 'Catégories', icon: 'pi pi-fw pi-table', to: '/admin/categories' },
+                { label: 'Demandes Prestataire', icon: 'pi pi-fw pi-table', to: '/admin/demandes' },
                 {
                     label: 'Auth',
                     icon: 'pi pi-fw pi-user',
@@ -44,6 +45,15 @@ const AppMenu = () => {
                     icon: 'pi pi-fw pi-calendar',
                     to: '/pages/timeline'
                 },
+            ]
+        },
+        {
+            label: 'Prestataire Gestion',
+            items: [
+                { label: 'Employes', icon: 'pi pi-fw pi-table', to: '/prestataire/employes' },
+                { label: 'Etablissements', icon: 'pi pi-fw pi-table', to: '/prestataire/etablissements' },
+                { label: 'Prestations', icon: 'pi pi-fw pi-table', to: '/prestataire/prestations' },
+                { label: 'Historique Réservations', icon: 'pi pi-fw pi-table', to: '/prestataire/historique-reservations' },
             ]
         },
     ];

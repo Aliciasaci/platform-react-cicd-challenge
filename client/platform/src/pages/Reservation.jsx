@@ -1,6 +1,6 @@
 import Calendar from "../components/calendar/Calendar";
 import { Card } from "flowbite-react";
-import { PrestationListGroup } from "../components/prestacomponents/PrestationListGroup";
+import { PrestationListGroup } from "../components/publicDisplayEtablissement/PrestationListGroup";
 import EmployesPrestation from "../components/EmployesPrestation";
 import { useState, useCallback, useEffect } from "react";
 import { Alert } from "flowbite-react";
@@ -25,7 +25,6 @@ export default function Reservation() {
     error,
   } = useCachedData(getEmployePrestations, prestationId);
 
-
   const memoizedCallback = useCallback(() => {
     if (response) {
       setEmployesPrestation(response.employes);
@@ -35,9 +34,12 @@ export default function Reservation() {
   }, [response]);
 
   useEffect(() => {
-    if ((mode === "update" || mode === "retake") && location.state?.reservation) {
+    if (
+      (mode === "update" || mode === "retake") &&
+      location.state?.reservation
+    ) {
       const reservation = location.state.reservation;
-      const employeIRI = reservation.employe.split('/');
+      const employeIRI = reservation.employe.split("/");
       setDataEmployesPrestation(employeIRI[employeIRI.length - 1]);
     }
   }, [mode, location.state]);
@@ -51,7 +53,6 @@ export default function Reservation() {
       setDataEmployesPrestation(data);
     }
   };
-
 
   if (isLoading) {
     return (
@@ -78,99 +79,105 @@ export default function Reservation() {
   };
 
   const createReservation = async (selectedDateTime) => {
-    const [datePart, timePart] = selectedDateTime.split(' ');
+    const [datePart, timePart] = selectedDateTime.split(" ");
     if (mode == "create") {
       try {
-        const res = await axios.post(`https://127.0.0.1:8000/api/reservations`, {
-          client: "/api/users/3",
-          prestation: `/api/prestations/${prestationId}`,
-          employe: `/api/employes/${dataEmployesPrestation}`,
-          status: "created",
-          creneau: timePart,
-          duree: 0,
-          jour: datePart,
-        });
-
+        const res = await axios.post(
+          `https://127.0.0.1:8000/api/reservations`,
+          {
+            client: "/api/users/3",
+            prestation: `/api/prestations/${prestationId}`,
+            employe: `/api/employes/${dataEmployesPrestation}`,
+            status: "created",
+            creneau: timePart,
+            duree: 0,
+            jour: datePart,
+          }
+        );
 
         if (res.status === 201) {
           displayResponseMessage("Réservation confirmée.");
           createIndisponibilite(selectedDateTime);
         }
-
       } catch (error) {
         console.log(error);
       }
-    }
-    else {
+    } else {
       const reservationId = location.state.reservation["@id"].split("/").pop();
       if (mode == "update") {
         try {
-          const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
-            status: "updated",
-            creneau: timePart,
-            duree: 0,
-            jour: datePart,
-          },
+          const res = await axios.patch(
+            `https://127.0.0.1:8000/api/reservations/${reservationId}`,
+            {
+              status: "updated",
+              creneau: timePart,
+              duree: 0,
+              jour: datePart,
+            },
             {
               headers: {
-                'Content-Type': 'application/merge-patch+json'
-              }
+                "Content-Type": "application/merge-patch+json",
+              },
             }
           );
 
           if (res.status === 200) {
-            displayResponseMessage(`Réservation déplacée pour le ${datePart} à ${timePart}.`);
+            displayResponseMessage(
+              `Réservation déplacée pour le ${datePart} à ${timePart}.`
+            );
             createIndisponibilite(selectedDateTime);
           }
-
         } catch (error) {
           console.log(error);
         }
-      }
-      else{
+      } else {
         try {
-          const res = await axios.patch(`https://127.0.0.1:8000/api/reservations/${reservationId}`, {
-            status: "created",
-            creneau: timePart,
-            duree: 0,
-            jour: datePart,
-          },
+          const res = await axios.patch(
+            `https://127.0.0.1:8000/api/reservations/${reservationId}`,
+            {
+              status: "created",
+              creneau: timePart,
+              duree: 0,
+              jour: datePart,
+            },
             {
               headers: {
-                'Content-Type': 'application/merge-patch+json'
-              }
+                "Content-Type": "application/merge-patch+json",
+              },
             }
           );
 
           if (res.status === 200) {
-            displayResponseMessage(`Réservation récupéré pour le ${datePart} à ${timePart}.`);
+            displayResponseMessage(
+              `Réservation récupéré pour le ${datePart} à ${timePart}.`
+            );
             createIndisponibilite(selectedDateTime);
           }
-
         } catch (error) {
           console.log(error);
         }
-
       }
     }
-  }
+  };
 
   const createIndisponibilite = async (selectedDateTime) => {
-    const [datePart, timePart] = selectedDateTime.split(' ');
+    const [datePart, timePart] = selectedDateTime.split(" ");
     try {
       console.log(`/api/employes/${dataEmployesPrestation}`);
-      const res = await axios.post(`https://127.0.0.1:8000/api/indisponibilites`, {
-        employe: `/api/employes/${dataEmployesPrestation}`,
-        creneau: timePart,
-        jour: datePart
-      });
+      const res = await axios.post(
+        `https://127.0.0.1:8000/api/indisponibilites`,
+        {
+          employe: `/api/employes/${dataEmployesPrestation}`,
+          creneau: timePart,
+          jour: datePart,
+        }
+      );
 
-      //envoyer vers la page des résa 
-
+      //envoyer vers la page des résa
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   return (
     <div className="reservation h-full w-screen bg-gray-100">
@@ -196,12 +203,16 @@ export default function Reservation() {
         {responseMessage && (
           <div
             className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
-            role="alert">
+            role="alert"
+          >
             <span className="font-medium"> {responseMessage} </span>
           </div>
         )}
         {dataEmployesPrestation ? (
-          <Calendar employeId={dataEmployesPrestation} createReservation={createReservation} />
+          <Calendar
+            employeId={dataEmployesPrestation}
+            createReservation={createReservation}
+          />
         ) : (
           <Alert color="warning" withBorderAccent>
             <span>
@@ -215,4 +226,3 @@ export default function Reservation() {
     </div>
   );
 }
-
