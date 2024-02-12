@@ -1,30 +1,25 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { MapBox } from "../components/publicDisplayEtablissementList/MapBox";
 import { PublicCard } from "../components/publicDisplayEtablissementList/PublicCard";
-import useCachedData from "../hooks/useCachedData";
-import { getEtablissementList } from "../services/prestataires.service";
+import { useLocation } from "react-router-dom";
 
-export const EtablissementsList = ({ filter }) => {
-  //const { data: etablissements } = useCachedData(getEtablissements, filter);
-  const [etablissements, setEtablissements] = React.useState([]);
-  const [locations, setLocations] = React.useState([]);
+export const EtablissementsList = () => {
+  const location = useLocation();
+  const etablissements = location.state.etablissements;
+  const [locations, setLocations] = useState([]);
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const data = await getEtablissementList(filter);
-      setEtablissements(data);
-      setLocations(
-        data.map((etablissement) => ({
-          id: etablissement.id,
-          latitude: etablissement.latitude,
-          longitude: etablissement.longitude,
-          nom: etablissement.nom,
-          adresse: etablissement.adresse,
-        }))
-      );
-    };
-    fetchData();
-  }, [filter]);
+  console.log(etablissements);
+  useEffect(() => {
+    setLocations(
+      etablissements.map((etablissement) => ({
+        id: etablissement.id,
+        latitude: etablissement.latitude,
+        longitude: etablissement.longitude,
+        nom: etablissement.nom,
+        adresse: etablissement.adresse,
+      }))
+    );
+  }, [etablissements]);
 
   return (
     <div className="w-full grid" style={{ gridTemplateColumns: "1fr 1.5fr" }}>

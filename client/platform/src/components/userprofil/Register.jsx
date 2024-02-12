@@ -5,7 +5,7 @@ import { Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-export default function Register() {
+export default function Register({}) {
   const { t } = useTranslation();
   const [user, setUser] = useState({
     email: "",
@@ -13,6 +13,7 @@ export default function Register() {
     nom: "",
     prenom: "",
   });
+
 
   const [responseMessage, setResponseMessage] = useState("");
 
