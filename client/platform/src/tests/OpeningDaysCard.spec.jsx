@@ -60,10 +60,10 @@ describe("OpeningDaysCard", () => {
   it("renders opening days and hours correctly", () => {
     render(<OpeningDaysCard openingDays={stringObject} />);
 
-    const days = screen.getAllByText("10:00-19:00");
+    const days = screen.getAllByText("09:00 - 19:00");
     const closed = screen.getAllByText("Common_Closed");
     expect(days).toHaveLength(3);
-    expect(screen.getByText("10:00-20:00")).toBeInTheDocument();
+    expect(screen.getByText("10:00 - 20:00")).toBeInTheDocument();
     expect(closed).toHaveLength(3);
   });
 });

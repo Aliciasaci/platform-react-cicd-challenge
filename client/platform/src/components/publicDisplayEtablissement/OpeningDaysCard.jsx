@@ -34,8 +34,8 @@ export const OpeningDaysCard = ({ openingDays }) => {
     <Card className="shadow-md w-full">
       <ul className="flex flex-col justify-evenly divide-y divide-gray-200 dark:divide-gray-700">
         {openingDaysArray.map((day, index) => {
-          const dayData = openingDays[day];
-          const timeRange = dayData.checked
+          const dayData = jsonOpeningDays[day];
+          const timeRange = dayData["checked"]
             ? `${dayData.timeRange.startTime} - ${dayData.timeRange.endTime}`
             : t("Common_Closed");
           return (
