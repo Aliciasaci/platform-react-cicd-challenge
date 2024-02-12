@@ -168,6 +168,35 @@ body {
   border-radius: 41px;
 }
 
+.flex.h-full.flex-col.justify-center.gap-4.p-6 {
+  width: 100%;
+}
+
+.publicCard::after {
+  content: "";
+    position: absolute;
+    left: 10%;
+    bottom: 0;
+    width: 80%;
+    border-bottom: 1px solid rgb(226, 226, 226);
+}
+
+.publicCard {
+  transition: all 0.5s ease;
+}
+
+.publicCard:hover {
+  cursor: pointer;
+  z-index: 1;
+  box-shadow: 0 0 2.5rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.map-container {
+  height: 93vh;
+}
+
+.markerPopupText {
+  font-weight: 600;
 
 .tag-past {
   background: #cccccc;

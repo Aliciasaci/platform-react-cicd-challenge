@@ -1,4 +1,4 @@
-import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
+import { GalleryDisplay } from "../components/publicDisplayEtablissement/GalleryDisplay";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -7,7 +7,6 @@ import RatingGeneral from "../components/ratings/RatingGeneral";
 
 
 export default function Prestation() {
-
  const [prestation, setPrestation] = useState(null);
  const url = window.location.href.split("/");
  const prestationsId = url[url.length - 1];
@@ -79,7 +78,5 @@ export default function Prestation() {
      <RatingGeneral prestationId={prestationsId} notes={notes}></RatingGeneral>
      <RatingDetail prestationId={prestationsId} notes={notes}></RatingDetail>
     </div>
-   )}
-  </div>
- );
+  );
 }
