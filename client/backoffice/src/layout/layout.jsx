@@ -6,12 +6,7 @@ import { LayoutContext } from './context/layoutcontext';
 import PrimeReact from 'primereact/api';
 import AppSidebar from './AppSidebar';
 import AppTopbar from './AppTopbar';
-import AdminDashboard from '../pages/AdminDashboard';
-import { Routes, Route } from 'react-router-dom';
-import CrudUser from '../pages/CrudUser';
-import CrudCategory from '../pages/CrudCategory';
-import CrudEtablissement from '../pages/CrudEtablissement';
-import DemandePrestataire from '../pages/DemandePrestataire';
+
 
 const Layout = (props) => {
     const { layoutConfig, layoutState, setLayoutState } = useContext(LayoutContext);
@@ -73,13 +68,13 @@ const Layout = (props) => {
         }
 
         layoutState.staticMenuMobileActive && blockBodyScroll();
-    }, [layoutState.overlayMenuActive, layoutState.staticMenuMobileActive]);
+    }, []);
 
     useEffect(() => {
         if (layoutState.profileSidebarVisible) {
             bindProfileMenuOutsideClickListener();
         }
-    }, [layoutState.profileSidebarVisible]);
+    }, []);
 
     useEffect(() => {
         const handleRouteChange = () => {
@@ -96,7 +91,7 @@ const Layout = (props) => {
             unbindMenuOutsideClickListener();
             unbindProfileMenuOutsideClickListener();
         };
-    }, [router, hideMenu, hideProfileMenu, bindMenuOutsideClickListener, bindProfileMenuOutsideClickListener]);
+    }, []);
 
     PrimeReact.ripple = true;
 
@@ -124,13 +119,7 @@ const Layout = (props) => {
                 </div>
                 <div className="layout-main-container">
                     <div className="layout-main">
-                        <Routes>
-                            <Route path="/admin/dashboard" element={<AdminDashboard />} />
-                            <Route path="/admin/users" element={<CrudUser />} />
-                            <Route path="/admin/categories" element={<CrudCategory />} />
-                            <Route path="/admin/etablissements" element={<CrudEtablissement />} />
-                            <Route path="/admin/demandes" element={<DemandePrestataire />} />
-                        </Routes>
+                    {props.children}
                     </div>
                 </div>
                 <div className="layout-mask"></div>
