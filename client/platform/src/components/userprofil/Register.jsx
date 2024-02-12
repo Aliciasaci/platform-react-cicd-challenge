@@ -5,7 +5,7 @@ import { Alert } from "flowbite-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-export default function Register({}) {
+export default function Register({ }) {
   const { t } = useTranslation();
   const [user, setUser] = useState({
     email: "",
@@ -26,13 +26,20 @@ export default function Register({}) {
   };
 
   const handleSubmit = async () => {
+
+    console.log(user);
     try {
       const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/users`, {
         email: user.email,
         plainPassword: user.password,
         nom: user.nom,
         prenom: user.prenom,
-      });
+      },
+        {
+          headers: {
+            Accept: 'application/json',
+          },
+        });
 
       if (res.status == 201) {
         setResponseMessage("Compte crée avec success !");
