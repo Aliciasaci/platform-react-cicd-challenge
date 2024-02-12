@@ -197,4 +197,17 @@ body {
 
 .markerPopupText {
   font-weight: 600;
+
+.tag-past {
+  background: #cccccc;
+  padding: 0.7rem;
+  border-radius: 41px;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+.star {
+  cursor: pointer;
 }

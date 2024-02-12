@@ -14,25 +14,28 @@ function PrestataireRegister() {
     const [passwordError, setPasswordError] = useState('');
     const [isEmailValid, setIsEmailValid] = useState(false);
     const [isMailExisted, setMailExist] = useState(false);
-    const [prefix, setPrefix] = useState('');
-    const [telephone, setTelephone] = useState('');
-    const [telephoneError, setTelephoneError] = useState('');
     const [jobCategories, setJobCategories] = useState([]);
     const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
     const [passwordSafety, setPasswordSafety] = useState(0);
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
+        prestataire: {
+            nom: '',
+            prenom: '',
+            plainPassword: '',
+            email: '',
+        },
+        nom: '',
         password: '',
-        address: '',
-        city: '',
-        zip: '',
+        adresse: '',
+        ville: '',
+        codePostal: '',
         pays: '',
+        latitude: '',
+        longitude: '',
         kbis: null,
         categories: [],
         companySize: '',
-        timetable: {
+        horairesouverture: {
             lundi: { checked: false, timeRange: { startTime: '', endTime: '' } },
             mardi: { checked: false, timeRange: { startTime: '', endTime: '' } },
             mercredi: { checked: false, timeRange: { startTime: '', endTime: '' } },
@@ -56,14 +59,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 lundi: {
-                    ...prevData.timetable.lundi,
+                    ...prevData.horairesouverture.lundi,
                     checked: lundiChecked,
                     timeRange:  
-                        (prevData.timetable.lundi.timeRange.startTime !== '' 
-                            ? prevData.timetable.lundi.timeRange 
+                        (prevData.horairesouverture.lundi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.lundi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -73,14 +76,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 mardi: {
-                    ...prevData.timetable.mardi,
+                    ...prevData.horairesouverture.mardi,
                     checked: mardiChecked,
                     timeRange:
-                        (prevData.timetable.mardi.timeRange.startTime !== '' 
-                            ? prevData.timetable.mardi.timeRange 
+                        (prevData.horairesouverture.mardi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.mardi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -90,14 +93,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 mercredi: {
-                    ...prevData.timetable.mercredi,
+                    ...prevData.horairesouverture.mercredi,
                     checked: mercrediChecked,
                     timeRange:
-                        (prevData.timetable.mercredi.timeRange.startTime !== '' 
-                            ? prevData.timetable.mercredi.timeRange 
+                        (prevData.horairesouverture.mercredi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.mercredi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -107,14 +110,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 jeudi: {
-                    ...prevData.timetable.jeudi,
+                    ...prevData.horairesouverture.jeudi,
                     checked: jeudiChecked,
                     timeRange:
-                        (prevData.timetable.jeudi.timeRange.startTime !== '' 
-                            ? prevData.timetable.jeudi.timeRange 
+                        (prevData.horairesouverture.jeudi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.jeudi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -124,14 +127,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 vendredi: {
-                    ...prevData.timetable.vendredi,
+                    ...prevData.horairesouverture.vendredi,
                     checked: vendrediChecked,
                     timeRange:
-                        (prevData.timetable.vendredi.timeRange.startTime !== '' 
-                            ? prevData.timetable.vendredi.timeRange 
+                        (prevData.horairesouverture.vendredi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.vendredi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -141,14 +144,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 samedi: {
-                    ...prevData.timetable.samedi,
+                    ...prevData.horairesouverture.samedi,
                     checked: samediChecked,
                     timeRange: 
-                        (prevData.timetable.samedi.timeRange.startTime !== '' 
-                            ? prevData.timetable.samedi.timeRange 
+                        (prevData.horairesouverture.samedi.timeRange.startTime !== '' 
+                            ? prevData.horairesouverture.samedi.timeRange 
                             : { startTime: '09:00', endTime: '19:00' }) 
                 },
             },
@@ -158,14 +161,14 @@ function PrestataireRegister() {
     useEffect(() => {
         setFormData((prevData) => ({
             ...prevData,
-            timetable: {
-                ...prevData.timetable,
+            horairesouverture: {
+                ...prevData.horairesouverture,
                 dimanche: {
-                    ...prevData.timetable.dimanche,
+                    ...prevData.horairesouverture.dimanche,
                     checked: dimancheChecked,
                     timeRange: 
-                        (prevData.timetable.dimanche.timeRange.startTime !== ''
-                            ? prevData.timetable.dimanche.timeRange 
+                        (prevData.horairesouverture.dimanche.timeRange.startTime !== ''
+                            ? prevData.horairesouverture.dimanche.timeRange 
                             : { startTime: '09:00', endTime: '19:00' })
                 },
             },
@@ -178,20 +181,19 @@ function PrestataireRegister() {
             const secondPart = parts[1].trim(); // "45000 Orléans"
             const thirdPart = parts[2].trim();
             const [code, ...cityParts] = secondPart.split(' ');
-            setFormData({ ...formData, address: parts[0], zip: code, city: cityParts.join(' ').trim(), pays: thirdPart });
+            setFormData({ ...formData, adresse: parts[0], codePostal: code, ville: cityParts.join(' ').trim(), pays: thirdPart });
         } else {
-            setFormData({ ...formData, address: '', zip: '', city: '', pays: '' });
+            setFormData({ ...formData, adresse: '', codePostal: '', ville: '', pays: '' });
         }
     }, [selectedAddress]);
     const MAX_STEP = 11;
-
-    const { firstName, lastName, email, password, confirmPassword, state, zip, phone, companyName, companyAddress, companyCity, companyState, companyZip, companyPhone } = formData;
 
     const onChange = (e) =>
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     const handleAddressChange = (newAddress) => {
         setSelectedAddress(newAddress.formatted_address);
+        setFormData({ ...formData, latitude: newAddress.lat, longitude: newAddress.lng });
     };
 
     const onSubmit = (e) => {
@@ -201,20 +203,22 @@ function PrestataireRegister() {
 
     const handleCategoryCheck = (e) => {
         const { id, checked } = e.target; 
+        let idIri = `api/categories/${id}`;
         if (checked) {
-            setFormData({ ...formData, categories: [...formData.categories, id] }); 
+            setFormData({ ...formData, categories: [...formData.categories, idIri] }); 
         } else {
-            setFormData({ ...formData, categories: formData.categories.filter((category) => category !== id) }); 
+            setFormData({ ...formData, categories: formData.categories.filter((category) => category !== idIri) });
         }
     };
+
 
     const handleTimeRangeChange = (timeRange, day) => {
         setFormData({
             ...formData,
-            timetable: {
-                ...formData.timetable,
+            horairesouverture: {
+                ...formData.horairesouverture,
                 [day]: {
-                    ...formData.timetable[day],
+                    ...formData.horairesouverture[day],
                     timeRange: timeRange,
                 },
             },
@@ -222,19 +226,16 @@ function PrestataireRegister() {
     };
 
     const checkStepThree = () => {
-        const isValidSalonName = formData.companyName !== '';
-        const isValidPrestataireName = formData.lastName !== '';
-        const isValidPrestatairePrename = formData.firstName !== '';
-        const isPrefixValid = prefix.match(/\d/g)?.length === 2;
-        const isTelephoneValid = telephone.match(/\d/g)?.length === 10 || telephone.match(/\d/g)?.length === 9;
+        const isValidSalonName = formData.nom !== '';
+        const isValidPrestataireName = formData.prestataire.nom !== '';
+        const isValidPrestatairePrename = formData.prestataire.prenom !== '';
     
         // Initialize error messages
         let newNameError = '';
         let newSalonNameError = '';
-        let newTelephoneError = '';
-    
-        if (isValidPrestataireName && isValidPrestatairePrename && isValidSalonName && isPrefixValid && isTelephoneValid) {
-            setFormData({ ...formData, phone: prefix + telephone });
+
+        if (isValidPrestataireName && isValidPrestatairePrename && isValidSalonName ) {
+            console.log('here');
             return true;
         } else {
             if (!isValidPrestataireName) {
@@ -246,28 +247,20 @@ function PrestataireRegister() {
             if (!isValidSalonName) {
                 newSalonNameError = 'Salon name is required';
             }
-            if (!isPrefixValid) {
-                newTelephoneError = 'Prefix is invalid ';
-            } 
-            if (!isTelephoneValid) {
-                newTelephoneError += 'Telephone number is invalid ';
-            }
     
             // Set the error states at once
             setNameError(newNameError);
             setSalonNameError(newSalonNameError);
-            setTelephoneError(newTelephoneError);
-    
             return false;
         }
     }
 
     const checkStepFour = () => {
-        const hasMinLength = formData.password.length >= 8;
-        const hasUpperCase = /[A-Z]/.test(formData.password);
-        const hasLowerCase = /[a-z]/.test(formData.password);
-        const hasNumbers = /\d/.test(formData.password);
-        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(formData.password);
+        const hasMinLength = formData.prestataire.plainPassword.length >= 8;
+        const hasUpperCase = /[A-Z]/.test(formData.prestataire.plainPassword);
+        const hasLowerCase = /[a-z]/.test(formData.prestataire.plainPassword);
+        const hasNumbers = /\d/.test(formData.prestataire.plainPassword);
+        const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(formData.prestataire.plainPassword);
     
         let errorMessage = '';
     
@@ -346,7 +339,12 @@ function PrestataireRegister() {
     }
 
     const handleSubmitCreatePrestation = (prestationInfo) => {
-        setFormData({ ...formData, prestations: [...formData.prestations, prestationInfo] });
+        let prestation = {
+            titre: prestationInfo.name,
+            prix: prestationInfo.price,
+            duree: parseInt(prestationInfo.durationHours) * 60 + parseInt(prestationInfo.durationMinutes) + '',
+        };
+        setFormData({ ...formData, prestations: [...formData.prestations, prestation] });
         setCreateModal(false);
     }
 
@@ -369,7 +367,13 @@ function PrestataireRegister() {
     };
 
     const resetEmail = () => {
-        setFormData({ ...formData, email: '' });
+        setFormData({
+            ...formData,
+            prestataire: {
+                ...formData.prestataire,
+                email: " " 
+            }
+        });
         setStep(1);
     }
 
@@ -381,7 +385,7 @@ function PrestataireRegister() {
 
     const checkMailExist = async () => {
         try {
-            const response = await fetch(`${SERVER_ENDPOINT}/users?email=${email}`); // Replace with the actual API endpoint
+            const response = await fetch(`${SERVER_ENDPOINT}/users?email=${formData.prestataire.email}`); // Replace with the actual API endpoint
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
@@ -396,13 +400,13 @@ function PrestataireRegister() {
     };
 
     useEffect(() => {
-        setIsEmailValid(EmailValidator.validate(formData.email));
-    }, [formData.email]);
+        setIsEmailValid(EmailValidator.validate(formData.prestataire.email));
+    }, [formData.prestataire.email]);
 
     useEffect(() => {
-        const score = evaluatePasswordStrength(formData.password);
+        const score = evaluatePasswordStrength(formData.prestataire.plainPassword);
         setPasswordSafety(score);
-    }, [formData.password]);
+    }, [formData.prestataire.plainPassword]);
 
     useEffect(() => {
         if (step === 2) {
@@ -413,6 +417,46 @@ function PrestataireRegister() {
         }
 
     }, [step]);
+
+    const setEmail = (e) => {
+        setFormData({
+            ...formData,
+            prestataire: {
+                ...formData.prestataire,
+                email: e.target.value,
+            },
+        });
+    };
+
+    const setNom = (e) => {
+        setFormData({
+            ...formData,
+            prestataire: {
+                ...formData.prestataire,
+                nom: e.target.value,
+            },
+        });
+    };
+
+    const setPrenom = (e) => {
+        setFormData({
+            ...formData,
+            prestataire: {
+                ...formData.prestataire,
+                prenom: e.target.value,
+            },
+        });
+    };
+
+    const setPassword = (e) => {    
+        setFormData({
+            ...formData,
+            prestataire: {
+                ...formData.prestataire,
+                plainPassword: e.target.value,
+            },
+        });
+    };
 
     const renderStepOne = () => {
         return (
@@ -428,7 +472,7 @@ function PrestataireRegister() {
                             <div className="mb-10 flex justify-center">
                                 <Label htmlFor="base" className='text-2xl text-center w-4/5 font-bold' value="Quelle est votre adresse email ?" />
                             </div>
-                            <TextInput id="base" type="text" placeholder="Addresse email" sizing="md" name="email" onChange={onChange} value={formData.email} />
+                            <TextInput id="base" type="text" placeholder="Adresse email" sizing="md" name="email" onChange={setEmail} value={formData.prestataire.email} />
                         </div>
                         <Button className="bg-black uppercase w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" disabled={!isEmailValid} onClick={nextStep}>
                             Continuer
@@ -466,7 +510,7 @@ function PrestataireRegister() {
                         </div>
                         <div className='flex mt-10 justify-center'>
                             <p onClick={() => resetEmail()} className="text-center hover:underline w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                Essayez un email autre que {email}
+                                Essayez un email autre que {formData.prestataire.email}
                             </p>
                         </div>
                     </div>
@@ -502,7 +546,7 @@ function PrestataireRegister() {
                                     </p>
                                 </div>
                             }
-                            <TextInput className='mb-4' id="base" type="text" placeholder="Nom du salon" sizing="md" name="companyName" onChange={onChange} value={formData.companyName} />
+                            <TextInput className='mb-4' id="base" type="text" placeholder="Nom du salon" sizing="md" name="nom" onChange={onChange} value={formData.nom} />
                             {
                                 nameError !== '' &&
                                 <div className='flex mb-1 justify-center'>
@@ -512,20 +556,8 @@ function PrestataireRegister() {
                                 </div>
                             }
                             <div className='flex mb-4 justify-between'>
-                                <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="lastName" onChange={onChange} value={formData.lastName} />
-                                <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="firstName" onChange={onChange} value={formData.firstName} />
-                            </div>
-                            {
-                                telephoneError !== '' &&
-                                <div className='flex mb-1 justify-center'>
-                                    <p className="text-center w-4/5 text-sm font-normal text-red-500">
-                                        { telephoneError }
-                                    </p>
-                                </div>
-                            }
-                            <div className='flex mb-4 justify-between'>
-                                <TextInput className='w-3/12' id="base" type="text" placeholder="Prefix" icon={FaPlus} sizing="md" onChange={() => setPrefix(event.target.value)} value={prefix} />
-                                <TextInput className='w-8/12' id="base" type="text" placeholder="Votre numéro de mobile" sizing="md" onChange={() => setTelephone(event.target.value)} value={telephone} />
+                                <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="prestataire.nom" onChange={setNom} value={formData.prestataire.nom} />
+                                <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prestataire.prenom" onChange={setPrenom} value={formData.prestataire.prenom} />
                             </div>
                             <div>
                                 <FileInput id="file-upload" helperText="Téléchargez votre Kbis" onChange={handleFileChange} />
@@ -571,7 +603,7 @@ function PrestataireRegister() {
                             }
                             <div className='flex mt-4 justify-center'>
                                 <div className='flex'>
-                                    <TextInput id="base" className='w-4/5' type={showPassword ? "text" : "password"} placeholder="Password" sizing="md" name="password" onChange={onChange} value={formData.password} />
+                                    <TextInput id="base" className='w-4/5' type={showPassword ? "text" : "password"} placeholder="Password" sizing="md" name="password" onChange={setPassword} value={formData.prestataire.plainPassword} />
                                     <Button className='bg-white hover:bg-blue-700 w-1/5' onClick={() => setShowPassword(!showPassword)}>
                                         {showPassword ?
                                             <FaRegEyeSlash className='text-2xl text-black' />
@@ -597,37 +629,6 @@ function PrestataireRegister() {
     };
 
     const renderStepFive = () => {
-        return (
-            <div className="flex justify-center items-center h-screen w-full bg-gray-200">
-                <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
-                    <div>
-                        <div className='flex w-full items-center justify-center px-2'>
-                            <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
-                            <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step / MAX_STEP * 100} color="green" />
-                            <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
-                        </div>
-                        <div className="form-group mt-10 mb-10">
-                            <div className="mb-2 block flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Choisissez votre catégorie professionnelle" />
-                            </div>
-                            <div className='flex mt-4 w-full justify-center items-center divide-y'>
-                                <div className='w-full divide-y max-h-60 overflow-y-auto mx-10'>
-                                    {renderCheckboxes()}
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex w-full justify-center'>
-                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
-    const renderStepSix = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center w-2/5 h-3/5 bg-white rounded-xl">
@@ -656,7 +657,7 @@ function PrestataireRegister() {
         );
     };
 
-    const renderStepSeven = () => {
+    const renderStepSix = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-4/5 bg-white rounded-xl">
@@ -680,7 +681,7 @@ function PrestataireRegister() {
         );
     };
 
-    const renderStepEight = () => {
+    const renderStepSeven = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className="flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
@@ -700,9 +701,9 @@ function PrestataireRegister() {
                                 </p>
                             </div>
                             <div className='mt-4'>
-                                <TextInput id="address" className='w-full mb-2' placeholder="Adresse et numéro" sizing="md" name="addresse" onChange={onChange} value={formData.address} />
-                                <TextInput id="city" className='w-full mb-2' placeholder="Ville" sizing="md" name="city" onChange={onChange} value={formData.city} />
-                                <TextInput id="postalCode" className='w-full mb-2' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={formData.zip} />
+                                <TextInput id="adresse" className='w-full mb-2' placeholder="Adresse et numéro" sizing="md" name="adresse" onChange={onChange} value={formData.adresse} />
+                                <TextInput id="ville" className='w-full mb-2' placeholder="Ville" sizing="md" name="ville" onChange={onChange} value={formData.ville} />
+                                <TextInput id="postalCode" className='w-full mb-2' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={formData.codePostal} />
                                 <TextInput id="pays" className='w-full' placeholder="Pays" sizing="md" name="pays" onChange={onChange} value={formData.pays}/>
                             </div>
                         </div>
@@ -722,55 +723,7 @@ function PrestataireRegister() {
         );
     };
 
-    const renderStepNine = () => {
-        return (
-            <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
-                <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
-                    <div>
-                        <div className='flex w-full items-center justify-center px-2'>
-                            <FaArrowLeft className='text-2xl text-black hover:text-blue-700' onClick={prevStep} />
-                            <Progress className="w-48 min-w-full ml-4 mr-8 pr-6" progress={step / MAX_STEP * 100} color="green" />
-                            <FaArrowRight className='text-2xl ml-8 text-white' disabled={true} />
-                        </div>
-                        <div className="form-group mt-10 mb-10">
-                            <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-3xl text-center w-full font-bold' value="Quel est votre effectif d'équipe ?" />
-                            </div>
-                            <div className='flex mt-4 w-full justify-center items-center divide-y'>
-                                <div className='w-full mx-10'>
-                                    <div className='w-full justify-center pt-2 mb-2 mt-4'>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="solo" onChange={() => setFormData({ ...formData, companySize: "solo" })} />
-                                            <Label className='text-lg' htmlFor="solo">Je suis seul</Label>
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="small" onChange={() => setFormData({ ...formData, companySize: "small" })} />
-                                            <Label className='text-lg' htmlFor="small">2 à 3 collaborateurs</Label>
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="medium" onChange={() => setFormData({ ...formData, companySize: "medium" })} />
-                                            <Label className='text-lg' htmlFor="medium">4 à 6 collaborateurs</Label>
-                                        </div>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <Checkbox id="large" onChange={() => setFormData({ ...formData, companySize: "large" })} />
-                                            <Label className='text-lg' htmlFor="large">Plus de 6 collaborateurs</Label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='flex w-full mt-4 justify-center'>
-                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
-                            </Button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
-
-    const renderStepTen = () => {
+    const renderStepEight = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-3/5 h-4/5 bg-white rounded-xl">
@@ -849,7 +802,7 @@ function PrestataireRegister() {
         );
     }
 
-    const renderStepEleven = () => {
+    const renderStepNine = () => {
         return (
             <div className="flex justify-center items-center h-screen w-screen bg-gray-200">
                 <div className=" flex justify-center items-center w-2/5 h-3/5 bg-white rounded-xl">
@@ -875,12 +828,11 @@ function PrestataireRegister() {
                                             <div className='block w-4/5'>
                                                 {formData.prestations.map((prestation, index) => (
                                                     <div key={index} className='flex w-full justify-around items-center'>
-                                                        <Label className='text-lg text-center w-1/4' value={`Nom: ${prestation.name}`} />
+                                                        <Label className='text-lg text-center w-1/4' value={`Nom: ${prestation.titre}`} />
                                                         <div className='flex gap-1 justify-center w-1/4'>
-                                                            {prestation.durationHours > 0 && <Label className='text-sm text-center' value={`${prestation.durationHours}H`} />}
-                                                            {prestation.durationMinutes > 0 && <Label className='text-sm text-center' value={`${prestation.durationMinutes}Minute(s)`} />}
+                                                            <Label className='text-sm text-center' value={`${prestation.duree} Minute(s)`} />
                                                         </div>
-                                                        <Label className='text-sm text-center w-1/4' value={`${prestation.price}€`} />
+                                                        <Label className='text-sm text-center w-1/4' value={`${prestation.prix}€`} />
                                                     </div>
                                                 ))}
                                             </div>
@@ -906,19 +858,6 @@ function PrestataireRegister() {
         );
     }
 
-    const renderCheckboxes = () => {
-        return jobCategories.map((item, index) => {
-            const categoryId = Object.keys(item)[0]; // Get the categoryId
-            const categoryName = item[categoryId]; // Get the categoryName
-            return (
-                <div className='w-full h-8 pt-2 mb-2 mt-4' key={index}>
-                    <Checkbox id={categoryId} onChange={handleCategoryCheck} />
-                    <Label htmlFor={`checkbox-${index}`} value={categoryName} className='text-md ml-4 text-center' />
-                </div>
-            );
-        });
-    };
-
     return (
         <form className='w-screen flex justify-center items-center h-screen' onSubmit={onSubmit}>
             {
@@ -942,11 +881,7 @@ function PrestataireRegister() {
                                                     ? renderStepEight()
                                                     : step === 9
                                                         ? renderStepNine()
-                                                        : step === 10
-                                                            ? renderStepTen()
-                                                            : step === 11
-                                                                ? renderStepEleven()
-                                                                : null
+                                                        : null
             }
         </form>
     );

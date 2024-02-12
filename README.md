@@ -1,1 +1,0 @@
-# challenge-stack-5S1
