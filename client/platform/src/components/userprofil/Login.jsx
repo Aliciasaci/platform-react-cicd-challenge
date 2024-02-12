@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import { AppContext } from "../../context";
+import { useTranslation } from "react-i18next";
 
 export default function Login() {
   const { userEmail, setUserEmail } = useContext(AppContext);
