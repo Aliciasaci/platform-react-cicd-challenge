@@ -115,7 +115,7 @@ export default function ReservationsCard({ reservation, mode }) {
    {responseMessage && (
     <div
      className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
-     role="alert">
+     role="alert">  
      <span className="font-medium"> {responseMessage} </span>
     </div>
    )}
