@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
-import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard";
+import { OpeningDaysCard } from "../components/publicDisplayEtablissement/OpeningDaysCard";
 
 describe("OpeningDaysCard", () => {
   const openingDays = {
