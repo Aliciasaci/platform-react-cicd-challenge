@@ -61,11 +61,11 @@ body {
 }
 
 .searchbar {
-  width: 60rem;
+  width: 45rem;
   background: white;
-  padding: 23px;
+  padding: 5px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  border-radius: 86px;
+  border-radius: 9px;
 }
 
 .search-input {
