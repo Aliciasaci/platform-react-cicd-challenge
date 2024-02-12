@@ -1,11 +1,11 @@
 import React from "react";
-import { GalleryDisplay } from "../components/prestacomponents/GalleryDisplay";
+import { GalleryDisplay } from "../components/publicDisplayEtablissement/GalleryDisplay";
 import { getPrestataire } from "../services/prestataires.service";
 import { LuMapPin } from "react-icons/lu";
 import { Link } from "react-router-dom";
-import { PrestationWrapper } from "../components/prestacomponents/PrestationsWrapper";
-import { EmployeesCard } from "../components/prestacomponents/EmployeesCard";
-import { OpeningDaysCard } from "../components/prestacomponents/OpeningDaysCard";
+import { PrestationWrapper } from "../components/publicDisplayEtablissement/PrestationsWrapper";
+import { EmployeesCard } from "../components/publicDisplayEtablissement/EmployeesCard";
+import { OpeningDaysCard } from "../components/publicDisplayEtablissement/OpeningDaysCard";
 import { useParams } from "react-router-dom";
 import useCachedData from "../hooks/useCachedData";
 import { Spinner } from "flowbite-react";
@@ -46,7 +46,7 @@ export const PageEtablissement = () => {
 
   return (
     prestataire && (
-      <div className="my-10 w-[60%]">
+      <div className="my-10 w-9/12">
         <div className="flex justify-between items-end">
           <div className="flex flex-col items-start">
             <h1 className="text-2xl text-black font-semibold">
@@ -90,10 +90,7 @@ export const PageEtablissement = () => {
             <h1 className="text-2xl mb-3 font-semibold text-black">
               {t("Provider_Page_Opening_Hours")}
             </h1>
-            <OpeningDaysCard
-              openingDays={prestataire?.jours_ouverture}
-              openingHours={prestataire?.horraires_ouverture}
-            />
+            <OpeningDaysCard openingDays={prestataire?.horairesOuverture} />
           </div>
         </div>
       </div>

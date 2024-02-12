@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function Register() {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [user, setUser] = useState({
     email: "",
     password: "",
