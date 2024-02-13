@@ -34,7 +34,7 @@ export default function ProfilUser() {
   useEffect(() => {
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`https://127.0.0.1:8000/api/users?email=${userEmail}`);
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/users?email=${userEmail}`);
             const hydraMember = response.data['hydra:member'];
             if (hydraMember.length > 0) {
                 const user = hydraMember[0];

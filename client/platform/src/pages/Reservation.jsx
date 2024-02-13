@@ -86,7 +86,7 @@ export default function Reservation() {
     if (mode == "create") {
       try {
         const res = await axios.post(
-          `https://127.0.0.1:8000/api/reservations`,
+          `${import.meta.env.VITE_SERVER_URL}/api/reservations`,
           {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
@@ -116,7 +116,7 @@ export default function Reservation() {
       if (mode == "update") {
         try {
           const res = await axios.patch(
-            `https://127.0.0.1:8000/api/reservations/${reservationId}`,
+            `${import.meta.env.VITE_SERVER_URL}/api/reservations/${reservationId}`,
             {
               status: "updated",
               creneau: timePart,
@@ -142,7 +142,7 @@ export default function Reservation() {
       } else {
         try {
           const res = await axios.patch(
-            `https://127.0.0.1:8000/api/reservations/${reservationId}`,
+            `${import.meta.env.VITE_SERVER_URL}/api/reservations/${reservationId}`,
             {
               status: "created",
               creneau: timePart,
@@ -175,7 +175,7 @@ export default function Reservation() {
     try {
       console.log(`/api/employes/${dataEmployesPrestation}`);
       const res = await axios.post(
-        `https://127.0.0.1:8000/api/indisponibilites`,
+        `${import.meta.env.VITE_SERVER_URL}/api/indisponibilites`,
         {
           employe: `/api/employes/${dataEmployesPrestation}`,
           creneau: timePart,

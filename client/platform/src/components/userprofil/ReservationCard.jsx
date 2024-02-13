@@ -58,7 +58,7 @@ export default function ReservationsCard({ reservation, mode }) {
   if (indispoList.length > 0) {
    let indispoId = indispoList[0].id
    try {
-    const res = await axios.delete(`https://127.0.0.1:8000/api/indisponibilites/${indispoId}`, {
+    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/indisponibilites/${indispoId}`, {
     },
      {
       headers: {
@@ -73,7 +73,7 @@ export default function ReservationsCard({ reservation, mode }) {
     console.log(error);
    }
    try {
-    const res = await axios.patch(`https://127.0.0.1:8000${id}`, {
+    const res = await axios.patch(`${import.meta.env.VITE_SERVER_URL}${id}`, {
      status: "canceled",
     },
      {

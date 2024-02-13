@@ -13,7 +13,7 @@ export default function CancelledReservations() {
     useEffect(() => {
         const fetchReservationsInfos = async () => {
             try {
-                const response = await axios.get(`https://127.0.0.1:8000/api/users/${userId}`);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/users/${userId}`);
                 if (response.status === 200) {
                     const filteredReservations = response.data.reservationsClient.filter(reservation => reservation.status == "canceled");
                     setReservationsClient(filteredReservations);
