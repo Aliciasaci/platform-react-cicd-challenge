@@ -1,11 +1,19 @@
-import { useRouter } from "next/navigation";
+import { classNames } from "primereact/utils";
+import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { Button } from "primereact/button";
 import { LayoutContext } from "../../layout/context/LayoutContext";
+import { useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const AccessDeniedPage = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { layoutConfig } = useContext(LayoutContext);
+  const location = useLocation();
+  const { auth } = useAuth();
+  const from = location.state?.from?.pathname || "/";
+  const to = auth?.accessToken ? from : "/login";
+  const label = auth?.accessToken ? "Go back" : "Log in";
 
   const containerClassName = classNames(
     "surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden",
@@ -39,9 +47,9 @@ const AccessDeniedPage = () => {
             </div>
             <Button
               icon="pi pi-arrow-left"
-              label="Go to Dashboard"
+              label={label}
               text
-              onClick={() => router.push("/")}
+              onClick={() => navigate(to)}
             />
           </div>
         </div>

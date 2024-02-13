@@ -7,7 +7,7 @@ const RequireAuth = ({ allowedRoles }) => {
   const { auth } = useAuth();
   const location = useLocation();
   const isAllowed =
-    auth?.roles && allowedRoles.some((role) => auth.roles.includes(role));
+    auth?.role && allowedRoles.some((role) => auth.role.includes(role));
 
   return (
     <>

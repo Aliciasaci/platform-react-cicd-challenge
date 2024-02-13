@@ -8,17 +8,21 @@ import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import { Toast } from "primereact/toast";
+import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [checked, setChecked] = useState(false);
+  const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const { setAuth } = useAuth();
   const toast = useRef(null);
   const { layoutConfig } = useContext(LayoutContext);
   const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,7 +62,6 @@ const LoginPage = () => {
         navigate(from, { replace: true });
       }
     } catch (error) {
-      console.log(error);
       toast.current.show({
         severity: "error",
         summary: `Error ${error.response.data.code}`,

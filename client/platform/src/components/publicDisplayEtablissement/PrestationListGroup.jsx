@@ -16,7 +16,7 @@ export const PrestationListGroup = ({
       navigate(linkTo, {
         state: {
           prestationId: prestationId,
-          mode: "create"
+          mode: "create",
         },
       });
     };
@@ -38,7 +38,7 @@ export const PrestationListGroup = ({
                 <div className="flex items-center">
                   <div className="mr-8">
                     <span className="text-gray-500 font-light">
-                      {prestations[index].duree * 30}mins
+                      {prestations[index].duree}mins
                     </span>
                     <span className="text-gray-300"> • </span>
                     <span className="text-gray-500">

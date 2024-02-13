@@ -1,7 +1,8 @@
 import { Outlet } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
-import { useRefreshToken } from "../../hooks/useRefreshToken";
-import { useAuth } from "../../hooks/useAuth";
+import { classNames } from "primereact/utils";
+import useRefreshToken from "../../hooks/useRefreshToken";
+import useAuth from "../../hooks/useAuth";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { LayoutContext } from "../../layout/context/LayoutContext";
 
@@ -10,6 +11,7 @@ const PersistLogin = () => {
   const refresh = useRefreshToken();
   const { auth } = useAuth();
   const layoutConfig = useContext(LayoutContext);
+  console.log(auth);
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
