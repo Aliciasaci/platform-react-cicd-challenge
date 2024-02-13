@@ -1,6 +1,6 @@
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { LayoutProvider } from "src/layout/context/layoutcontext.jsx";
+import { LayoutProvider } from "./layout/context/layoutcontext.jsx";
 import Layout from "./layout/layout.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import CrudUser from "./pages/admin/CrudUser";
