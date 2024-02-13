@@ -1,148 +1,149 @@
-// import { useEffect, useContext, useRef } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import { useEventListener, useUnmountEffect } from "primereact/hooks";
-// import { classNames, DomHandler } from "primereact/utils";
-// import { LayoutContext } from "./context/LayoutContext";
-// import PrimeReact from "primereact/api";
-// import AppSidebar from "./AppSidebar";
-// import AppTopbar from "./AppTopbar";
+import { useEffect, useContext, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useEventListener, useUnmountEffect } from "primereact/hooks";
+import { classNames, DomHandler } from "primereact/utils";
+import { LayoutContext } from "./context/LayoutContext";
+import PrimeReact from "primereact/api";
+import AppSidebar from "./AppSidebar";
+import AppTopbar from "./AppTopbar";
 
-// const Layout = (props) => {
-//   const { layoutConfig, layoutState, setLayoutState } =
-//     useContext(LayoutContext);
-//   const topbarRef = useRef(null);
-//   const sidebarRef = useRef(null);
 
-//   const router = useNavigate();
-//   const location = useLocation();
+const Layout = (props) => {
+  const { layoutConfig, layoutState, setLayoutState } =
+    useContext(LayoutContext);
+  const topbarRef = useRef(null);
+  const sidebarRef = useRef(null);
 
-//   const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
-//     useEventListener({
-//       type: "click",
-//       listener: (event) => {
-//         const isOutsideClicked = !(
-//           sidebarRef.current.isSameNode(event.target) ||
-//           sidebarRef.current.contains(event.target) ||
-//           topbarRef.current.menubutton.isSameNode(event.target) ||
-//           topbarRef.current.menubutton.contains(event.target)
-//         );
+  const router = useNavigate();
+  const location = useLocation();
 
-//         if (isOutsideClicked) {
-//           hideMenu();
-//         }
-//       },
-//     });
+  const [bindMenuOutsideClickListener, unbindMenuOutsideClickListener] =
+    useEventListener({
+      type: "click",
+      listener: (event) => {
+        const isOutsideClicked = !(
+          sidebarRef.current.isSameNode(event.target) ||
+          sidebarRef.current.contains(event.target) ||
+          topbarRef.current.menubutton.isSameNode(event.target) ||
+          topbarRef.current.menubutton.contains(event.target)
+        );
 
-//   const [
-//     bindProfileMenuOutsideClickListener,
-//     unbindProfileMenuOutsideClickListener,
-//   ] = useEventListener({
-//     type: "click",
-//     listener: (event) => {
-//       const isOutsideClicked = !(
-//         topbarRef.current.topbarmenu.isSameNode(event.target) ||
-//         topbarRef.current.topbarmenu.contains(event.target) ||
-//         topbarRef.current.topbarmenubutton.isSameNode(event.target) ||
-//         topbarRef.current.topbarmenubutton.contains(event.target)
-//       );
+        if (isOutsideClicked) {
+          hideMenu();
+        }
+      },
+    });
 
-//       if (isOutsideClicked) {
-//         hideProfileMenu();
-//       }
-//     },
-//   });
+  const [
+    bindProfileMenuOutsideClickListener,
+    unbindProfileMenuOutsideClickListener,
+  ] = useEventListener({
+    type: "click",
+    listener: (event) => {
+      const isOutsideClicked = !(
+        topbarRef.current.topbarmenu.isSameNode(event.target) ||
+        topbarRef.current.topbarmenu.contains(event.target) ||
+        topbarRef.current.topbarmenubutton.isSameNode(event.target) ||
+        topbarRef.current.topbarmenubutton.contains(event.target)
+      );
 
-//   const hideMenu = () => {
-//     setLayoutState((prevLayoutState) => ({
-//       ...prevLayoutState,
-//       overlayMenuActive: false,
-//       staticMenuMobileActive: false,
-//       menuHoverActive: false,
-//     }));
-//     unbindMenuOutsideClickListener();
-//     unblockBodyScroll();
-//   };
+      if (isOutsideClicked) {
+        hideProfileMenu();
+      }
+    },
+  });
 
-//   const hideProfileMenu = () => {
-//     setLayoutState((prevLayoutState) => ({
-//       ...prevLayoutState,
-//       profileSidebarVisible: false,
-//     }));
-//     unbindProfileMenuOutsideClickListener();
-//   };
+  const hideMenu = () => {
+    setLayoutState((prevLayoutState) => ({
+      ...prevLayoutState,
+      overlayMenuActive: false,
+      staticMenuMobileActive: false,
+      menuHoverActive: false,
+    }));
+    unbindMenuOutsideClickListener();
+    unblockBodyScroll();
+  };
 
-//   const blockBodyScroll = () => {
-//     DomHandler.addClass("blocked-scroll");
-//   };
+  const hideProfileMenu = () => {
+    setLayoutState((prevLayoutState) => ({
+      ...prevLayoutState,
+      profileSidebarVisible: false,
+    }));
+    unbindProfileMenuOutsideClickListener();
+  };
 
-//   const unblockBodyScroll = () => {
-//     DomHandler.removeClass("blocked-scroll");
-//   };
+  const blockBodyScroll = () => {
+    DomHandler.addClass("blocked-scroll");
+  };
 
-//   useEffect(() => {
-//     if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
-//       bindMenuOutsideClickListener();
-//     }
+  const unblockBodyScroll = () => {
+    DomHandler.removeClass("blocked-scroll");
+  };
 
-//     layoutState.staticMenuMobileActive && blockBodyScroll();
-//   }, []);
+  useEffect(() => {
+    if (layoutState.overlayMenuActive || layoutState.staticMenuMobileActive) {
+      bindMenuOutsideClickListener();
+    }
 
-//   useEffect(() => {
-//     if (layoutState.profileSidebarVisible) {
-//       bindProfileMenuOutsideClickListener();
-//     }
-//   }, []);
+    layoutState.staticMenuMobileActive && blockBodyScroll();
+  }, []);
 
-//   useEffect(() => {
-//     const handleRouteChange = () => {
-//       hideMenu();
-//       hideProfileMenu();
-//     };
+  useEffect(() => {
+    if (layoutState.profileSidebarVisible) {
+      bindProfileMenuOutsideClickListener();
+    }
+  }, []);
 
-//     // Subscribe to route changes using location
-//     const unsubscribe = () => router(handleRouteChange);
+  useEffect(() => {
+    const handleRouteChange = () => {
+      hideMenu();
+      hideProfileMenu();
+    };
 
-//     // Cleanup logic
-//     return () => {
-//       unsubscribe();
-//       unbindMenuOutsideClickListener();
-//       unbindProfileMenuOutsideClickListener();
-//     };
-//   }, []);
+    // Subscribe to route changes using location
+    const unsubscribe = () => router(handleRouteChange);
 
-//   PrimeReact.ripple = true;
+    // Cleanup logic
+    return () => {
+      unsubscribe();
+      unbindMenuOutsideClickListener();
+      unbindProfileMenuOutsideClickListener();
+    };
+  }, []);
 
-//   useUnmountEffect(() => {
-//     unbindMenuOutsideClickListener();
-//     unbindProfileMenuOutsideClickListener();
-//   });
+  PrimeReact.ripple = true;
 
-//   const containerClass = classNames("layout-wrapper", {
-//     "layout-overlay": layoutConfig.menuMode === "overlay",
-//     "layout-static": layoutConfig.menuMode === "static",
-//     "layout-static-inactive":
-//       layoutState.staticMenuDesktopInactive &&
-//       layoutConfig.menuMode === "static",
-//     "layout-overlay-active": layoutState.overlayMenuActive,
-//     "layout-mobile-active": layoutState.staticMenuMobileActive,
-//     "p-input-filled": layoutConfig.inputStyle === "filled",
-//     "p-ripple-disabled": !layoutConfig.ripple,
-//   });
+  useUnmountEffect(() => {
+    unbindMenuOutsideClickListener();
+    unbindProfileMenuOutsideClickListener();
+  });
 
-//   return (
-//     <>
-//       <div className={containerClass}>
-//         <AppTopbar ref={topbarRef} />
-//         <div ref={sidebarRef} className="layout-sidebar">
-//           <AppSidebar />
-//         </div>
-//         <div className="layout-main-container">
-//           <div className="layout-main">{props.children}</div>
-//         </div>
-//         <div className="layout-mask"></div>
-//       </div>
-//     </>
-//   );
-// };
+  const containerClass = classNames("layout-wrapper", {
+    "layout-overlay": layoutConfig.menuMode === "overlay",
+    "layout-static": layoutConfig.menuMode === "static",
+    "layout-static-inactive":
+      layoutState.staticMenuDesktopInactive &&
+      layoutConfig.menuMode === "static",
+    "layout-overlay-active": layoutState.overlayMenuActive,
+    "layout-mobile-active": layoutState.staticMenuMobileActive,
+    "p-input-filled": layoutConfig.inputStyle === "filled",
+    "p-ripple-disabled": !layoutConfig.ripple,
+  });
 
-// export default Layout;
+  return (
+    <>
+      <div className={containerClass}>
+        <AppTopbar ref={topbarRef} />
+        <div ref={sidebarRef} className="layout-sidebar">
+          <AppSidebar />
+        </div>
+        <div className="layout-main-container">
+          <div className="layout-main">{props.children}</div>
+        </div>
+        <div className="layout-mask"></div>
+      </div>
+    </>
+  );
+};
+
+export default Layout;
