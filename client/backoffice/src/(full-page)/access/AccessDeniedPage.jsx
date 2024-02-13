@@ -2,7 +2,7 @@ import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
 import React, { useContext } from "react";
 import { Button } from "primereact/button";
-import { LayoutContext } from "../../layout/context/LayoutContext";
+import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
 import { useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 

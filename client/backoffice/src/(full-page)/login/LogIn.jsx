@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef } from "react";
 import { Checkbox } from "primereact/checkbox";
 import { Button } from "primereact/button";
 import { Password } from "primereact/password";
-import { LayoutContext } from "../../layout/context/LayoutContext";
+import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
 import { InputText } from "primereact/inputtext";
 import { classNames } from "primereact/utils";
 import { useNavigate } from "react-router-dom";
