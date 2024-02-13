@@ -6,7 +6,7 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
+import { LayoutContext } from "./context/layoutcontext.jsx";
 import { LogOut } from "./LogOut";
 
 const AppTopbar = forwardRef((props, ref) => {
