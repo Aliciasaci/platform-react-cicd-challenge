@@ -303,7 +303,7 @@ function PrestataireRegister() {
             if (response.status >= 200 && response.status < 300) {
                 setShowSuccessToast(true);
                 setTimeout(() => {
-                    navigate('/challenge-stack-5S1/index');
+                    navigate('/challenge-stack-5S1/');
                 }, 2000); 
             } else {
                 setUnsuccessToast(true);
