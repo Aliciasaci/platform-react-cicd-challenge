@@ -61,7 +61,7 @@ export default function RatingDetail({ prestationId , notes}) {
     if (Object.keys(ratings).length > 0) {
       for (const [key, rating] of Object.entries(ratings)) {
         try {
-          const res = await axios.post(`https://127.0.0.1:8000/api/feedback`, {
+          const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/feedback`, {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             critere: rating['id'],

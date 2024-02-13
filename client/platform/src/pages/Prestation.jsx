@@ -14,7 +14,7 @@ export default function Prestation() {
   useEffect(() => {
     const fetchPrestation = async () => {
       try {
-        const response = await axios.get(`https://127.0.0.1:8000/api/prestations/${prestationsId}`);
+        const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/prestations/${prestationsId}`);
         setPrestation(response.data);
       } catch (error) {
         console.error('Error fetching prestation information:', error);
