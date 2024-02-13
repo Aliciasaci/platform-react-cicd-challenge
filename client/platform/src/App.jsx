@@ -25,7 +25,7 @@ const routes = [
     path: "/challenge-stack-5S1/",
     element: <PlatformLayout />,
     children: [
-      { path: "index", element: <Home /> },
+      { path: "", element: <Home /> },
       { path: "prestataire-register", element: <PrestataireRegister /> },
       { path: "etablissement/:id", element: <PageEtablissement /> }, // à supprimer
       { path: "reservation", element: <Reservation /> },

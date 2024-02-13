@@ -303,9 +303,8 @@ function PrestataireRegister() {
             if (response.status >= 200 && response.status < 300) {
                 setShowSuccessToast(true);
                 setTimeout(() => {
-                    console.log('Redirecting to home page');
-                    navigate('challenge-stack-5S1/')
-                }, 5000); 
+                    navigate('/challenge-stack-5S1/index');
+                }, 2000); 
             } else {
                 setUnsuccessToast(true);
                 setStep(1);
