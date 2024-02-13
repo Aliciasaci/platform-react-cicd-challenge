@@ -22,18 +22,18 @@ import { EtablissementsList } from "./pages/EtablissementsList";
 
 const routes = [
   {
-    path: "/",
+    path: "/challenge-stack-5S1/",
     element: <PlatformLayout />,
     children: [
-      { path: "/", element: <Home /> },
+      { path: "index", element: <Home /> },
       { path: "prestataire-register", element: <PrestataireRegister /> },
       { path: "etablissement/:id", element: <PageEtablissement /> }, // à supprimer
-      { path: "/reservation", element: <Reservation /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/user-profile", element: <UserProfile /> },
-      { path: "/mon-compte", element: <UserInformations /> },
-      { path: "/cancelled-reservations", element: <CancelledReservations /> },
+      { path: "reservation", element: <Reservation /> },
+      { path: "login", element: <Login /> },
+      { path: "register", element: <Register /> },
+      { path: "user-profile", element: <UserProfile /> },
+      { path: "mon-compte", element: <UserInformations /> },
+      { path: "cancelled-reservations", element: <CancelledReservations /> },
       { path: "prestations/:id", element: <Prestation /> },
       { path: "etablissements", element: <EtablissementsList /> },
     ],

@@ -203,7 +203,7 @@ function PrestataireRegister() {
     const onSubmit = (e) => {
         e.preventDefault();
         // TODO: Implement form submission logic
-    };
+    };  
 
     const handleCategoryCheck = (e) => {
         const { id, checked } = e.target; 
@@ -304,7 +304,7 @@ function PrestataireRegister() {
                 setShowSuccessToast(true);
                 setTimeout(() => {
                     console.log('Redirecting to home page');
-                    navigate('/')
+                    navigate('challenge-stack-5S1/')
                 }, 5000); 
             } else {
                 setUnsuccessToast(true);

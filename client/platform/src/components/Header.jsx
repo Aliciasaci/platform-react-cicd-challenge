@@ -18,7 +18,7 @@ const Header = () => {
   }, []);
 
   const loginButton = userToken ? (
-    <Link to="/user-profile">
+    <Link to="challenge-stack-5S1/user-profile">
       <Button
         type="button"
         className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700"
@@ -27,7 +27,7 @@ const Header = () => {
       </Button>
     </Link>
   ) : (
-    <Link to="/login">
+    <Link to="challenge-stack-5S1/login">
       <Button
         type="button"
         className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700"
@@ -42,14 +42,14 @@ const Header = () => {
       <Navbar.Brand>
         {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
         <Link
-          to="/"
+          to="challenge-stack-5S1/"
           className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo"
         >
           PICKME
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2 items-start">
-        <Link to="/">
+        <Link to="challenge-stack-5S1/">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
@@ -57,7 +57,7 @@ const Header = () => {
             {t("Common_Home")}
           </Button>
         </Link>
-        <Link to="/prestataire-register">
+        <Link to="challenge-stack-5S1/prestataire-register">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
