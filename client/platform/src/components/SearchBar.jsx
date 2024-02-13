@@ -39,7 +39,7 @@ export default function SearchBar() {
                 console.log("prestation titre");
                 console.log(response.data);
                 setEtablissements(response.data);
-                navigate('/etablissements', {
+                navigate('/challenge-stack-5S1/etablissements', {
                     state: {
                         etablissements: response.data,
                     },

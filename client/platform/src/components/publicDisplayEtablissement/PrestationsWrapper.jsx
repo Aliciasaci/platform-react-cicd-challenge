@@ -23,7 +23,7 @@ export const PrestationWrapper = ({ prestations }) => {
             <PrestationListGroup
               prestations={groupedPrestations[category]}
               buttonContent={t("Common_Choose")}
-              linkTo={"/reservation/"}
+              linkTo={"/challenge-stack-5S1/reservation/"}
             />
           </div>
         );

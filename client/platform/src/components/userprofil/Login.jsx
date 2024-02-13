@@ -38,7 +38,7 @@ export default function Login() {
       if (res.data.token) {
         localStorage.setItem("userToken", res.data.token);
         setUserEmail(user.email);
-        navigate("/user-profile");
+        navigate("/challenge-stack-5S1/user-profile");
       }
     } catch (error) {
       console.log(error);
@@ -107,7 +107,7 @@ export default function Login() {
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
             <p className="mt-4">{t("Login_NoAccount")} </p>
-            <Link to="/register">
+            <Link to="/challenge-stack-5S1/register">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
                 {t("Common_CreateAccount")}
               </Button>

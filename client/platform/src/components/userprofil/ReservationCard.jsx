@@ -43,7 +43,7 @@ export default function ReservationsCard({ reservation, mode }) {
 
  const handleRecuperation = async () => {
   let idPrestationArray = prestation["@id"].split('/')
-  navigate(`/reservation`, {
+  navigate(`/challenge-stack-5S1/reservation`, {
    state: {
     prestationId: idPrestationArray[idPrestationArray.length - 1],
     mode: "retake",
@@ -58,7 +58,7 @@ export default function ReservationsCard({ reservation, mode }) {
   if (indispoList.length > 0) {
    let indispoId = indispoList[0].id
    try {
-    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/api/indisponibilites/${indispoId}`, {
+    const res = await axios.delete(`${import.meta.env.VITE_SERVER_URL}/indisponibilites/${indispoId}`, {
     },
      {
       headers: {
@@ -93,7 +93,7 @@ export default function ReservationsCard({ reservation, mode }) {
 
  const handleDeplacement = () => {
   let idPrestationArray = prestation["@id"].split('/')
-  navigate(`/reservation`, {
+  navigate(`/challenge-stack-5S1/reservation`, {
    state: {
     prestationId: idPrestationArray[idPrestationArray.length - 1],
     mode: "update",
@@ -106,7 +106,7 @@ export default function ReservationsCard({ reservation, mode }) {
  const handleClick = () => {
   let idPrestationArray = prestation["@id"].split('/');
   let prestationId = idPrestationArray[idPrestationArray.length - 1];
-  navigate('/prestations/1', { replace: true });
+  navigate(`/challenge-stack-5S1/prestations/${prestationId}`, { replace: true });
  };
 
 

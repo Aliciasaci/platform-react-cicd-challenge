@@ -13,7 +13,7 @@ export default function UserReservations() {
     useEffect(() => {
         const fetchReservationsInfos = async () => {
             try {
-                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/users/${userId}`);
+                const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/${userId}`);
                 if (response.status === 200) {
                     const today = new Date();
 

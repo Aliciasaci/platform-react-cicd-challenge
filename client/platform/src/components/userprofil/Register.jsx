@@ -148,7 +148,7 @@ export default function Register({ }) {
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
             <p className="mt-4">Vous avez déjà un compte ? </p>
-            <Link to="/login">
+            <Link to="/challenge-stack-5S1/login">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full hover:bg-gray-700 font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
                 Se connecter
               </Button>

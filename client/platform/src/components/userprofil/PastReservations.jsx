@@ -13,7 +13,7 @@ export default function PastReservations() {
  useEffect(() => {
   const fetchReservationsInfos = async () => {
    try {
-    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/users/${userId}`);
+    const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users/${userId}`);
     if (response.status === 200) {
      const today = new Date();
 
@@ -21,7 +21,10 @@ export default function PastReservations() {
       ...reservation,
       jour_2: new Date(reservation.jour.split('/').reverse().join('/')).setHours(parseInt(reservation.creneau.split(":")[0]), parseInt(reservation.creneau.split(":")[1]))
      }))
-     const filteredReservations = mappedReservations.filter(reservation => reservation.status != "canceled" && reservation.jour_2 < today);
+
+     const filteredReservations = mappedReservations.filter(reservation => reservation.jour_2 < today);
+
+     console.log(filteredReservations);
      setReservationsClient(filteredReservations);
      setPret(true);
     }
