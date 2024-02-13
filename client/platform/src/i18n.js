@@ -28,12 +28,9 @@ const resourcesLoaded = Promise.all([
 ]);
 
 i18n.use(initReactI18next).use(LanguageDetector).init({
-  resources: resources,
   fallbackLng: "fr",
+  resources: resources,
   debug: true,
 });
-
-console.log(resources);
-console.log(resourcesLoaded.finally(() => console.log(resources)));
 
 export default resourcesLoaded;
