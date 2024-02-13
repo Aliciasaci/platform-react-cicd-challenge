@@ -2,7 +2,7 @@ import { useEffect, useContext, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEventListener, useUnmountEffect } from "primereact/hooks";
 import { classNames, DomHandler } from "primereact/utils";
-import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
+import { LayoutContext } from "./context/layoutcontext.jsx";
 import PrimeReact from "primereact/api";
 import AppSidebar from "./AppSidebar";
 import AppTopbar from "./AppTopbar";
