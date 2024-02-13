@@ -1,6 +1,6 @@
 import { classNames } from "primereact/utils";
 import React, { useContext } from "react";
-import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
+import { LayoutContext } from "../../layout/context/layoutcontext.jsx";
 
 const NotFoundPage = () => {
   const { layoutConfig } = useContext(LayoutContext);

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { LayoutContext } from 'src/layout/context/layoutcontext.jsx';
+import { LayoutContext } from './context/layoutcontext.jsx';
 
 const AppFooter = () => {
     const { layoutConfig } = useContext(LayoutContext);

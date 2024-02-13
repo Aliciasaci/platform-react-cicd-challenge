@@ -4,7 +4,7 @@ import { classNames } from "primereact/utils";
 import useRefreshToken from "../../hooks/useRefreshToken";
 import useAuth from "../../hooks/useAuth";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { LayoutContext } from "src/layout/context/layoutcontext.jsx";
+import { LayoutContext } from "../../layout/context/layoutcontext.jsx";
 
 const PersistLogin = () => {
   const [isLoading, setLoading] = useState(true);
