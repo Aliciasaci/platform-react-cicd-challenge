@@ -11,7 +11,6 @@ const PersistLogin = () => {
   const refresh = useRefreshToken();
   const { auth } = useAuth();
   const layoutConfig = useContext(LayoutContext);
-  console.log(auth);
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
@@ -23,7 +22,7 @@ const PersistLogin = () => {
         setLoading(false);
       }
     };
-    !auth?.accessToken ? verifyRefreshToken() : setLoading(false);
+    !auth?.accessToken ? setLoading(false) : verifyRefreshToken();
   }, []);
 
   const containerClassName = classNames(

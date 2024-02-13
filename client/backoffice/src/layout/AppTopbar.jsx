@@ -7,6 +7,7 @@ import React, {
   useRef,
 } from "react";
 import { LayoutContext } from "./context/LayoutContext";
+import { LogOut } from "./LogOut";
 
 const AppTopbar = forwardRef((props, ref) => {
   const { layoutConfig, layoutState, onMenuToggle, showProfileSidebar } =
@@ -22,29 +23,32 @@ const AppTopbar = forwardRef((props, ref) => {
   }));
 
   return (
-    <div className="layout-topbar">
-      <Link href="/" className="layout-topbar-logo">
-        {/* <img src="" width="47.22px" height={'35px'} widt={'true'} alt="logo" /> */}
-        <span>PICKME</span>
-      </Link>
+    <div className="layout-topbar space-between">
+      <div className="flex">
+        <Link href="/" className="layout-topbar-logo">
+          {/* <img src="" width="47.22px" height={'35px'} widt={'true'} alt="logo" /> */}
+          <span>PICKME</span>
+        </Link>
 
-      <button
-        ref={menubuttonRef}
-        type="button"
-        className="p-link layout-menu-button layout-topbar-button"
-        onClick={onMenuToggle}
-      >
-        <i className="pi pi-bars" />
-      </button>
+        <button
+          ref={menubuttonRef}
+          type="button"
+          className="p-link layout-menu-button layout-topbar-button"
+          onClick={onMenuToggle}
+        >
+          <i className="pi pi-bars" />
+        </button>
 
-      <button
-        ref={topbarmenubuttonRef}
-        type="button"
-        className="p-link layout-topbar-menu-button layout-topbar-button"
-        onClick={showProfileSidebar}
-      >
-        <i className="pi pi-ellipsis-v" />
-      </button>
+        <button
+          ref={topbarmenubuttonRef}
+          type="button"
+          className="p-link layout-topbar-menu-button layout-topbar-button"
+          onClick={showProfileSidebar}
+        >
+          <i className="pi pi-ellipsis-v" />
+        </button>
+      </div>
+      <LogOut />
     </div>
   );
 });

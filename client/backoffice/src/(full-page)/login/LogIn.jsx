@@ -10,6 +10,7 @@ import useAuth from "../../hooks/useAuth";
 import { Toast } from "primereact/toast";
 import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
@@ -21,9 +22,11 @@ const LoginPage = () => {
   const toast = useRef(null);
   const { layoutConfig } = useContext(LayoutContext);
   const navigate = useNavigate();
+  const [isLoading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post("/login", {
         email: email,
@@ -31,7 +34,8 @@ const LoginPage = () => {
       });
       if (response.data.token) {
         const accessToken = response.data.token;
-        verifyUserRole(accessToken);
+        const refreshToken = response.data.refresh_token;
+        verifyUserRole(accessToken, refreshToken);
       }
     } catch (error) {
       toast.current.show({
@@ -43,11 +47,19 @@ const LoginPage = () => {
     }
   };
 
-  const verifyUserRole = async (accessToken) => {
+  const verifyUserRole = async (accessToken, refreshToken) => {
     try {
-      const response = await axios.post(`/verify-role`, {
-        email: email,
-      });
+      const response = await axios.post(
+        `/verify-role`,
+        {
+          email: email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       if (response.status === 200) {
         setAuth({
           email: email,
@@ -56,6 +68,7 @@ const LoginPage = () => {
           role: response.data.roles,
           nom: response.data.nom,
           prenom: response.data.prenom,
+          refreshToken: refreshToken,
         });
         navigate(from, { replace: true });
       }
@@ -66,6 +79,8 @@ const LoginPage = () => {
         detail: error.response.data.message,
         life: 3000,
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,6 +93,11 @@ const LoginPage = () => {
     <div className={containerClassName}>
       <Toast ref={toast} />
       <div className="flex flex-column align-items-center justify-content-center">
+        {isLoading && (
+          <ProgressSpinner
+            style={{ width: "50px", height: "50px" }}
+          ></ProgressSpinner>
+        )}
         <div
           style={{
             borderRadius: "56px",
