@@ -8,5 +8,5 @@ export default defineConfig({
     outDir: 'build',
     emptyOutDir: true
   },
-  base: "/challenge-stack-5S1/"
+  base: "/challenge-stack-5S1/plateform/"
 })
