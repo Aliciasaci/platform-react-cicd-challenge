@@ -28,17 +28,18 @@ export default function ProfilUser() {
 
   const logout = () => {
     setUserToken("");
-    navigate('/login');
+    navigate('/challenge-stack-5S1/login');
   }
 
   useEffect(() => {
     const fetchUserInfo = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/api/users?email=${userEmail}`);
+            const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/users?email=${userEmail}`);
             const hydraMember = response.data['hydra:member'];
             if (hydraMember.length > 0) {
                 const user = hydraMember[0];
                 setUserInfo(user);
+                console.log(user);
                 setUserId(user.id);
             } else {
                 console.log('Aucun utilisateur trouvé');

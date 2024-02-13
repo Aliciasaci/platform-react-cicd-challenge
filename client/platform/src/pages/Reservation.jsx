@@ -30,7 +30,9 @@ export default function Reservation() {
 
   const memoizedCallback = useCallback(() => {
     if (response) {
-      setEmployesPrestation(response.employes);
+      console.log(response)
+
+      setEmployesPrestation(response.etablissement.employes);
       const { employes, feedback, ...presta } = response;
       setPrestation([presta]);
     }
@@ -86,7 +88,7 @@ export default function Reservation() {
     if (mode == "create") {
       try {
         const res = await axios.post(
-          `${import.meta.env.VITE_SERVER_URL}/api/reservations`,
+          `${import.meta.env.VITE_SERVER_URL}/reservations`,
           {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
@@ -116,7 +118,7 @@ export default function Reservation() {
       if (mode == "update") {
         try {
           const res = await axios.patch(
-            `${import.meta.env.VITE_SERVER_URL}/api/reservations/${reservationId}`,
+            `${import.meta.env.VITE_SERVER_URL}/reservations/${reservationId}`,
             {
               status: "updated",
               creneau: timePart,
@@ -142,7 +144,7 @@ export default function Reservation() {
       } else {
         try {
           const res = await axios.patch(
-            `${import.meta.env.VITE_SERVER_URL}/api/reservations/${reservationId}`,
+            `${import.meta.env.VITE_SERVER_URL}/reservations/${reservationId}`,
             {
               status: "created",
               creneau: timePart,
@@ -175,7 +177,7 @@ export default function Reservation() {
     try {
       console.log(`/api/employes/${dataEmployesPrestation}`);
       const res = await axios.post(
-        `${import.meta.env.VITE_SERVER_URL}/api/indisponibilites`,
+        `${import.meta.env.VITE_SERVER_URL}/indisponibilites`,
         {
           employe: `/api/employes/${dataEmployesPrestation}`,
           creneau: timePart,

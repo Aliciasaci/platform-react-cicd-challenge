@@ -31,7 +31,7 @@ export const PublicCard = ({ etablissement, image }) => {
     if (event) {
       event.stopPropagation();
     }
-    window.location.href = `/etablissement/${id}`;
+    window.location.href = `/challenge-stack-5S1/etablissement/${id}`;
   };
 
   return (

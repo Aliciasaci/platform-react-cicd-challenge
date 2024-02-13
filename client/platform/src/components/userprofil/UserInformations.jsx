@@ -4,7 +4,7 @@ export default function UserInformations({userInfo}) {
     
     const changePassword = async (e) => {
         try {
-            const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/api/users/${userInfo.id}`, {
+            const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/users/${userInfo.id}`, {
                 password: e.target.value
             });
             console.log(response);
