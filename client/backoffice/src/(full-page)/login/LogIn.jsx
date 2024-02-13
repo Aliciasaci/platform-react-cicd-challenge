@@ -10,7 +10,6 @@ import useAuth from "../../hooks/useAuth";
 import { Toast } from "primereact/toast";
 import { useLocation } from "react-router-dom";
 import axios from "../../api/axios";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
@@ -22,7 +21,6 @@ const LoginPage = () => {
   const toast = useRef(null);
   const { layoutConfig } = useContext(LayoutContext);
   const navigate = useNavigate();
-  const axiosPrivate = useAxiosPrivate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
