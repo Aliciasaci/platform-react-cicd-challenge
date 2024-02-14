@@ -72,8 +72,8 @@ export default function Prestation() {
             </Link>
           </div>
           <GalleryDisplay className="w-full" />
-          <RatingGeneral prestationId={prestationsId} notes={notes} />
-          <RatingDetail prestationId={prestationsId} notes={notes} />
+          {/* <RatingGeneral prestationId={prestationsId} notes={notes} /> */}
+          {/* <RatingDetail prestationId={prestationsId} notes={notes} />  */}
         </div>
       )}
     </div>
