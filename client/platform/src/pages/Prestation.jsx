@@ -7,15 +7,18 @@ import RatingGeneral from "../components/ratings/RatingGeneral";
 
 export default function Prestation() {
   const [prestation, setPrestation] = useState(null);
+  const [categorieId, setCategorieId] = useState(null);
   const [notes, setNotes] = useState([]);
   const url = window.location.href.split("/");
   const prestationsId = url[url.length - 1];
-
+ 
   useEffect(() => {
     const fetchPrestation = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/prestations/${prestationsId}`);
         setPrestation(response.data);
+        const categoryUrl = response.data.category['@id'].split("/");
+        setCategorieId(categoryUrl[categoryUrl.length - 1]);
       } catch (error) {
         console.error('Error fetching prestation information:', error);
       }
@@ -33,7 +36,9 @@ export default function Prestation() {
           },
         });
         if (response.data) {
-          setNotes(response.data.feedback);
+          if(response.data.length > 0){
+            setNotes(response.data.feedback);
+          }
         }
       } catch (error) {
         console.error('Error fetching information:', error);
@@ -73,7 +78,7 @@ export default function Prestation() {
           </div>
           <GalleryDisplay className="w-full" />
           <RatingGeneral prestationId={prestationsId} notes={notes} />
-          {/* <RatingDetail prestationId={prestationsId} notes={notes} />  */}
+          <RatingDetail categorieId={categorieId} prestationId={prestationsId} notes={notes} /> 
         </div>
       )}
     </div>

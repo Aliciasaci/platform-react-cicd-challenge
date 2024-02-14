@@ -5,13 +5,13 @@ import { Card } from 'flowbite-react';
 import { AppContext } from '../../context';
 import axios from 'axios';
 
-export default function RatingDetail({ prestationId, notes }) {
+export default function RatingDetail({ prestationId, notes, categorieId }) {
   const [ratings, setRatings] = useState({});
   const [hover, setHover] = useState({});
   const [criteres, setCriteres] = useState([]);
   const { userId } = useContext(AppContext);
   const userNotes = notes.filter((note) => note.client.id == userId)
-
+  const [feedbacks, setFeedbacks] = useState([]);
 
   const handleRatingChange = (id, critere, currentRating) => {
     setRatings({ ...ratings, [critere]: { id: id, note: currentRating } });
@@ -22,8 +22,7 @@ export default function RatingDetail({ prestationId, notes }) {
     setHover({ ...hover, [critere]: currentRating });
   };
 
-  const categoryId = 1;  //rendre dynamique
-
+  const categoryId = categorieId;
   useEffect(() => {
     const fetchCriteresPerCategory = async () => {
       try {
@@ -57,11 +56,38 @@ export default function RatingDetail({ prestationId, notes }) {
   }, [categoryId]);
 
 
+  useEffect(() => {
+    const fetchFeedback = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/prestations/${prestationId}/feedbacks`,
+          {
+            headers: {
+              Accept: 'application/ld+json',
+            },
+          }
+        );
+        if (response.data) {
+          if (response.data['hydra:member'].length > 0) {
+            response.data['hydra:member'].forEach((feedback) => {
+              console.log(feedback);
+            });
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching information:', error);
+      }
+    };
+    fetchFeedback();
+  }, [prestationId]);
+
+
+
   const createRatings = async () => {
     if (Object.keys(ratings).length > 0) {
       for (const [key, rating] of Object.entries(ratings)) {
         try {
-          const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/feedback`, {
+          const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/feedback`, {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             critere: rating['id'],
