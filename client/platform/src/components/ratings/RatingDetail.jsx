@@ -10,19 +10,26 @@ export default function RatingDetail({ prestationId, notes, categorieId }) {
   const [hover, setHover] = useState({});
   const [criteres, setCriteres] = useState([]);
   const { userId } = useContext(AppContext);
-  const userNotes = notes.filter((note) => note.client.id == userId)
-  const [feedbacks, setFeedbacks] = useState([]);
+  const [responseMessage, setResponseMessage] = useState("");
+  const [userNotes, setUserNotes] = useState([])
 
   const handleRatingChange = (id, critere, currentRating) => {
     setRatings({ ...ratings, [critere]: { id: id, note: currentRating } });
   };
 
   const handleHoverChange = (critere, currentRating) => {
-    console.log(ratings);
     setHover({ ...hover, [critere]: currentRating });
   };
 
+  const displayResponseMessage = (message) => {
+    setResponseMessage(message);
+    setTimeout(() => {
+      setResponseMessage("");
+    }, 5000);
+  };
+
   const categoryId = categorieId;
+
   useEffect(() => {
     const fetchCriteresPerCategory = async () => {
       try {
@@ -44,6 +51,7 @@ export default function RatingDetail({ prestationId, notes, categorieId }) {
     };
 
     const initializeRatings = () => {
+      setUserNotes(notes.filter((note) => note.client.id == userId));
       if (userNotes.length > 0) {
         userNotes.forEach((note) => {
           setRatings(prevRatings => ({ ...prevRatings, [note.critere.titre]: { id: note.id, note: note.note } }))
@@ -56,43 +64,20 @@ export default function RatingDetail({ prestationId, notes, categorieId }) {
   }, [categoryId]);
 
 
-  useEffect(() => {
-    const fetchFeedback = async () => {
-      try {
-        const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/prestations/${prestationId}/feedbacks`,
-          {
-            headers: {
-              Accept: 'application/ld+json',
-            },
-          }
-        );
-        if (response.data) {
-          if (response.data['hydra:member'].length > 0) {
-            response.data['hydra:member'].forEach((feedback) => {
-              console.log(feedback);
-            });
-          }
-        }
-      } catch (error) {
-        console.error('Error fetching information:', error);
-      }
-    };
-    fetchFeedback();
-  }, [prestationId]);
-
-
-
   const createRatings = async () => {
     if (Object.keys(ratings).length > 0) {
       for (const [key, rating] of Object.entries(ratings)) {
         try {
-          const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/api/feedback`, {
+          const res = await axios.post(`${import.meta.env.VITE_SERVER_URL}/feedback`, {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             critere: rating['id'],
             note: rating['note'],
           });
+
+          if (res.status === 201) {
+            displayResponseMessage("Votre note a bien été enregistrée");
+          }
         } catch (error) {
           console.log(error);
         }
@@ -102,6 +87,13 @@ export default function RatingDetail({ prestationId, notes, categorieId }) {
 
   return (
     <>
+      {responseMessage && (
+        <div
+          className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
+          role="alert">
+          <span className="font-medium"> {responseMessage} </span>
+        </div>
+      )}
       <Card className="w-full">
         <h1 className='text-xl text-black font-semibold'>Noter la prestation</h1>
         {criteres.map((critere, index) => (
@@ -131,7 +123,7 @@ export default function RatingDetail({ prestationId, notes, categorieId }) {
                 </label>
               );
             })}
-            {ratings[critere.titre] && (<p className='text-black'> {ratings[critere.titre]['note']}</p>)}
+            {ratings[critere.titre] && (<p className='text-gray-500 ml-2 font-semibold'> {ratings[critere.titre]['note']}</p>)}
             <br />
           </div>
         ))}

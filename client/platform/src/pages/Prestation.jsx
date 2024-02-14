@@ -36,7 +36,7 @@ export default function Prestation() {
           },
         });
         if (response.data) {
-          if(response.data.length > 0){
+          if(response.data.feedback.length > 0){
             setNotes(response.data.feedback);
           }
         }
@@ -70,11 +70,11 @@ export default function Prestation() {
                 </span>
               </div>
             </div>
-            <Link to="/">
+            {/* <Link to="/challenge-stack-5S1/reservations/">
               <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700" >
                 Prendre RDV
               </button>
-            </Link>
+            </Link> */}
           </div>
           <GalleryDisplay className="w-full" />
           <RatingGeneral prestationId={prestationsId} notes={notes} />

@@ -78,7 +78,7 @@ export default function Reservation() {
 
     setTimeout(() => {
       setResponseMessage("");
-    }, 3000);
+    }, 5000);
   };
 
   const createReservation = async (selectedDateTime) => {
