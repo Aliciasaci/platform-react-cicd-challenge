@@ -30,8 +30,6 @@ export default function Reservation() {
 
   const memoizedCallback = useCallback(() => {
     if (response) {
-      console.log(response)
-
       setEmployesPrestation(response.etablissement.employes);
       const { employes, feedback, ...presta } = response;
       setPrestation([presta]);
@@ -93,6 +91,7 @@ export default function Reservation() {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             employe: `/api/employes/${dataEmployesPrestation}`,
+            // etablissement: `/api/etablissements/${prestation[0].etablissement.id}`,
             status: "created",
             creneau: timePart,
             duree: 0,
@@ -173,9 +172,8 @@ export default function Reservation() {
 
   const createIndisponibilite = async (selectedDateTime) => {
     const [datePart, timePart] = selectedDateTime.split(" ");
-   
+
     try {
-      console.log(`/api/employes/${dataEmployesPrestation}`);
       const res = await axios.post(
         `${import.meta.env.VITE_SERVER_URL}/indisponibilites`,
         {
@@ -184,8 +182,6 @@ export default function Reservation() {
           jour: datePart,
         }
       );
-      console.log("indisponibilite"+res);
-      //envoyer vers la page des résa
     } catch (error) {
       console.log(error);
     }

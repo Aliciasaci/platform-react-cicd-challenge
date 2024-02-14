@@ -27,7 +27,6 @@ export default function Calendar({ employeId,  createReservation }) {
           }
         );
         if (response.data) {
-          console.log(response.data);
           setIndisponibilites(response.data.indisponibilites);
         }
       } catch (error) {
