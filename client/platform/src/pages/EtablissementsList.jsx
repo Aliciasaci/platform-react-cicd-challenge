@@ -8,7 +8,6 @@ export const EtablissementsList = () => {
   const etablissements = location.state.etablissements;
   const [locations, setLocations] = useState([]);
 
-  console.log(etablissements);
   useEffect(() => {
     setLocations(
       etablissements.map((etablissement) => ({
