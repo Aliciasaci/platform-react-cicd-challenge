@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "https://aliciasaci.github.io/challenge-stack-5S1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
