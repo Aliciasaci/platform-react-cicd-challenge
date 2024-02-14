@@ -20,7 +20,6 @@ import { EtablissementsList } from "./pages/EtablissementsList";
 // import PrestatairePanel from './pages/PrestatairePanel';
 // import CrudEmploye from './pages/CrudEmploye';
 
-alert('ici');
 const routes = [
   {
     path: "/challenge-stack-5S1/",
