@@ -5,11 +5,11 @@ import { Card } from 'flowbite-react';
 import { AppContext } from '../../context';
 import axios from 'axios';
 
-export default function RatingDetail({ prestationId , notes}) {
+export default function RatingDetail({ prestationId, notes }) {
   const [ratings, setRatings] = useState({});
   const [hover, setHover] = useState({});
   const [criteres, setCriteres] = useState([]);
-  const { userId } = useContext(AppContext); 
+  const { userId } = useContext(AppContext);
   const userNotes = notes.filter((note) => note.client.id == userId)
 
 
@@ -45,11 +45,11 @@ export default function RatingDetail({ prestationId , notes}) {
     };
 
     const initializeRatings = () => {
-      if (userNotes.length > 0){
+      if (userNotes.length > 0) {
         userNotes.forEach((note) => {
-          setRatings(prevRatings => ({ ...prevRatings, [note.critere.titre] : {id: note.id, note:note.note}}))
+          setRatings(prevRatings => ({ ...prevRatings, [note.critere.titre]: { id: note.id, note: note.note } }))
         })
-      }    
+      }
     };
 
     fetchCriteresPerCategory();
