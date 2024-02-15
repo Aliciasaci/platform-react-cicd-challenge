@@ -128,7 +128,7 @@ export default function SearchBar() {
             );
             if (response.data && response.data.length > 0) {
                 setEtablissements(response.data);
-                navigate('/challenge-stack-5S1/etablissements', {
+                navigate('/platform-react-cicd-challenge/etablissements', {
                     state: {
                         etablissements: response.data,
                     },
@@ -158,7 +158,7 @@ export default function SearchBar() {
                     );
                     if (response.data && response.data.length > 0) {
                         setEtablissements(response.data);
-                        navigate('/challenge-stack-5S1/etablissements', {
+                        navigate('/platform-react-cicd-challenge/etablissements', {
                             state: {
                                 etablissements: response.data,
                             },
@@ -189,7 +189,7 @@ export default function SearchBar() {
                             );
                             if (response.data && response.data.length > 0) {
                                 setEtablissements(response.data);
-                                navigate('/challenge-stack-5S1/etablissements', {
+                                navigate('/platform-react-cicd-challenge/etablissements', {
                                     state: {
                                         etablissements: response.data,
                                     },
