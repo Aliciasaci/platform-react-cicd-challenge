@@ -3,7 +3,10 @@ import { MapBox } from "../components/publicDisplayEtablissementList/MapBox";
 import { PublicCard } from "../components/publicDisplayEtablissementList/PublicCard";
 import { useLocation } from "react-router-dom";
 import useCachedData from "../hooks/useCachedData";
-import { getEtablissements } from "../services/prestataires.service";
+import {
+  getEtablissements,
+  returnNull,
+} from "../services/prestataires.service";
 import { ErrorComponent } from "../components/ErrorComponent";
 
 export const EtablissementsList = () => {
@@ -15,7 +18,7 @@ export const EtablissementsList = () => {
     data: etablissementsDefault,
     isLoading,
     error,
-  } = useCachedData(etablissements ? null : getEtablissements);
+  } = useCachedData(etablissements ? returnNull : getEtablissements);
   const [locations, setLocations] = useState([]);
 
   useEffect(() => {
@@ -23,7 +26,7 @@ export const EtablissementsList = () => {
       setEtablissements(etablissementsDefault["hydra:member"]);
     }
   }, [etablissementsDefault]);
-  
+
   useEffect(() => {
     setLocations(
       etablissements?.map((etablissement) => ({
