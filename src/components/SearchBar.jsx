@@ -25,13 +25,6 @@ export default function SearchBar() {
         }
     };
 
-    
-            // Appel de navigate une fois que la recherche est terminée
-
-
-        } catch (error) {
-            console.error('Error fetching information:', error);
-        }
     };
 
 
