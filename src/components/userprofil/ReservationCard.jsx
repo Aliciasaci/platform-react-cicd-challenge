@@ -3,8 +3,10 @@ import { ListGroup } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function ReservationsCard({ reservation, mode }) {
+  const { t } = useTranslation();
   const { "@id": id, jour, creneau, prestation, status } = reservation;
   const { titre, description, duree, prix } = prestation;
   const [responseMessage, setResponseMessage] = useState("");
