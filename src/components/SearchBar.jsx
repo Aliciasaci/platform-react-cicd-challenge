@@ -18,7 +18,7 @@ export default function SearchBar() {
     const handleSearch = async () => {
         try {
             setIsLoading(true); // Set loading to true at the beginning
-    
+
             if (searchInput3 !== '') { // If distance is set
                 // Function to get current location
                 const getLocationAsync = () => {
@@ -42,10 +42,10 @@ export default function SearchBar() {
                         }
                     });
                 };
-    
+
                 // Wait for location to be set
                 const locationData = await getLocationAsync();
-    
+
                 // Once location is set, proceed with fetching data
                 if (locationData) {
                     let distance = `${locationData.latitude},${locationData.longitude},${searchInput3}`;
@@ -81,7 +81,7 @@ export default function SearchBar() {
                         fetchFilterResults(null, searchInput2, null, null);
                     }
                 } else if (searchInput1 !== '' && searchInput2 === '') {
-                    fetchFilterResults(searchInput1,null,null,null);
+                    fetchFilterResults(searchInput1, null, null, null);
                 } else {
                     return;
                 }
@@ -103,9 +103,8 @@ export default function SearchBar() {
         console.error(error);
     }
 
-    const fetchFilterResults = async (searchInput,ville,codePostal,distance) => {
+    const fetchFilterResults = async (searchInput, ville, codePostal, distance) => {
         try {
-                                        alert("titre");
             let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
             alert('titre');
             if (searchInput) {
@@ -129,6 +128,7 @@ export default function SearchBar() {
                 }
             );
             if (response.data && response.data.length > 0) {
+                console.log(response.data);
                 setEtablissements(response.data);
                 navigate('/platform-react-cicd-challenge/etablissements', {
                     state: {
@@ -137,7 +137,6 @@ export default function SearchBar() {
                 });
             } else {
                 try {
-                    alert("nom");
                     let url = `${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`;
                     if (searchInput) {
                         url += `?nom=${searchInput}`;
@@ -161,6 +160,7 @@ export default function SearchBar() {
                     );
                     if (response.data && response.data.length > 0) {
                         setEtablissements(response.data);
+                        console.log(response.data);
                         navigate('/platform-react-cicd-challenge/etablissements', {
                             state: {
                                 etablissements: response.data,
@@ -168,7 +168,6 @@ export default function SearchBar() {
                         });
                     } else {
                         try {
-                            alert("category");
                             console.log(`${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`)
                             url = `${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`;
                             if (searchInput) {
@@ -193,6 +192,7 @@ export default function SearchBar() {
                             );
                             if (response.data && response.data.length > 0) {
                                 setEtablissements(response.data);
+                                console.log(response.data);
                                 navigate('/platform-react-cicd-challenge/etablissements', {
                                     state: {
                                         etablissements: response.data,
