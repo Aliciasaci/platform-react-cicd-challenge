@@ -28,7 +28,7 @@ export default function SearchBar() {
     const fetchFilterResults = async (searchInput) => {
         try {
             const response = await axios.get(
-                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.titre=${searchInput}`,
+                `filter/?prestation.titre=${searchInput}`,
                 {
                     headers: {
                         Accept: 'application/json',
@@ -46,7 +46,7 @@ export default function SearchBar() {
             } else {
                 try {
                     const response = await axios.get(
-                        `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?nom=${searchInput}`,
+                        `filter/?nom=${searchInput}`,
                         {
                             headers: {
                                 Accept: 'application/json',
@@ -64,7 +64,7 @@ export default function SearchBar() {
                     } else {
                         try {
                             const response = await axios.get(
-                                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.category=${searchInput}`,
+                                `filter/?prestation.category=${searchInput}`,
                                 {
                                     headers: {
                                         Accept: 'application/json',
