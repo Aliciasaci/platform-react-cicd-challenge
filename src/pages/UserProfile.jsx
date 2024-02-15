@@ -7,6 +7,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../context";
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
 
 
 export default function ProfilUser() {
@@ -15,6 +16,7 @@ export default function ProfilUser() {
   const { userId, setUserId } = useContext(AppContext);
   const { userToken, setUserToken } = useContext(AppContext);
   const { userEmail } = useContext(AppContext);
+  const { t } = useTranslation();
 
   const [userInfo, setUserInfo] = useState({
     nom: '',
@@ -70,7 +72,7 @@ export default function ProfilUser() {
                 <svg class="w-5 h-5 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                   <path fill-rule="evenodd" d="M6 2a2 2 0 0 0-2 2v15a3 3 0 0 0 3 3h12a1 1 0 1 0 0-2h-2v-2h2c.6 0 1-.4 1-1V4a2 2 0 0 0-2-2h-8v16h5v2H7a1 1 0 1 1 0-2h1V2H6Z" clip-rule="evenodd" />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Réservations à venir</span>
+                <span class="flex-1 ms-3 whitespace-nowrap" >{t("Reservation_Futur")}</span>
               </a>
             </li>
             <li>
@@ -78,7 +80,7 @@ export default function ProfilUser() {
                 <svg class="w-5 h-5 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19V4c0-.6.4-1 1-1h12c.6 0 1 .4 1 1v13H7a2 2 0 0 0-2 2Zm0 0c0 1.1.9 2 2 2h12M9 3v14m7 0v4" />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Réservations annulée(s)</span>
+                <span class="flex-1 ms-3 whitespace-nowrap">{t("Reservation_Cancelled")}</span>
               </a>
             </li>
             <li>
@@ -86,7 +88,7 @@ export default function ProfilUser() {
                 <svg class="w-5 h-5 text-gray-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19V4c0-.6.4-1 1-1h12c.6 0 1 .4 1 1v13H7a2 2 0 0 0-2 2Zm0 0c0 1.1.9 2 2 2h12M9 3v14m7 0v4" />
                 </svg>
-                <span class="flex-1 ms-3 whitespace-nowrap">Réservations passée(s)</span>
+                <span class="flex-1 ms-3 whitespace-nowrap">{t("Reservation_Past")}</span>
               </a>
             </li>
           </ul>
