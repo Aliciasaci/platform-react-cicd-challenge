@@ -106,7 +106,6 @@ export default function SearchBar() {
     const fetchFilterResults = async (searchInput, ville, codePostal, distance) => {
         try {
             let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
-            alert('titre');
             if (searchInput) {
                 url += `?prestation.titre=${searchInput}`;
             }
