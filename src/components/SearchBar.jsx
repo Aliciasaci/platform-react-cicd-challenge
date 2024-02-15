@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { res } from 'react-email-validator';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
@@ -17,83 +16,14 @@ export default function SearchBar() {
             console.log('Que recherchez-vous ? :', searchInput1);
             console.log('Ou ? ', searchInput2);
         } else if (searchInput1 !== '') {
-            fetchFilterResults(searchInput1);
+            console.log(searchInput1);
+            // fetchFilterResults(searchInput1);
         } else if (searchInput2 !== '') {
             console.log('Ou ? ', searchInput2);
         } else {
             console.log('Aucune recherche n\'a été saisie');
         }
     };
-
-    const fetchFilterResults = async (searchInput) => {
-        try {
-            const response = await axios.get(
-                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.titre=${searchInput}`,
-                {
-                    headers: {
-                        Accept: 'application/json',
-                    },
-                }
-            );
-            if (response.data && response.data.length > 0) {
-                setEtablissements(response.data);
-                navigate('/platform-react-cicd-challenge/etablissements', {
-                    state: {
-                        etablissements: response.data,
-                    },
-                });
-            } else {
-                try {
-                    const response = await axios.get(
-                        `${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`,
-                        {
-                            headers: {
-                                Accept: 'application/json',
-                            },
-                        }
-                    );
-                    if (response.data && response.data.length > 0) {
-                        setEtablissements(response.data);
-                        navigate('/platform-react-cicd-challenge/etablissements', {
-                            state: {
-                                etablissements: response.data,
-                            },
-                        });
-                    } else {
-                        try {
-                            const response = await axios.get(
-                                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`,
-                                {
-                                    headers: {
-                                        Accept: 'application/json',
-                                    },
-                                }
-                            );
-                            if (response.data && response.data.length > 0) {
-                                setEtablissements(response.data);
-                                navigate('/platform-react-cicd-challenge/etablissements', {
-                                    state: {
-                                        etablissements: response.data,
-                                    },
-                                });
-                            }
-                        } catch (error) {
-                            console.error('Error fetching information:', error);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error fetching information:', error);
-                }
-            }
-
-            // Appel de navigate une fois que la recherche est terminée
-
-
-        } catch (error) {
-            console.error('Error fetching information:', error);
-        }
-    };
-
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
