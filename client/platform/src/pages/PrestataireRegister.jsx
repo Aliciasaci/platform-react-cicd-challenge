@@ -1,17 +1,17 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Progress, Label, TextInput, Checkbox, ToggleSwitch,FileInput, Toast } from 'flowbite-react';
+import { Button, Progress, Label, Spinner, TextInput, ToggleSwitch,FileInput, Toast } from 'flowbite-react';
 import { HiCheck, HiX } from 'react-icons/hi';
-import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash, FaPlus } from "react-icons/fa6";
+import { FaArrowLeft, FaArrowRight, FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 import * as EmailValidator from 'email-validator';
 import MapFinder from '../components/MapFinder';
 import TimeRangePicker from '../components/TimeRangePicker';
-import PrestationCreateModal from '../components/PrestationCreate';
+import { useTranslation } from "react-i18next";
 import axios from 'axios';
 
 function PrestataireRegister() {
     const [step, setStep] = useState(1);
-    const [createModal, setCreateModal] = useState(false);
+    const { t } = useTranslation();
     const [nameError, setNameError] = useState('');
     const [salonNameError, setSalonNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
@@ -57,6 +57,7 @@ function PrestataireRegister() {
     const [selectedAddress, setSelectedAddress] = useState('');
     const [showSuccessToast, setShowSuccessToast] = useState(false);
     const [showUnsuccessToast, setUnsuccessToast] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -243,10 +244,10 @@ function PrestataireRegister() {
                 return true;
             } else {
                 if (!isValidSalonName) {
-                    newSalonNameError = 'Salon name is required';
+                    newSalonNameError = t("Etablissement_Register_Salon_Name_Required");
                 }
                 if (isKbisEmpty) {
-                    newKbisError = 'Kbis is required';
+                    newKbisError = t("Etablissement_Register_Kbis_Required");
                 }
                 setSalonNameError(newSalonNameError);
                 setKbisError(newKbisError);
@@ -257,16 +258,16 @@ function PrestataireRegister() {
                 return true;
             } else {
                 if (!isValidPrestataireName) {
-                    newNameError = 'Prestataire last name is required ';
+                    newNameError = t("Etablissement_Register_Prestataire_Last_Name_Required");
                 }
                 if (!isValidPrestatairePrename) {
-                    newNameError += 'Prestataire first name is required ';
+                    newNameError += t("Etablissement_Register_Prestataire_First_Name_Required") ;
                 }
                 if (!isValidSalonName) {
-                    newSalonNameError = 'Salon name is required';
+                    newSalonNameError = t("Etablissement_Register_Salon_Name_Required");
                 }
                 if (isKbisEmpty) {
-                    newKbisError = 'Kbis is required';
+                    newKbisError = t("Etablissement_Register_Kbis_Required");
                 }
     
                 setNameError(newNameError);
@@ -279,6 +280,7 @@ function PrestataireRegister() {
     
     const sendPost = async () => {    
         let content = new FormData();
+        setIsLoading(true);
         content.append("nom", formData.nom);
         content.append("adresse", formData.adresse);
         content.append("horairesOuverture", `"${JSON.stringify(formData.horairesOuverture)}"` ); 
@@ -312,6 +314,8 @@ function PrestataireRegister() {
 
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -325,19 +329,19 @@ function PrestataireRegister() {
         let errorMessage = '';
     
         if (!hasMinLength) {
-            errorMessage += 'Password must be at least 8 characters long. ';
+            errorMessage += t("Provider_Register_Password_Error_Length");
         }
         if (!hasUpperCase) {
-            errorMessage += 'Password must contain at least one uppercase letter. ';
+            errorMessage += t("Provider_Register_Password_Error_Uppercase");
         }
         if (!hasLowerCase) {
-            errorMessage += 'Password must contain at least one lowercase letter. ';
+            errorMessage += t("Provider_Register_Password_Error_Lowercase");
         }
         if (!hasNumbers) {
-            errorMessage += 'Password must contain at least one number. ';
+            errorMessage += t("Provider_Register_Password_Error_Number");
         }
         if (!hasSpecialChar) {
-            errorMessage += 'Password must contain at least one special character. ';
+            errorMessage += t("Provider_Register_Password_Error_Special_Char");
         }
     
         if (errorMessage === '') {
@@ -417,6 +421,7 @@ function PrestataireRegister() {
 
     const checkMailExist = async () => {
         try {
+            setIsLoading(true);
             const response = await fetch(`${SERVER_ENDPOINT}/users?email=${formData.prestataire.email}`); // Replace with the actual API endpoint
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -429,6 +434,8 @@ function PrestataireRegister() {
             }
         } catch (error) {
             console.error('Error:', error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -500,12 +507,12 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-10 flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-4/5 font-bold' value="Quelle est votre adresse email ?" />
+                                <Label htmlFor="base" className='text-2xl text-center w-4/5 font-bold' value={t("Provider_Register_Email_Ask")} />
                             </div>
-                            <TextInput id="base" type="text" placeholder="Adresse email" sizing="md" name="email" onChange={setEmail} value={formData.prestataire.email} />
+                            <TextInput id="base" type="text" placeholder={t("Provider_register_add_mail")} sizing="md" name="email" onChange={setEmail} value={formData.prestataire.email} />
                         </div>
-                        <Button className="bg-black uppercase w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" disabled={!isEmailValid} onClick={nextStep}>
-                            Continuer
+                        <Button className="bg-black uppercase w-full hover:bg-blue-700 text-white font-bold py-2 px-4 ro    unded-lg focus:outline-none focus:shadow-outline" disabled={!isEmailValid} onClick={nextStep}>
+                            {t("Provider_register_continue")}
                         </Button>
                     </div>
                 </div>
@@ -525,27 +532,27 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Configurez votre profil PickMe" />
+                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value={t("Provider_register_config_profil")} />
                             </div>
                             <div className='flex justify-center'>
                             <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
                                     {isMailExisted === false && (
-                                        <>Il semble que vous soyez nouveau ici. Laissez-nous vous guider lors de l'installation de votre PickMe.</>
+                                        <>{t("Provider_register_new_user")}</>
                                     )}
                                     {isMailExisted === true && (
-                                        <>Il semble que vous etes deja ici. Laissez-nous vous guider lors de l'installation de votre PickMe.</>
+                                        <>{t("Provider_register_old_user")}</>
                                     )}
                                 </p>
                             </div>
                         </div>
                         <div className='flex justify-center'>
                             <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Démarrer l&apos;installation
+                                {t("Provider_register_start_installation")}
                             </Button>
                         </div>
                         <div className='flex mt-10 justify-center'>
                             <p onClick={() => resetEmail()} className="text-center hover:underline w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                Essayez un email autre que {formData.prestataire.email}
+                                {t("Provider_register_try_mail") + " " + formData.prestataire.email}
                             </p>
                         </div>
                     </div>
@@ -566,15 +573,15 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="À propos de vous" />
+                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value={t("Register_provider_a_propos")} />
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
                                     {isMailExisted === false && (
-                                        <>Parlez-nous plus en détail de vous et de votre entreprise.</>
+                                        <>{t("Provider_register_tell_more")}</>
                                     )}
                                     {isMailExisted === true && (
-                                        <>Parlez-nous plus en détail de votre entreprise.</>
+                                        <>{t("Provider_register_tell_more_2")}</>
                                     )}
                                 </p>
                             </div>
@@ -586,7 +593,7 @@ function PrestataireRegister() {
                                     </p>
                                 </div>
                             }
-                            <TextInput className='mb-4' id="base" type="text" placeholder="Nom du salon" sizing="md" name="nom" onChange={onChange} value={formData.nom} />
+                            <TextInput className='mb-4' id="base" type="text" placeholder={t("Register_provider_salon_name")} sizing="md" name="nom" onChange={onChange} value={formData.nom} />
                             {
                                 nameError !== '' &&
                                 <div className='flex mb-1 justify-center'>
@@ -597,8 +604,8 @@ function PrestataireRegister() {
                             }
                             { isMailExisted === false &&
                                 <div className='flex mb-4 justify-between'>
-                                    <TextInput id="base" type="text" placeholder="Nom" sizing="md" name="prestataire.nom" onChange={setNom} value={formData.prestataire.nom} />
-                                    <TextInput id="base" type="text" placeholder="Prénom" sizing="md" name="prestataire.prenom" onChange={setPrenom} value={formData.prestataire.prenom} />
+                                    <TextInput id="base" type="text" placeholder={t("Register_provider_name")} sizing="md" name="prestataire.nom" onChange={setNom} value={formData.prestataire.nom} />
+                                    <TextInput id="base" type="text" placeholder={t("Register_provider_prename")} sizing="md" name="prestataire.prenom" onChange={setPrenom} value={formData.prestataire.prenom} />
                                 </div>
                             }
                             {
@@ -610,12 +617,12 @@ function PrestataireRegister() {
                                 </div>
                             }
                             <div>
-                                <FileInput id="file-upload" helperText="Téléchargez votre Kbis" onChange={handleFileChange} />
+                                <FileInput id="file-upload" helperText={t("Provider_register_download_kbis")} onChange={handleFileChange} />
                             </div>
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
+                                {t("Provider_register_continue")} 
                             </Button>
                         </div>
                     </div>
@@ -636,11 +643,11 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value="Configuration du mot de passe" />
+                                <Label htmlFor="base" className='text-2xl text-center w-full font-bold' value={t("Provider_register_pw_config")} />
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Entrer le mot de passe pour votre profil professionnel.
+                                    {t("Provider_register_password_description")}
                                 </p>
                             </div>
                             {
@@ -669,7 +676,7 @@ function PrestataireRegister() {
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
+                                {t("Provider_register_continue")}
                             </Button>
                         </div>
                     </div>
@@ -688,17 +695,17 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-2xl text-center w-4/5 font-bold' value="Où vos clients peuvent-ils vous trouver ?" />
+                                <Label htmlFor="base" className='text-2xl text-center w-4/5 font-bold' value={t("Provider_register_where_to_find")} />
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Parlez-nous davantage de votre travail afin que nous puissions envoyer vos clients au bon endroit.
+                                    {t("Provider_register_where_to_find_2")}
                                 </p>
                             </div>
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
+                                {t("Provider_register_continue")}
                             </Button>
                         </div>
                     </div>
@@ -722,7 +729,7 @@ function PrestataireRegister() {
                         </div>
                         <div className='flex w-full justify-center'>
                             <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                Continuer
+                                {t("Provider_register_continue")}
                             </Button>
                         </div>
                     </div>
@@ -747,23 +754,23 @@ function PrestataireRegister() {
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Où le client peut-il vous trouver ?
+                                    {t("Provider_register_where_to_find_2")}
                                 </p>
                             </div>
                             <div className='mt-4'>
-                                <TextInput id="adresse" className='w-full mb-2' placeholder="Adresse et numéro" sizing="md" name="adresse" onChange={onChange} value={formData.adresse} />
-                                <TextInput id="ville" className='w-full mb-2' placeholder="Ville" sizing="md" name="ville" onChange={onChange} value={formData.ville} />
-                                <TextInput id="postalCode" className='w-full mb-2' placeholder="Code Postal" sizing="md" name="codePostal" onChange={onChange} value={formData.codePostal} />
-                                <TextInput id="pays" className='w-full' placeholder="Pays" sizing="md" name="pays" onChange={onChange} value={formData.pays}/>
+                                <TextInput id="adresse" className='w-full mb-2' placeholder={t("Provider_register_add_n_num")} sizing="md" name="adresse" onChange={onChange} value={formData.adresse} />
+                                <TextInput id="ville" className='w-full mb-2' placeholder={t("Provider_register_city")} sizing="md" name="ville" onChange={onChange} value={formData.ville} />
+                                <TextInput id="postalCode" className='w-full mb-2' placeholder={t("Provider_register_cp")} sizing="md" name="codePostal" onChange={onChange} value={formData.codePostal} />
+                                <TextInput id="pays" className='w-full'  placeholder={t("Provider_register_country")} sizing="md" name="pays" onChange={onChange} value={formData.pays}/>
                             </div>
                         </div>
                         <div className='flex w-full justify-center'>
                             <div className='block w-full'>
                                 <Button className="bg-black uppercase w-full mb-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={nextStep}>
-                                    Continuer
+                                    {t("Provider_register_continue")}
                                 </Button>
                                 <Button className="bg-white uppercase w-full hover:bg-blue-700 text-red-600 border-slate-600 font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={prevStep}>
-                                    Réinitialiser
+                                    {t("Provider_register_reintialize")}
                                 </Button>
                             </div>
                         </div>
@@ -785,54 +792,54 @@ function PrestataireRegister() {
                         </div>
                         <div className="form-group mt-10 mb-10">
                             <div className="mb-2 flex justify-center">
-                                <Label htmlFor="base" className='text-3xl text-center w-full font-bold' value="Vos heures d'ouverture" />
+                                <Label htmlFor="base" className='text-3xl text-center w-full font-bold' value={t("Provider_register_horairres")}/>
                             </div>
                             <div className='flex justify-center'>
                                 <p className="text-center w-4/5 text-sm font-normal text-gray-500 dark:text-gray-400">
-                                    Quand les clients peuvent-ils effectuer une réservation chez vous ?
+                                    {t("Provider_register_when_to_find")}
                                 </p>
                             </div>
                             <div className='flex mt-4 w-full justify-center items-center divide-y'>
                                 <div className='w-full'>
                                     <div className='w-full mb-2 mt-4 max-w-md flex-col'>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={lundiChecked} label="Lundi" onChange={setLundiChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={lundiChecked} label={t("Common_monday")} onChange={setLundiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={lundiChecked} day="lundi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mardiChecked} label="Mardi" onChange={setMardiChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mardiChecked} label={t("Common_tuesday")} onChange={setMardiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={mardiChecked} day="mardi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mercrediChecked} label="Mercredi" onChange={setMercrediChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={mercrediChecked} label={t("Common_wedday")} onChange={setMercrediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={mercrediChecked} day="mercredi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={jeudiChecked} label="Jeudi" onChange={setJeudiChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={jeudiChecked} label={t("Common_thursday")} onChange={setJeudiChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={jeudiChecked} day="jeudi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={vendrediChecked} label="Vendredi" onChange={setVendrediChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={vendrediChecked} label={t("Common_friday")} onChange={setVendrediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={vendrediChecked} day="vendredi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex justify-between mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={samediChecked} label="Samedi" onChange={setSamediChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={samediChecked} label={t("Common_saturday")} onChange={setSamediChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={samediChecked} day="samedi" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
                                         </div>
                                         <div className="flex justify-between mb-3">
-                                            <ToggleSwitch className='w-32 no-padding-btn' checked={dimancheChecked} label="Dimanche" onChange={setDimancheChecked} />
+                                            <ToggleSwitch className='w-32 no-padding-btn' checked={dimancheChecked} label={t("Common_sunday")} onChange={setDimancheChecked} />
                                             <div className='flex w-4/5 max-w-xs justify-center'>
                                                 <TimeRangePicker show={dimancheChecked} day="dimanche" onTimeRangeChange={(timeRange, day) => handleTimeRangeChange(timeRange, day)}/>
                                             </div>
@@ -842,8 +849,8 @@ function PrestataireRegister() {
                             </div>
                         </div>
                         <div className='flex w-full mt-4 justify-center'>
-                            <Button className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={sendPost}>
-                                Confirmer
+                            <Button disabled={isLoading} className="bg-black uppercase w-4/5 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline" onClick={sendPost}>
+                                {t("Provider_register_confirm")}
                             </Button>
                         </div>
                     </div>
@@ -859,7 +866,9 @@ function PrestataireRegister() {
                     <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200">
                         <HiCheck className="h-5 w-5" />
                     </div>
-                    <div className="ml-3 text-sm font-normal">Votre demande a été envoyée avec succès.</div>
+                    <div className="ml-3 text-sm font-normal">
+                        {t("Provider_register_success")}
+                    </div>
                     <Toast.Toggle />
                 </Toast>
             }
@@ -868,7 +877,9 @@ function PrestataireRegister() {
                     <div className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200">
                         <HiX className="h-5 w-5" />
                     </div>
-                    <div className="ml-3 text-sm font-normal">Échec de l'envoi de votre demande</div>
+                    <div className="ml-3 text-sm font-normal">
+                        {t("Provider_register_failure")}
+                    </div>
                     <Toast.Toggle />
                 </Toast>
             }
