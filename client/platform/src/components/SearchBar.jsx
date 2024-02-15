@@ -127,8 +127,6 @@ export default function SearchBar() {
                 }
             );
             if (response.data && response.data.length > 0) {
-                console.log("prestation titre");
-                console.log(response.data);
                 setEtablissements(response.data);
                 navigate('/challenge-stack-5S1/etablissements', {
                     state: {
@@ -159,9 +157,12 @@ export default function SearchBar() {
                         }
                     );
                     if (response.data && response.data.length > 0) {
-                        console.log("par nom");
-                        console.log(response.data);
                         setEtablissements(response.data);
+                        navigate('/challenge-stack-5S1/etablissements', {
+                            state: {
+                                etablissements: response.data,
+                            },
+                        });
                     } else {
                         try {
                             url = `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`;
@@ -186,9 +187,12 @@ export default function SearchBar() {
                                 }
                             );
                             if (response.data && response.data.length > 0) {
-                                console.log("par catégorie");
-                                console.log(response.data);
                                 setEtablissements(response.data);
+                                navigate('/challenge-stack-5S1/etablissements', {
+                                    state: {
+                                        etablissements: response.data,
+                                    },
+                                });
                             }
                         } catch (error) {
                             console.error('Error fetching information:', error);
@@ -200,7 +204,7 @@ export default function SearchBar() {
             }
 
             // Appel de navigate une fois que la recherche est terminée
-        
+
 
         } catch (error) {
             console.error('Error fetching information:', error);

@@ -54,6 +54,7 @@ export default function ReservationsCard({ reservation, mode }) {
 
 
  const annulerReservation = async () => {
+
   let indispoList = indisponibilites.filter((indispo) => (indispo.jour == reservation.jour) && (indispo.creneau == reservation.creneau))
   if (indispoList.length > 0) {
    let indispoId = indispoList[0].id
@@ -72,23 +73,27 @@ export default function ReservationsCard({ reservation, mode }) {
    } catch (error) {
     console.log(error);
    }
-   try {
-    const res = await axios.patch(`${import.meta.env.VITE_SERVER_URL}${id}`, {
+  }
+
+  try {
+   const idInteger = id.substring(id.lastIndexOf("/") + 1);
+   const res = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/reservations/${idInteger}`,
+    {
      status: "canceled",
     },
-     {
-      headers: {
-       'Content-Type': 'application/merge-patch+json'
-      }
-     }
-    );
-    if (res.status === 200) {
-     displayResponseMessage(`Réservation annulée.`);
+    {
+     headers: {
+      'Content-Type': 'application/merge-patch+json',
+     },
     }
-   } catch (error) {
-    console.log(error);
+   );
+   if (res.status === 200) {
+    displayResponseMessage(`Réservation annulée.`);
    }
+  } catch (error) {
+   console.log(error);
   }
+
  };
 
  const handleDeplacement = () => {
@@ -115,7 +120,7 @@ export default function ReservationsCard({ reservation, mode }) {
    {responseMessage && (
     <div
      className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
-     role="alert">  
+     role="alert">
      <span className="font-medium"> {responseMessage} </span>
     </div>
    )}
@@ -143,13 +148,11 @@ export default function ReservationsCard({ reservation, mode }) {
            className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700 mr-2" onClick={handleDeplacement}>
            Déplacer
           </button>
-          {indisponibilites &&
-           <button
-            type="button"
-            className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={annulerReservation}>
-            Annuler
-           </button>
-          }
+          <button
+           type="button"
+           className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg dark:focus:ring-gray-700 dark:border-gray-700" onClick={annulerReservation}>
+           Annuler
+          </button>
          </>
         )}
         {mode === "canceled" && (

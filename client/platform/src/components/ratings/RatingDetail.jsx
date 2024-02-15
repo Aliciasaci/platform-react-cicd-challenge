@@ -5,24 +5,30 @@ import { Card } from 'flowbite-react';
 import { AppContext } from '../../context';
 import axios from 'axios';
 
-export default function RatingDetail({ prestationId, notes }) {
+export default function RatingDetail({ prestationId, notes, categorieId }) {
   const [ratings, setRatings] = useState({});
   const [hover, setHover] = useState({});
   const [criteres, setCriteres] = useState([]);
   const { userId } = useContext(AppContext);
-  const userNotes = notes.filter((note) => note.client.id == userId)
-
+  const [responseMessage, setResponseMessage] = useState("");
+  const [userNotes, setUserNotes] = useState([])
 
   const handleRatingChange = (id, critere, currentRating) => {
     setRatings({ ...ratings, [critere]: { id: id, note: currentRating } });
   };
 
   const handleHoverChange = (critere, currentRating) => {
-    console.log(ratings);
     setHover({ ...hover, [critere]: currentRating });
   };
 
-  const categoryId = 1;  //rendre dynamique
+  const displayResponseMessage = (message) => {
+    setResponseMessage(message);
+    setTimeout(() => {
+      setResponseMessage("");
+    }, 5000);
+  };
+
+  const categoryId = categorieId;
 
   useEffect(() => {
     const fetchCriteresPerCategory = async () => {
@@ -45,6 +51,7 @@ export default function RatingDetail({ prestationId, notes }) {
     };
 
     const initializeRatings = () => {
+      setUserNotes(notes.filter((note) => note.client.id == userId));
       if (userNotes.length > 0) {
         userNotes.forEach((note) => {
           setRatings(prevRatings => ({ ...prevRatings, [note.critere.titre]: { id: note.id, note: note.note } }))
@@ -67,6 +74,10 @@ export default function RatingDetail({ prestationId, notes }) {
             critere: rating['id'],
             note: rating['note'],
           });
+
+          if (res.status === 201) {
+            displayResponseMessage("Votre note a bien été enregistrée");
+          }
         } catch (error) {
           console.log(error);
         }
@@ -76,6 +87,13 @@ export default function RatingDetail({ prestationId, notes }) {
 
   return (
     <>
+      {responseMessage && (
+        <div
+          className={`fade-out p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-100 dark:bg-gray-800 dark:text-green-400`}
+          role="alert">
+          <span className="font-medium"> {responseMessage} </span>
+        </div>
+      )}
       <Card className="w-full">
         <h1 className='text-xl text-black font-semibold'>Noter la prestation</h1>
         {criteres.map((critere, index) => (
@@ -105,7 +123,7 @@ export default function RatingDetail({ prestationId, notes }) {
                 </label>
               );
             })}
-            {ratings[critere.titre] && (<p className='text-black'> {ratings[critere.titre]['note']}</p>)}
+            {ratings[critere.titre] && (<p className='text-gray-500 ml-2 font-semibold'> {ratings[critere.titre]['note']}</p>)}
             <br />
           </div>
         ))}
