@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { res } from 'react-email-validator';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from "react-i18next";
@@ -24,9 +23,6 @@ export default function SearchBar() {
             console.log('Aucune recherche n\'a été saisie');
         }
     };
-
-    };
-
 
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
