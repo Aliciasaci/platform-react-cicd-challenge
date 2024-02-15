@@ -105,6 +105,7 @@ export default function SearchBar() {
 
     const fetchFilterResults = async (searchInput,ville,codePostal,distance) => {
         try {
+                                        alert("titre");
             let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
             alert('titre');
             if (searchInput) {
@@ -167,7 +168,8 @@ export default function SearchBar() {
                         });
                     } else {
                         try {
-                            alert('category');
+                            alert("category");
+                            console.log(`${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`)
                             url = `${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`;
                             if (searchInput) {
                                 url += `?prestation.category=${searchInput}`;
