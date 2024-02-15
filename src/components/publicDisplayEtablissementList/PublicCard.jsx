@@ -4,6 +4,7 @@ import { LuMapPin } from "react-icons/lu";
 import { IoIosStarOutline } from "react-icons/io";
 import { useTranslation } from "react-i18next";
 import { Spinner } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 const cardStyle = {
   height: "20rem",
@@ -15,6 +16,7 @@ const cardStyle = {
 };
 
 export const PublicCard = ({ etablissement, image, isLoading }) => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   let totalCount = 0;
   let totalSum = 0;
@@ -36,7 +38,8 @@ export const PublicCard = ({ etablissement, image, isLoading }) => {
     if (event) {
       event.stopPropagation();
     }
-    window.location.href = `/platform-react-cicd-challenge/etablissement/${id}`;
+    navigate(`/platform-react-cicd-challenge/etablissement/${id}`);
+    // window.location.href = `/platform-react-cicd-challenge/etablissement/${id}`;
   };
 
   return (

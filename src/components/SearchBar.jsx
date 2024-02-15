@@ -165,6 +165,7 @@ export default function SearchBar() {
                         });
                     } else {
                         try {
+                            console.log(`${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`)
                             url = `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`;
                             if (searchInput) {
                                 url += `?prestation.category=${searchInput}`;
