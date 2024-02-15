@@ -105,7 +105,7 @@ export default function SearchBar() {
 
     const fetchFilterResults = async (searchInput,ville,codePostal,distance) => {
         try {
-            let url = `${import.meta.env.VITE_SERVER_URL}/filter/`;
+            let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
             if (searchInput) {
                 url += `?prestation.titre=${searchInput}`;
             }
@@ -135,7 +135,7 @@ export default function SearchBar() {
                 });
             } else {
                 try {
-                    let url = `${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`;
+                    let url = `${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`;
                     if (searchInput) {
                         url += `?nom=${searchInput}`;
                     }
@@ -149,7 +149,7 @@ export default function SearchBar() {
                         url += `${searchInput || ville || codePostal ? '&' : '?'}distance=${distance}`;
                     }
                     const response = await axios.get(
-                        `${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`,
+                        `${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`,
                         {
                             headers: {
                                 Accept: 'application/json',
@@ -165,8 +165,8 @@ export default function SearchBar() {
                         });
                     } else {
                         try {
-                            console.log(`${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`)
-                            url = `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`;
+                            console.log(`${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`)
+                            url = `${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`;
                             if (searchInput) {
                                 url += `?prestation.category=${searchInput}`;
                             }
@@ -180,7 +180,7 @@ export default function SearchBar() {
                                 url += `${searchInput || ville || codePostal ? '&' : '?'}distance=${distance}`;
                             }
                             const response = await axios.get(
-                                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`,
+                                `${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`,
                                 {
                                     headers: {
                                         Accept: 'application/json',
@@ -203,7 +203,7 @@ export default function SearchBar() {
                     console.error('Error fetching information:', error);
                 }
             }
-            console.log(`${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`);
+            console.log(`${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`);
 
             // Appel de navigate une fois que la recherche est terminée
 
