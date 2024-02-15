@@ -105,6 +105,7 @@ export default function SearchBar() {
 
     const fetchFilterResults = async (searchInput,ville,codePostal,distance) => {
         try {
+                                        alert("titre");
             let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
             if (searchInput) {
                 url += `?prestation.titre=${searchInput}`;
@@ -135,6 +136,7 @@ export default function SearchBar() {
                 });
             } else {
                 try {
+                    alert("nom");
                     let url = `${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`;
                     if (searchInput) {
                         url += `?nom=${searchInput}`;
@@ -165,6 +167,7 @@ export default function SearchBar() {
                         });
                     } else {
                         try {
+                            alert("category");
                             console.log(`${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`)
                             url = `${import.meta.env.VITE_SERVER_URL}/filter?prestation.category=${searchInput}`;
                             if (searchInput) {
@@ -203,10 +206,6 @@ export default function SearchBar() {
                     console.error('Error fetching information:', error);
                 }
             }
-            console.log(`${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`);
-
-            // Appel de navigate une fois que la recherche est terminée
-
 
         } catch (error) {
             console.error('Error fetching information:', error);
