@@ -1,4 +1,4 @@
-name: Node.js CI - PULL
+name: Build on PULL | CI
 
 on:
   pull_request:
