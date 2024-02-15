@@ -29,7 +29,7 @@ export default function SearchBar() {
         alert(import.meta.env.VITE_SERVER_URL);
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.titre=${searchInput}`,
+                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.titre=${searchInput}`,
                 {
                     headers: {
                         Accept: 'application/json',
@@ -38,15 +38,16 @@ export default function SearchBar() {
             );
             if (response.data && response.data.length > 0) {
                 setEtablissements(response.data);
-                navigate('/platform-react-cicd-challenge/etablissements', {
-                    state: {
-                        etablissements: response.data,
-                    },
-                });
+                console.log(response.data);
+             //   navigate('/platform-react-cicd-challenge/etablissements', {
+             //       state: {
+              //          etablissements: response.data,
+              //      },
+           //     });
             } else {
                 try {
                     const response = await axios.get(
-                        `${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`,
+                        `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?nom=${searchInput}`,
                         {
                             headers: {
                                 Accept: 'application/json',
@@ -55,15 +56,16 @@ export default function SearchBar() {
                     );
                     if (response.data && response.data.length > 0) {
                         setEtablissements(response.data);
-                        navigate('/platform-react-cicd-challenge/etablissements', {
-                            state: {
-                                etablissements: response.data,
-                            },
-                        });
+                      //  navigate('/platform-react-cicd-challenge/etablissements', {
+                      //      state: {
+                       //         etablissements: response.data,
+                       //     },
+                     //   });
+                        console.log(response.data);
                     } else {
                         try {
                             const response = await axios.get(
-                                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`,
+                                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.category=${searchInput}`,
                                 {
                                     headers: {
                                         Accept: 'application/json',
@@ -72,11 +74,12 @@ export default function SearchBar() {
                             );
                             if (response.data && response.data.length > 0) {
                                 setEtablissements(response.data);
-                                navigate('/platform-react-cicd-challenge/etablissements', {
-                                    state: {
-                                        etablissements: response.data,
-                                    },
-                                });
+                                console.log(response.data);
+                              //  navigate('/platform-react-cicd-challenge/etablissements', {
+                              //      state: {
+                               //         etablissements: response.data,
+                               //     },
+                             //   });
                             }
                         } catch (error) {
                             console.error('Error fetching information:', error);
