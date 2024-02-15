@@ -143,7 +143,7 @@ export default function Calendar({ employeId,  createReservation }) {
           <Table.Head className="bg-white">
             {datesSemaine.map((day, index) => (
               <Table.HeadCell className="calendar-head" key={index}>
-                {day.jour} <br /> {day.date}
+                 {day.date}
               </Table.HeadCell>
             ))}
           </Table.Head>
