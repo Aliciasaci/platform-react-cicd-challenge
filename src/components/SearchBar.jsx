@@ -26,9 +26,10 @@ export default function SearchBar() {
     };
 
     const fetchFilterResults = async (searchInput) => {
+        alert(import.meta.env.VITE_SERVER_URL);
         try {
             const response = await axios.get(
-                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.titre=${searchInput}`,
+                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.titre=${searchInput}`,
                 {
                     headers: {
                         Accept: 'application/json',
@@ -45,7 +46,7 @@ export default function SearchBar() {
             } else {
                 try {
                     const response = await axios.get(
-                        `${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`,
+                        `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?nom=${searchInput}`,
                         {
                             headers: {
                                 Accept: 'application/json',
@@ -62,7 +63,7 @@ export default function SearchBar() {
                     } else {
                         try {
                             const response = await axios.get(
-                                `${import.meta.env.VITE_SERVER_URL}/filter/?prestation.category=${searchInput}`,
+                                `https://gentle-chamber-06249-b77e1a20e14f.herokuapp.com/api/filter/?prestation.category=${searchInput}`,
                                 {
                                     headers: {
                                         Accept: 'application/json',
