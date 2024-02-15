@@ -23,8 +23,6 @@ export default function PastReservations() {
      }))
 
      const filteredReservations = mappedReservations.filter(reservation => reservation.jour_2 < today);
-
-     console.log(filteredReservations);
      setReservationsClient(filteredReservations);
      setPret(true);
     }

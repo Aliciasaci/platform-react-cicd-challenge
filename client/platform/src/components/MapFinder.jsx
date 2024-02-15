@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { TextInput } from 'flowbite-react';
 import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
+import { useTranslation } from "react-i18next";
 
 const CONTAINER_STYLE = {
     width: '100%',
@@ -15,7 +16,7 @@ const CENTER = {
 const LIBRARIES = ["places"];
 
 function MapFinder({ onAddressSelect }) {
-    const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
+    const { t } = useTranslation();
     const [mapCenter, setMapCenter] = useState(CENTER);
     const [zoom, setZoom] = useState(10); // Zoom level
     const [inputValue, setInputValue] = useState("");
@@ -23,6 +24,7 @@ function MapFinder({ onAddressSelect }) {
     const autocompleteInstance = useRef(null);
 
     const initializeAutocomplete = () => {
+
         if (!autocompleteInstance.current && typeof google !== 'undefined') {
             const autocompleteOptions = {
                 types: ["address"],
@@ -65,14 +67,13 @@ function MapFinder({ onAddressSelect }) {
                     ref={autocompleteRef}
                     id="location"
                     type="text"
-                    placeholder="Search location"
+                    placeholder={t("Mapfinder_location")}
                     sizing="md"
                     name="location"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     className='mb-4'
                 />
-
                     <GoogleMap
                         mapContainerStyle={CONTAINER_STYLE}
                         center={mapCenter}

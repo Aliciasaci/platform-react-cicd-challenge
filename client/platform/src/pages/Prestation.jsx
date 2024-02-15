@@ -7,15 +7,18 @@ import RatingGeneral from "../components/ratings/RatingGeneral";
 
 export default function Prestation() {
   const [prestation, setPrestation] = useState(null);
+  const [categorieId, setCategorieId] = useState(null);
   const [notes, setNotes] = useState([]);
   const url = window.location.href.split("/");
   const prestationsId = url[url.length - 1];
-
+ 
   useEffect(() => {
     const fetchPrestation = async () => {
       try {
         const response = await axios.get(`${import.meta.env.VITE_SERVER_URL}/prestations/${prestationsId}`);
         setPrestation(response.data);
+        const categoryUrl = response.data.category['@id'].split("/");
+        setCategorieId(categoryUrl[categoryUrl.length - 1]);
       } catch (error) {
         console.error('Error fetching prestation information:', error);
       }
@@ -33,7 +36,9 @@ export default function Prestation() {
           },
         });
         if (response.data) {
-          setNotes(response.data.feedback);
+          if(response.data.feedback.length > 0){
+            setNotes(response.data.feedback);
+          }
         }
       } catch (error) {
         console.error('Error fetching information:', error);
@@ -65,15 +70,15 @@ export default function Prestation() {
                 </span>
               </div>
             </div>
-            <Link to="/">
+            {/* <Link to="/challenge-stack-5S1/reservations/">
               <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700" >
                 Prendre RDV
               </button>
-            </Link>
+            </Link> */}
           </div>
           <GalleryDisplay className="w-full" />
           <RatingGeneral prestationId={prestationsId} notes={notes} />
-          {/* <RatingDetail prestationId={prestationsId} notes={notes} />  */}
+          <RatingDetail categorieId={categorieId} prestationId={prestationsId} notes={notes} /> 
         </div>
       )}
     </div>

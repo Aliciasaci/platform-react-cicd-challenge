@@ -23,7 +23,7 @@ export const EtablissementsList = () => {
       setEtablissements(etablissementsDefault["hydra:member"]);
     }
   }, [etablissementsDefault]);
-
+  
   useEffect(() => {
     setLocations(
       etablissements?.map((etablissement) => ({

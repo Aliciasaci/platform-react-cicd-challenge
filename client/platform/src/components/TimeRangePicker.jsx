@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Dropdown } from 'flowbite-react';
+import { useTranslation } from "react-i18next";
 
 function TimeRangePicker({ day, onTimeRangeChange, show }) {
+    const { t } = useTranslation();
     const hours = Array.from({ length: 24 }, (_, i) => i.toString().padStart(2, '0'));
     const minutes = Array.from({ length: 60 }, (_, i) => i.toString().padStart(2, '0'));
 
@@ -78,7 +80,9 @@ function TimeRangePicker({ day, onTimeRangeChange, show }) {
             </Dropdown>
             </div>
             : 
-                <span className='text-sm text-black' >Fermé</span>
+                <span className='text-sm text-black' >
+                    {t("Common_Closed")}
+                </span>
             }
         </div>
     );

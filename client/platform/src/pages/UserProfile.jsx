@@ -39,7 +39,6 @@ export default function ProfilUser() {
             if (hydraMember.length > 0) {
                 const user = hydraMember[0];
                 setUserInfo(user);
-                console.log(user);
                 setUserId(user.id);
             } else {
                 console.log('Aucun utilisateur trouvé');
