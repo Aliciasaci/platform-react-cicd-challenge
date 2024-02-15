@@ -68,13 +68,13 @@ export default function Register({ }) {
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Nom*"
+                value={t("Common_Name")}
               />
             </div>
             <TextInput
               id="base"
               type="text"
-              placeholder="Nom"
+              placeholder={t("Common_Name")}
               sizing="md"
               name="nom"
               value={user.nom}
@@ -87,13 +87,13 @@ export default function Register({ }) {
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Prénom*"
+                value={t("Common_FirstName")}
               />
             </div>
             <TextInput
               id="base"
               type="text"
-              placeholder="Prénom"
+              placeholder={t("Common_FirstName")}
               sizing="md"
               name="prenom"
               value={user.prenom}
@@ -106,13 +106,13 @@ export default function Register({ }) {
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Email*"
+                value={t("Common_Email")}
               />
             </div>
             <TextInput
               id="base"
               type="text"
-              placeholder="Addresse email"
+              placeholder={t("Common_Email")}
               sizing="md"
               name="email"
               value={user.email}
@@ -125,7 +125,7 @@ export default function Register({ }) {
               <Label
                 htmlFor="base"
                 className="text-sm text-center font-bold"
-                value="Mot de passe*"
+                value={t("Common_Password")}
               />
             </div>
             <TextInput
@@ -143,14 +143,14 @@ export default function Register({ }) {
             onClick={handleSubmit}
             className="bg-zinc-800  uppercase w-full hover:bg-gray-700 text-white font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline"
           >
-            Créer mon compte
+            {t("Common_CreateAccount")}
           </Button>
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
-            <p className="mt-4">Vous avez déjà un compte ? </p>
+            <p className="mt-4">{t("Register_AlreadyAccount")}</p>
             <Link to="/platform-react-cicd-challenge/login">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full hover:bg-gray-700 font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
-                Se connecter
+              {t("Common_Login")}
               </Button>
             </Link>
           </div>

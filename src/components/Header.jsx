@@ -32,7 +32,7 @@ const Header = () => {
         type="button"
         className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700"
       >
-        Se connecter
+        {t("Common_Login")}
       </Button>
     </Link>
   );

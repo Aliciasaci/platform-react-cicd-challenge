@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { AppContext } from '../../context';
 import { useContext } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function UserReservations() {
     const { userId } = useContext(AppContext);
     const [reservationsClient, setReservationsClient] = useState([]);
     const [pret, setPret] = useState(false);
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchReservationsInfos = async () => {
@@ -36,12 +38,12 @@ export default function UserReservations() {
     return (
         <div className="w-3/4">
             <div className="mt-10 ml-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <h5 className="text-xl text-gray-800 mb-4">Mes rendez-vous à venir</h5>
-                <Link to="/" className="mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Prendre rendez-vous</Link>
+                <h5 className="text-xl text-gray-800 mb-4">{t("User_Reservations_Futur_Title")}</h5>
+                <Link to="/" className="mt-2 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">{t('Take_Reservation')}</Link>
             </div>
 
             <div className="mt-5 ml-2 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <h5 className="text-xl text-gray-800 mb-4">Mes réservations</h5>
+                <h5 className="text-xl text-gray-800 mb-4">{t('User_Reservations')}</h5>
                 {pret ? (
                     reservationsClient.map((reservation, index) => (
                         <ReservationsCard key={index} reservation={reservation} mode="futur" />
