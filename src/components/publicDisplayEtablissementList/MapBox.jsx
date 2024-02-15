@@ -1,8 +1,9 @@
 import React from "react";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
+import { Spinner } from "flowbite-react";
 
-export const MapBox = ({ initialLat, initialLng, locations }) => {
+export const MapBox = ({ initialLat, initialLng, locations, isLoading }) => {
   const [lat, setLat] = React.useState(initialLat ?? 48.866667);
   const [lng, setLng] = React.useState(initialLng ?? 2.333333);
   const [zoom, setZoom] = React.useState(12);
@@ -12,7 +13,8 @@ export const MapBox = ({ initialLat, initialLng, locations }) => {
   mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_TOKEN;
 
   React.useEffect(() => {
-    if (map.current && locationsRef.current.length > 0) return; // initialize map only once
+    if (map.current || !mapContainer.current || locationsRef.current.length > 0)
+      return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/streets-v12",
@@ -34,6 +36,14 @@ export const MapBox = ({ initialLat, initialLng, locations }) => {
         .addTo(map.current);
     });
   }, [locations]);
+
+  if (isLoading) {
+    return (
+      <div className="h-full w-full flex justify-center items-center">
+        <Spinner color="gray" size="xl" />
+      </div>
+    );
+  }
 
   return (
     <div>
