@@ -25,70 +25,7 @@ export default function SearchBar() {
         }
     };
 
-    const fetchFilterResults = async (searchInput) => {
-        try {
-            const response = await axios.get(
-                `filter/?prestation.titre=${searchInput}`,
-                {
-                    headers: {
-                        Accept: 'application/json',
-                    },
-                }
-            );
-            if (response.data && response.data.length > 0) {
-                setEtablissements(response.data);
-                console.log(response.data);
-                   navigate('/platform-react-cicd-challenge/etablissements', {
-                       state: {
-                         etablissements: response.data,
-                     },
-                 });
-            } else {
-                try {
-                    const response = await axios.get(
-                        `filter/?nom=${searchInput}`,
-                        {
-                            headers: {
-                                Accept: 'application/json',
-                            },
-                        }
-                    );
-                    if (response.data && response.data.length > 0) {
-                        setEtablissements(response.data);
-                        navigate('/platform-react-cicd-challenge/etablissements', {
-                           state: {
-                                etablissements: response.data,
-                           },
-                        });
-                        console.log(response.data);
-                    } else {
-                        try {
-                            const response = await axios.get(
-                                `filter/?prestation.category=${searchInput}`,
-                                {
-                                    headers: {
-                                        Accept: 'application/json',
-                                    },
-                                }
-                            );
-                            if (response.data && response.data.length > 0) {
-                                setEtablissements(response.data);
-                                console.log(response.data);
-                                navigate('/platform-react-cicd-challenge/etablissements', {
-                                     state: {
-                                      etablissements: response.data,
-                                    },
-                                });
-                            }
-                        } catch (error) {
-                            console.error('Error fetching information:', error);
-                        }
-                    }
-                } catch (error) {
-                    console.error('Error fetching information:', error);
-                }
-            }
-
+    
             // Appel de navigate une fois que la recherche est terminée
 
 
