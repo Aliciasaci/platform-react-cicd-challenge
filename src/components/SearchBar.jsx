@@ -202,6 +202,7 @@ export default function SearchBar() {
                     console.error('Error fetching information:', error);
                 }
             }
+            console.log(`${import.meta.env.VITE_SERVER_URL}/filter/?nom=${searchInput}`);
 
             // Appel de navigate une fois que la recherche est terminée
 
