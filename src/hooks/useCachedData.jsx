@@ -19,6 +19,7 @@ const useCachedData = (fetchData, id) => {
           setData(newData.data);
           setIsLoading(false);
         } catch (error) {
+          console.log(error);
           setError(error.response.status);
           setIsLoading(false);
         }
