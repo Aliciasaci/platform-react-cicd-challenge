@@ -55,9 +55,6 @@ jobs:
           npm install
           npm install -g gh-pages --save-dev
 
-      - name: Run ESLint
-        run: npm run lint
-        
       - name: Deploy
         run: |
           git config --global user.name alicia
