@@ -1,4 +1,4 @@
-name: Build on PULL | CI
+name: Build  and Test on PULL | CI
 
 on:
   pull_request:
@@ -29,6 +29,9 @@ jobs:
         run: |
           npm install
           npm install -g gh-pages --save-dev
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build

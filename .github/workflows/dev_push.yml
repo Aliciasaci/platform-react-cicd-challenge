@@ -1,4 +1,4 @@
-name: Build on PUSH | CI
+name: Build and Test on PUSH | CI
 
 on:
   push:
