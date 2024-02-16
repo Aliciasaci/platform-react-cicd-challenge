@@ -52,6 +52,7 @@ function App() {
     });
   }, []);
 
+
   if (loading) {
     return (
       <ContentLoader

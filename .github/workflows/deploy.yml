@@ -7,6 +7,11 @@ on:
     types:
       - completed
 
+  env:
+    VITE_SERVER_URL: ${{ vars.VITE_SERVER_URL }}
+    VITE_MAPBOX_TOKEN: ${{ vars.VITE_MAPBOX_TOKEN }}
+    VITE_REACT_APP_GOOGLE_MAPS_API_KEY: ${{ vars.VITE_REACT_APP_GOOGLE_MAPS_API_KEY }}
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -29,7 +34,10 @@ jobs:
           npm install
           npm install -g gh-pages --save-dev
 
-      - run : echo ${{ env.VITE_SERVER_URL }}
+      - run: |
+          echo "Hello ${{ env.VITE_SERVER_URL }}"
+          echo "Hello $user_name"
+          echo $user_name
 
       - name: Deploy
         run: |
