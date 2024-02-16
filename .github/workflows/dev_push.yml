@@ -1,4 +1,4 @@
-name: Build on PUSH | CI
+name: Build and Test on PUSH | CI
 
 on:
   push:
@@ -29,6 +29,9 @@ jobs:
         run: |
           npm install
           npm install -g gh-pages --save-dev
+
+      - name: Test
+        run: npm test
 
       - name: Build
         run: npm run build
