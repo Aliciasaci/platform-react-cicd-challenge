@@ -52,6 +52,8 @@ function App() {
     });
   }, []);
 
+  alert("welcome");
+
 
   if (loading) {
     return (
