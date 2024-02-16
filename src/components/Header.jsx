@@ -18,7 +18,7 @@ const Header = () => {
   }, []);
 
   const loginButton = userToken ? (
-    <Link to="#/platform-react-cicd-challenge/user-profile">
+    <Link to="#/user-profile">
       <Button
         type="button"
         className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700"
@@ -27,7 +27,7 @@ const Header = () => {
       </Button>
     </Link>
   ) : (
-    <Link to="#/platform-react-cicd-challenge/login">
+    <Link to="#/login">
       <Button
         type="button"
         className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-s me-2 mb-2 text-white dark:focus:ring-gray-700 dark:border-gray-700"
@@ -42,14 +42,14 @@ const Header = () => {
       <Navbar.Brand>
         {/* <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo">PICKME</span> */}
         <Link
-          to="#/platform-react-cicd-challenge/"
+          to="#/"
           className="self-center whitespace-nowrap text-xl font-semibold dark:text-white logo"
         >
           PICKME
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2 items-start">
-        <Link to="#/platform-react-cicd-challenge/">
+        <Link to="#/">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
@@ -57,7 +57,7 @@ const Header = () => {
             {t("Common_Home")}
           </Button>
         </Link>
-        <Link to="#/platform-react-cicd-challenge/etablissements/">
+        <Link to="#/etablissements/">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
@@ -65,7 +65,7 @@ const Header = () => {
             Etablissements
           </Button>
         </Link>
-        <Link to="#/platform-react-cicd-challenge/prestataire-register">
+        <Link to="#/prestataire-register">
           <Button
             type="button"
             className="text-black bg-gray-200 hover:bg-gray-200 rounded-lg text-sm me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700"
