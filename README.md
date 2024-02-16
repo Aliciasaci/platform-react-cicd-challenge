@@ -51,6 +51,15 @@ Rendu du projet
   # 2. AWA BAH
     
    ### 2.1 ReactJS + API Plateform
+   - Création de la page d'établissement unique (avec un ID), front et back
+   - Création de la liste des etablissement après passage du filtre (avec affichage de la map et de leur coordonnées)
+   - Ajout de la traduction sur le site
+   - Création de coposants divers pour integration multiple (notamment les prestation qui s'affichent sur la page etablissement et dans la reservation)
+   - Travail d'optimisation des requetes et séparation des fichiers en React
+   - Création du systeme de persitance de connexion et de la connexion sur le backoffice
+   - Ajout de sécurité sur les routes concernant l'entité User
+   - Création de tests jest sur des composants react et phpunit
+   - Créations des fixtures (ajout des references sur category), etablissement, prestations et user
 
    ### 2.2 CI / CD 
   
