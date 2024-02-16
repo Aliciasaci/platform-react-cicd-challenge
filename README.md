@@ -45,7 +45,7 @@ Rendu du projet
     - Workflow "DEPLOY | CD"
 
     ### Schéma explicatif de la CI/CD
-    ![alt text](image.png)
+    ![alt text](image-2.png)
 
   
   # 2. AWA BAH
