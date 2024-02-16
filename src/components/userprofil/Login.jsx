@@ -107,7 +107,7 @@ export default function Login() {
           <div className="mt-6 text-zinc-900">
             <hr className="text-zinc-900 mt-4"></hr>
             <p className="mt-4">{t("Login_NoAccount")} </p>
-            <Link to="/platform-react-cicd-challenge/register">
+            <Link to="#/register">
               <Button className="border-gray-700 mt-2 bg-zinc-100 text-zinc-900 uppercase w-full font-bold px-4 rounded-lg focus:outline-none focus:shadow-outline">
                 {t("Common_CreateAccount")}
               </Button>

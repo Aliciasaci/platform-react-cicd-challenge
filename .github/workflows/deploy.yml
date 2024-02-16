@@ -3,10 +3,10 @@ name: Deploy | CD
 on:
   workflow_run:
     workflows: ["Build on PUSH | CI"]
-    branches: ["dev"]
+    branches: ["main"]
     types:
       - completed
-
+      
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -16,7 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          ref: dev
+          ref: main
 
       - name: Set up Node.js
         uses: actions/setup-node@v3
@@ -37,4 +37,8 @@ jobs:
           npm run deploy
         env:
           user_name: 'github-actions[bot]'
-          user_email: 'github-actions[bot]@users.noreply.github.com'
+          user_email: 'github-actions[bot]@users.noreply.github.com'  
+          VITE_SERVER_URL: ${{ vars.VITE_SERVER_URL }}
+          VITE_MAPBOX_TOKEN: ${{ vars.VITE_MAPBOX_TOKEN }}
+          VITE_REACT_APP_GOOGLE_MAPS_API_KEY: ${{ vars.VITE_REACT_APP_GOOGLE_MAPS_API_KEY }}
+        
