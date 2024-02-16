@@ -34,6 +34,7 @@ Rendu du projet
  - Consulter les réservation (à venir, annulée(s) et passée(s))(front et back)
  - Création des Feedback (note par crière de la catégorie d'appartence de la prestation + moyenne globale de la prestation)(front et back)
  - Fixtures pour les entités "Critère" et "Feedback"(front et back)
+ - Fixes sécurité
 
     ### CI / CD 
   - Mise en prod des deux sites "backoffice" et "plateform client"
