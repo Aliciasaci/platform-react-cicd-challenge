@@ -35,13 +35,16 @@ Rendu du projet
  - Création des Feedback (note par crière de la catégorie d'appartence de la prestation + moyenne globale de la prestation)(front et back)
  - Fixtures pour les entités "Critère" et "Feedback"(front et back)
 
-    ### CI / CD 
+    ### CI / CD (Avec Mai THI TRANS DIEP)
   - Mise en prod des deux sites "backoffice" et "plateform client"
   - CI / CD pour les deux répo Platform Client et Backoffice Admin
    
     - Workflow "BUILD ON PULL | CI"
-    - Workflow "BUILD ON PUSH | CI"
+    - Workflow "BUILD ON Merge | CI" 
     - Workflow "DEPLOY | CD"
+
+    ### Schéma explicatif de la CI/CD
+    ![alt text](image.png)
 
   ## 2. AWA BAH
     
