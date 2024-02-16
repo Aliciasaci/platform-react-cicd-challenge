@@ -31,4 +31,4 @@ jobs:
           npm install -g gh-pages --save-dev
 
       - name: Build
-        run: npm run buil
+        run: npm run build
