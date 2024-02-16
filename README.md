@@ -20,9 +20,9 @@ Rendu du projet
 
 
 ## Distribution des tâches
- ## 1. Alicia SACI
+ # 1. Alicia SACI
     
-   ### ReactJS + API Plateform
+   ### 1.1 ReactJS + API Plateform
  - Login / register (front et back)
  - Recherche de prestation (par établissement, titre, et categorie)(front et back)
  - Auth JWT (front et back)
@@ -35,7 +35,7 @@ Rendu du projet
  - Création des Feedback (note par crière de la catégorie d'appartence de la prestation + moyenne globale de la prestation)(front et back)
  - Fixtures pour les entités "Critère" et "Feedback"(front et back)
 
-    ### CI / CD 
+    ### 1.2 CI / CD 
   - Mise en prod des deux sites "backoffice" et "plateform client"
   - CI / CD pour les deux répo Platform Client et Backoffice Admin (Avec Mai THI TRANS DIEP)
    
@@ -46,20 +46,21 @@ Rendu du projet
     ### Schéma explicatif de la CI/CD
     ![alt text](image.png)
 
-  ## 2. AWA BAH
-    
-   ### ReactJS + API Plateform
-
-   ### CI / CD 
   
-  ## 3. Mai Thi TRANS DIEP
+  # 2. AWA BAH
     
-   ### ReactJS + API Plateform
+   ### 2.1 ReactJS + API Plateform
 
-   ### CI / CD 
-
-  ## 4. Viet Anh
+   ### 2.2 CI / CD 
+  
+  # 3. Mai Thi TRANS DIEP
     
-   ### ReactJS + API Plateform
+   ### 3.1 ReactJS + API Plateform
 
-   ### CI / CD 
+   ### 3.2 CI / CD 
+
+  # 4. Viet Anh
+    
+   ### 4.1 ReactJS + API Plateform
+
+   ### 4.2 CI / CD 
