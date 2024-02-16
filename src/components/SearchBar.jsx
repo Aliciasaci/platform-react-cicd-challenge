@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { getServerUrl } from "../utils";
 
 export default function SearchBar() {
   const [searchInput1, setSearchInput1] = useState(""); // Que recherchez-vous ?
@@ -14,7 +15,7 @@ export default function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
-
+  const SERVER_URL = getServerUrl();
   const handleSearch = async () => {
     try {
       setIsLoading(true); // Set loading to true at the beginning
@@ -112,7 +113,7 @@ export default function SearchBar() {
     distance
   ) => {
     try {
-      let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
+      let url = `${SERVER_URL}/filter`;
       if (searchInput) {
         url += `?prestation.titre=${searchInput}`;
       }
@@ -142,7 +143,7 @@ export default function SearchBar() {
       } else {
         try {
           let url = `${
-            import.meta.env.VITE_SERVER_URL
+            SERVER_URL
           }/filter?nom=${searchInput}`;
           if (searchInput) {
             url += `?nom=${searchInput}`;
@@ -161,7 +162,7 @@ export default function SearchBar() {
             }distance=${distance}`;
           }
           const response = await axios.get(
-            `${import.meta.env.VITE_SERVER_URL}/filter?nom=${searchInput}`,
+            `${SERVER_URL}/filter?nom=${searchInput}`,
             {
               headers: {
                 Accept: "application/json",
@@ -178,7 +179,7 @@ export default function SearchBar() {
           } else {
             try {
               url = `${
-                import.meta.env.VITE_SERVER_URL
+                SERVER_URL
               }/filter?prestation.category=${searchInput}`;
               if (searchInput) {
                 url += `?prestation.category=${searchInput}`;
@@ -198,7 +199,7 @@ export default function SearchBar() {
               }
               const response = await axios.get(
                 `${
-                  import.meta.env.VITE_SERVER_URL
+                  SERVER_URL
                 }/filter?prestation.category=${searchInput}`,
                 {
                   headers: {
