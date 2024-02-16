@@ -22,7 +22,7 @@ import { EtablissementsList } from "./pages/EtablissementsList";
 
 const routes = [
   {
-    path: "/platform-react-cicd-challenge/",
+    path: "/",
     element: <PlatformLayout />,
     children: [
       { path: "", element: <Home /> },
