@@ -1,7 +1,7 @@
-name: Build on PUSH | CI
+name: Build on Merge | CI
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
@@ -31,4 +31,4 @@ jobs:
           npm install -g gh-pages --save-dev
 
       - name: Build
-        run: npm run build
+        run: npm run buil
