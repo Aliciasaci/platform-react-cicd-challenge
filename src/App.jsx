@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
 import "./App.css";
 import { LoadScript } from "@react-google-maps/api";
 import PrestataireRegister from "./pages/PrestataireRegister";
@@ -25,22 +25,22 @@ const routes = [
     path: "/platform-react-cicd-challenge/",
     element: <PlatformLayout />,
     children: [
-      { path: "", element: <Home /> },
-      { path: "prestataire-register", element: <PrestataireRegister /> },
-      { path: "etablissement/:id", element: <PageEtablissement /> }, // à supprimer
-      { path: "reservation", element: <Reservation /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
-      { path: "user-profile", element: <UserProfile /> },
-      { path: "mon-compte", element: <UserInformations /> },
-      { path: "cancelled-reservations", element: <CancelledReservations /> },
-      { path: "prestations/:id", element: <Prestation /> },
-      { path: "etablissements", element: <EtablissementsList /> },
+      { path: "/platform-react-cicd-challenge", element: <Home /> },
+      { path: "/platform-react-cicd-challenge/prestataire-register", element: <PrestataireRegister /> },
+      { path: "/platform-react-cicd-challenge/etablissement/:id", element: <PageEtablissement /> }, // à supprimer
+      { path: "/platform-react-cicd-challenge/reservation", element: <Reservation /> },
+      { path: "/platform-react-cicd-challenge/login", element: <Login /> },
+      { path: "/platform-react-cicd-challenge/register", element: <Register /> },
+      { path: "/platform-react-cicd-challenge/user-profile", element: <UserProfile /> },
+      { path: "/platform-react-cicd-challenge/mon-compte", element: <UserInformations /> },
+      { path: "/platform-react-cicd-challenge/cancelled-reservations", element: <CancelledReservations /> },
+      { path: "/platform-react-cicd-challenge/prestations/:id", element: <Prestation /> },
+      { path: "/platform-react-cicd-challenge/etablissements", element: <EtablissementsList /> },
     ],
   },
 ];
   
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 function App() {
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
