@@ -3,9 +3,9 @@ import React from "react";
 import { Avatar, Dropdown } from "flowbite-react";
 
 const FLAG_IMAGES_SOURCE = {
-  en: "./src/assets/img/Flag_of_the_United_Kingdom.svg",
-  fr: "./src/assets/img/Flag_of_France.png",
-  es: "./src/assets/img/Flag_of_Spain.png",
+  en: "./src/assets/img/Flag_of_the_United_States.svg",
+  fr: "./src/assets/img/Flag_of_France.svg",
+  es: "./src/assets/img/Flag_of_Spain.svg",
 };
 
 export const LanguageChanger = () => {

@@ -2,23 +2,30 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Import axios
 
 export default function UserInformations({ userInfo }) {
+
+    console.log('Informations utilisateur reçues:', userInfo); // Débogage
+    
     const [successMessage, setSuccessMessage] = useState("");
     const [newPassword, setNewPassword] = useState(""); // State to store new password
 
     const handleChangePassword = async () => {
-        try {
-            const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/users/${userInfo.id}`, {
-                password: newPassword 
-            },
+        if (userInfo.email) { // Check if email is not null
+            try {
+                const response = await axios.patch(`${import.meta.env.VITE_SERVER_URL}/users/${userInfo.id}`, {
+                    password: newPassword 
+                },
                 {
                     headers: {
                         'Content-Type': 'application/merge-patch+json',
                     },
                 });
 
-            setSuccessMessage("Mot de passe modifié avec succès !");
-        } catch (error) {
-            console.error('Error fetching user information:', error);
+                setSuccessMessage("Mot de passe modifié avec succès !");
+            } catch (error) {
+                console.error('Erreur lors de la modification du mot de passe:', error);
+            }
+        } else {
+            console.error("L'email de l'utilisateur est nul, la requête API n'a pas été effectuée.");
         }
     };
 
@@ -35,7 +42,7 @@ export default function UserInformations({ userInfo }) {
                         <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">Prénom*</label>
                         <input
                             type="text"
-                            value={userInfo.prenom}
+                            value={userInfo.prenom || ''}
                             className="text-gray-900 dark:text-gray-400 placeholder-gray-700 dark:placeholder-gray-500 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500"
                         />
                     </div>
@@ -43,7 +50,7 @@ export default function UserInformations({ userInfo }) {
                         <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">Nom*</label>
                         <input type="text"
                             className="text-gray-900 dark:text-gray-400 placeholder-gray-700 dark:placeholder-gray-500 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500"
-                            value={userInfo.nom}
+                            value={userInfo.nom || ''}
                         />
                     </div>
                 </div>
@@ -51,7 +58,7 @@ export default function UserInformations({ userInfo }) {
                     <div className="w-1/2 mr-4">
                         <label className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-500">Email*</label>
                         <input type="text"
-                            value={userInfo.email}
+                            value={userInfo.email || ''}
                             className="text-gray-900 dark:text-gray-400 placeholder-gray-700 dark:placeholder-gray-500 text-sm rounded-lg block w-full p-2.5 dark:bg-gray-700 dark:border-gray-500"></input>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider, createHashRouter } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./App.css";
 import { LoadScript } from "@react-google-maps/api";
 import PrestataireRegister from "./pages/PrestataireRegister";
@@ -22,7 +22,7 @@ import { EtablissementsList } from "./pages/EtablissementsList";
 
 const routes = [
   {
-    path: "/",
+    path: "/platform-react-cicd-challenge/",
     element: <PlatformLayout />,
     children: [
       { path: "", element: <Home /> },
@@ -39,8 +39,8 @@ const routes = [
     ],
   },
 ];
-  
-const router = createHashRouter(routes);
+
+const router = createBrowserRouter(routes);
 
 function App() {
   const API_KEY = import.meta.env.VITE_REACT_APP_GOOGLE_MAPS_API_KEY;
@@ -51,7 +51,6 @@ function App() {
       setLoading(false);
     });
   }, []);
-
 
   if (loading) {
     return (

@@ -8,6 +8,7 @@ export async function getEmployePrestations(prestationId) {
       },
     })
     .then((response) => {
+      console.log("response");
       return response;
     });
   return response;

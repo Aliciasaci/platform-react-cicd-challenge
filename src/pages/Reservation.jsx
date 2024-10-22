@@ -2,13 +2,10 @@ import Calendar from "../components/calendar/Calendar";
 import { Card } from "flowbite-react";
 import { PrestationListGroup } from "../components/publicDisplayEtablissement/PrestationListGroup";
 import EmployesPrestation from "../components/EmployesPrestation";
-import { useState, useCallback, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Alert } from "flowbite-react";
 import { useLocation } from "react-router-dom";
 import { Spinner } from "flowbite-react";
-import { ErrorComponent } from "../components/ErrorComponent";
-import { getEmployePrestations } from "../services/prestations.service";
-import useCachedData from "../hooks/useCachedData";
 import axios from "axios";
 import { useContext } from "react";
 import { AppContext } from "../context";
@@ -22,37 +19,51 @@ export default function Reservation() {
   const [dataEmployesPrestation, setDataEmployesPrestation] = useState(null);
   const [employesPrestation, setEmployesPrestation] = useState([]);
   const [responseMessage, setResponseMessage] = useState("");
-  const {
-    data: response,
-    isLoading,
-    error,
-  } = useCachedData(getEmployePrestations, prestationId);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const memoizedCallback = useCallback(() => {
-    if (response) {
-      setEmployesPrestation(response.etablissement.employes);
-      const { employes, feedback, ...presta } = response;
-      setPrestation([presta]);
-    }
-  }, [response]);
+  const storedToken = localStorage.getItem("userToken");
+
+  // Fetch prestation data
+  useEffect(() => {
+    const fetchPrestation = async () => {
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_SERVER_URL}/prestations/${prestationId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
+        );
+        const prestationData = response.data;
+
+        // Set prestation and employees
+        setPrestation([prestationData]);
+        setEmployesPrestation(prestationData.etablissement.employes);
+        setIsLoading(false);
+
+        // Log prestation data
+        console.log("Prestation data:", prestationData);
+        console.log("Employes:", prestationData.etablissement.employes);
+      } catch (err) {
+        console.error("Error fetching prestation data:", err);
+        setError(err);
+        setIsLoading(false);
+      }
+    };
+
+    fetchPrestation();
+  }, [prestationId, storedToken]);
 
   useEffect(() => {
-    if (
-      (mode === "update" || mode === "retake") &&
-      location.state?.reservation
-    ) {
-      const reservation = location.state.reservation;
-      const employeIRI = reservation.employe.split("/");
-      setDataEmployesPrestation(employeIRI[employeIRI.length - 1]);
+    if (location.state?.reservation) {
+      console.log("Reservation Info:", location.state.reservation);
     }
-  }, [mode, location.state]);
-
-  useEffect(() => {
-    memoizedCallback();
-  }, [memoizedCallback]);
+  }, [location.state]);
 
   const handleSelect = (data) => {
-    if (mode == "create") {
+    if (mode === "create") {
       setDataEmployesPrestation(data);
     }
   };
@@ -67,8 +78,12 @@ export default function Reservation() {
 
   if (error) {
     return (
-      <div className="h-screen w-full errorbg">
-        <ErrorComponent status={error.status} />
+      <div className="h-screen w-full flex items-center justify-center">
+        <Alert color="red">
+          <span>
+            <span className="font-medium">Erreur:</span> Impossible de récupérer les données de la prestation.
+          </span>
+        </Alert>
       </div>
     );
   }
@@ -83,7 +98,7 @@ export default function Reservation() {
 
   const createReservation = async (selectedDateTime) => {
     const [datePart, timePart] = selectedDateTime.split(" ");
-    if (mode == "create") {
+    if (mode === "create") {
       try {
         const res = await axios.post(
           `${import.meta.env.VITE_SERVER_URL}/reservations`,
@@ -91,7 +106,6 @@ export default function Reservation() {
             client: `/api/users/${userId}`,
             prestation: `/api/prestations/${prestationId}`,
             employe: `/api/employes/${dataEmployesPrestation}`,
-            // etablissement: `/api/etablissements/${prestation[0].etablissement.id}`,
             status: "created",
             creneau: timePart,
             duree: 0,
@@ -99,22 +113,23 @@ export default function Reservation() {
           },
           {
             headers: {
-              Accept: 'application/ld+json',
-            }
+              Accept: "application/ld+json",
+              Authorization: `Bearer ${storedToken}`,
+            },
           }
         );
 
         if (res.status === 201) {
           displayResponseMessage("Réservation confirmée.");
+          // Ajout du créneau à la liste des indisponibilités
           createIndisponibilite(selectedDateTime);
         }
       } catch (error) {
         console.log(error);
       }
-
     } else {
       const reservationId = location.state.reservation["@id"].split("/").pop();
-      if (mode == "update") {
+      if (mode === "update") {
         try {
           const res = await axios.patch(
             `${import.meta.env.VITE_SERVER_URL}/reservations/${reservationId}`,
@@ -127,6 +142,7 @@ export default function Reservation() {
             {
               headers: {
                 "Content-Type": "application/merge-patch+json",
+                Authorization: `Bearer ${storedToken}`,
               },
             }
           );
@@ -153,13 +169,14 @@ export default function Reservation() {
             {
               headers: {
                 "Content-Type": "application/merge-patch+json",
+                Authorization: `Bearer ${storedToken}`,
               },
             }
           );
 
           if (res.status === 200) {
             displayResponseMessage(
-              `Réservation récupéré pour le ${datePart} à ${timePart}.`
+              `Réservation récupérée pour le ${datePart} à ${timePart}.`
             );
             createIndisponibilite(selectedDateTime);
           }
@@ -180,6 +197,11 @@ export default function Reservation() {
           employe: `/api/employes/${dataEmployesPrestation}`,
           creneau: timePart,
           jour: datePart,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${storedToken}`,
+          },
         }
       );
     } catch (error) {
