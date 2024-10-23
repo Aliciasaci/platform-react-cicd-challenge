@@ -12,6 +12,7 @@ const Header = () => {
 
   useEffect(() => {
     const storedToken = localStorage.getItem("userToken");
+    console.log(storedToken);
     if (storedToken) {
       setUserToken(storedToken);
     }

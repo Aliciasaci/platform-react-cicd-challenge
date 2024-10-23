@@ -15,6 +15,7 @@ export default function ReservationsCard({ reservation, mode }) {
   const idEmploye =
     reservation.employe.split("/")[reservation.employe.split("/").length - 1];
 
+
   const displayResponseMessage = (message) => {
     setResponseMessage(message);
     setTimeout(() => {
@@ -104,6 +105,7 @@ export default function ReservationsCard({ reservation, mode }) {
 
   const handleDeplacement = () => {
     let idPrestationArray = prestation["@id"].split("/");
+    alert(idPrestationArray);
     navigate(`/platform-react-cicd-challenge/reservation`, {
       state: {
         prestationId: idPrestationArray[idPrestationArray.length - 1],
