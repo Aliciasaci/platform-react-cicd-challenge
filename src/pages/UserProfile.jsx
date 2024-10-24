@@ -19,6 +19,7 @@ export default function ProfilUser() {
     prenom: "",
     email: "",
   });
+  const [isUserInfoLoaded, setIsUserInfoLoaded] = useState(false); // Ajout d'un état pour suivre si les infos sont chargées
 
   const handleTabClick = (tab) => {
     setSelectedTab(tab);
@@ -31,8 +32,9 @@ export default function ProfilUser() {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      if (!userEmail) {
-        console.error("User email is null, not fetching user information.");
+      // Ne fais l'appel API que si les informations ne sont pas déjà chargées
+      if (!userEmail || isUserInfoLoaded) {
+        console.log("L'appel API n'est pas nécessaire, les infos sont déjà chargées ou l'email utilisateur est manquant.");
         return;
       }
 
@@ -52,16 +54,17 @@ export default function ProfilUser() {
           const user = hydraMember[0];
           setUserInfo(user);
           setUserId(user.id);
+          setIsUserInfoLoaded(true); // Marquer comme chargé pour éviter les futurs appels API inutiles
         } else {
           console.log("Aucun utilisateur trouvé");
         }
       } catch (error) {
-        console.error("Error fetching user information:", error);
+        console.error("Erreur lors de la récupération des informations utilisateur :", error);
       }
     };
 
     fetchUserInfo();
-  }, [userEmail, userToken, setUserId]);
+  }, [userEmail, userToken, setUserId, isUserInfoLoaded]); // On ajoute isUserInfoLoaded dans les dépendances pour qu'il ne se réexécute pas inutilement
 
   return (
     <div className="w-3/4 mb-8 h-90">

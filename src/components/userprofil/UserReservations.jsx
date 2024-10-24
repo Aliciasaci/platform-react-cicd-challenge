@@ -21,13 +21,19 @@ export default function UserReservations() {
                     `${import.meta.env.VITE_SERVER_URL}/users/${userId}`,
                     {
                         headers: {
-                            Accept: "application/json",
+                            // Accept: "application/json",
                             Authorization: `Bearer ${storedToken}`
                         },
                     }
                 );
+
+               
                 if (response.status === 200) {
                     const today = new Date();
+
+
+                    console.log(response.data);
+
 
                     const mappedReservations = response.data.reservationsClient.map(reservation => ({
                         ...reservation,
@@ -37,6 +43,9 @@ export default function UserReservations() {
                         )
                     }));
 
+
+
+                    
                     const filteredReservations = mappedReservations.filter(
                         reservation => reservation.status !== "canceled" && reservation.jour_2 >= today
                     );

@@ -6,14 +6,17 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 export default function ReservationsCard({ reservation, mode }) {
+
+  console.log("---------------------------------------------------");
+  console.log(reservation);
   const { t } = useTranslation();
   const { "@id": id, jour, creneau, prestation, status } = reservation;
   const { titre, description, duree, prix } = prestation;
   const [responseMessage, setResponseMessage] = useState("");
   const [indisponibilites, setIndisponibilites] = useState([]);
   const navigate = useNavigate();
-  const idEmploye =
-    reservation.employe.split("/")[reservation.employe.split("/").length - 1];
+  const idEmploye = reservation.employe.split("/")[reservation.employe.split("/").length - 1];
+
 
 
   const displayResponseMessage = (message) => {
