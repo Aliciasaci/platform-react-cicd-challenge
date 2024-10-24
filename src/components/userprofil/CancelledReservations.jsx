@@ -19,7 +19,7 @@ export default function CancelledReservations() {
           `${import.meta.env.VITE_SERVER_URL}/users/${userId}`
         );
 
-        console.log(response);
+      
         if (response.status === 200) {
           const filteredReservations = response.data.reservationsClient.filter(
             (reservation) => reservation.status == "canceled"
