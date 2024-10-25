@@ -43,9 +43,6 @@ export default function Reservation() {
         setEmployesPrestation(prestationData.etablissement.employes);
         setIsLoading(false);
 
-        // Log prestation data
-        console.log("Prestation data:", prestationData);
-        console.log("Employes:", prestationData.etablissement.employes);
       } catch (err) {
         console.error("Error fetching prestation data:", err);
         setError(err);
