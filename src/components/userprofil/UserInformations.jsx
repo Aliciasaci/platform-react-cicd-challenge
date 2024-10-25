@@ -32,6 +32,7 @@ export default function UserInformations({ userInfo }) {
                 {
                     headers: {
                         'Content-Type': 'application/merge-patch+json',
+                         Authorization: `Bearer ${storedToken}`,
                     },
                 });
 

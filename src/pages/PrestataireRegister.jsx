@@ -32,7 +32,7 @@ function PrestataireRegister() {
   const [kbisError, setKbisError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isMailExisted, setMailExist] = useState(false);
-  const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
+  const SERVER_ENDPOINT = import.meta.env.VITE_SERVER_URL;
   const [passwordSafety, setPasswordSafety] = useState(0);
   const [formData, setFormData] = useState({
     prestataire: {
@@ -74,6 +74,7 @@ function PrestataireRegister() {
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
+  const storedToken = localStorage.getItem("userToken");
 
   useEffect(() => {
     setFormData((prevData) => ({
@@ -322,6 +323,8 @@ function PrestataireRegister() {
   };
 
   const sendPost = async () => {
+    console.log("userId", formData.userId)
+    console.log("prestataire", formData.prestataire)
     let content = new FormData();
     setIsLoading(true);
     content.append("nom", formData.nom);
@@ -330,6 +333,7 @@ function PrestataireRegister() {
       "horairesOuverture",
       `"${JSON.stringify(formData.horairesOuverture)}"`
     );
+
     if (isMailExisted) {
       content.append("prestataire", formData.userId);
     } else {
@@ -348,6 +352,7 @@ function PrestataireRegister() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${storedToken}`,
           },
         }
       );
@@ -481,10 +486,13 @@ function PrestataireRegister() {
       }
       const data = await response.json();
       const users = data["hydra:member"];
+      
       if (users.length > 0) {
+        console.log(users[0]["@id"] + "")
         setMailExist(true);
         setFormData({ ...formData, userId: users[0]["@id"] + "" });
       }
+
     } catch (error) {
       console.error("Error:", error);
     } finally {

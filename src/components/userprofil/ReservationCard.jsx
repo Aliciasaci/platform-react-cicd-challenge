@@ -33,6 +33,7 @@ export default function ReservationsCard({ reservation, mode }) {
           {
             headers: {
               Accept: "application/json",
+              Authorization: `Bearer ${storedToken}`
             },
           }
         );

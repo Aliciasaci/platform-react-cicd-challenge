@@ -11,13 +11,20 @@ export default function PastReservations() {
   const { userId } = useContext(AppContext);
   const [reservationsClient, setReservationsClient] = useState([]);
   const [pret, setPret] = useState(false);
+  const storedToken = localStorage.getItem('userToken'); 
 
   useEffect(() => {
     const fetchReservationsInfos = async () => {
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/users/${userId}`
+          `${import.meta.env.VITE_SERVER_URL}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
         );
+
         if (response.status === 200) {
           const today = new Date();
 
@@ -65,13 +72,13 @@ export default function PastReservations() {
           ))
         ) : (
           <div
-            class="flex items-center justify-center w-56 h-56"
+            className="flex items-center justify-center w-56 h-56"
             style={{ margin: "auto" }}
           >
             <div role="status">
               <svg
                 aria-hidden="true"
-                class="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
                 viewBox="0 0 100 101"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +92,7 @@ export default function PastReservations() {
                   fill="currentFill"
                 />
               </svg>
-              <span class="sr-only">Loading...</span>
+              <span className="sr-only">Loading...</span>
             </div>
           </div>
         )}

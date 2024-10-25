@@ -11,12 +11,20 @@ export default function CancelledReservations() {
   const { userId } = useContext(AppContext);
   const [reservationsClient, setReservationsClient] = useState([]);
   const [pret, setPret] = useState(false);
+  const storedToken = localStorage.getItem('userToken'); 
+
 
   useEffect(() => {
     const fetchReservationsInfos = async () => {
+    
       try {
         const response = await axios.get(
-          `${import.meta.env.VITE_SERVER_URL}/users/${userId}`
+          `${import.meta.env.VITE_SERVER_URL}/users/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${storedToken}`,
+            },
+          }
         );
 
       
