@@ -82,13 +82,13 @@ export default function Login() {
           <div className="form-group mb-3">
             <div className="block flex justify-start mb-2">
               <Label
-                htmlFor="base"
+                htmlFor="pw"
                 className="text-sm text-center font-bold"
                 value={t("Common_Password") + "*"}
               />
             </div>
             <TextInput
-              id="base"
+              id="pw"
               type="password"
               placeholder="*******"
               sizing="md"

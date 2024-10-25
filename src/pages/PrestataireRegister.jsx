@@ -32,7 +32,7 @@ function PrestataireRegister() {
   const [kbisError, setKbisError] = useState("");
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [isMailExisted, setMailExist] = useState(false);
-  const SERVER_ENDPOINT = import.meta.env.VITE_REACT_APP_SERVER_ENDPOINT;
+  const SERVER_ENDPOINT = import.meta.env.VITE_SERVER_URL;
   const [passwordSafety, setPasswordSafety] = useState(0);
   const [formData, setFormData] = useState({
     prestataire: {
@@ -481,6 +481,7 @@ function PrestataireRegister() {
       }
       const data = await response.json();
       const users = data["hydra:member"];
+      console.log(users)
       if (users.length > 0) {
         setMailExist(true);
         setFormData({ ...formData, userId: users[0]["@id"] + "" });
