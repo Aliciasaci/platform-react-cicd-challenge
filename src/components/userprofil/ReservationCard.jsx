@@ -6,9 +6,8 @@ import axios from "axios";
 import { useTranslation } from "react-i18next";
 
 export default function ReservationsCard({ reservation, mode }) {
+  const storedToken = localStorage.getItem('userToken'); 
 
-  console.log("---------------------------------------------------");
-  console.log(reservation);
   const { t } = useTranslation();
   const { "@id": id, jour, creneau, prestation, status } = reservation;
   const { titre, description, duree, prix } = prestation;
@@ -74,6 +73,7 @@ export default function ReservationsCard({ reservation, mode }) {
           {
             headers: {
               "Content-Type": "application/merge-patch+json",
+              Authorization: `Bearer ${storedToken}`,
             },
           }
         );
@@ -95,6 +95,7 @@ export default function ReservationsCard({ reservation, mode }) {
         {
           headers: {
             "Content-Type": "application/merge-patch+json",
+            Authorization: `Bearer ${storedToken}`,
           },
         }
       );

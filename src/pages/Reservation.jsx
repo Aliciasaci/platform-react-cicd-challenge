@@ -207,6 +207,8 @@ export default function Reservation() {
     } catch (error) {
       console.log(error);
     }
+
+    console.log(`${import.meta.env.VITE_SERVER_URL}/indisponibilites`);
   };
 
   return (
