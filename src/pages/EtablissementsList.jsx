@@ -10,11 +10,6 @@ export const EtablissementsList = () => {
     const location = useLocation();
     const [etablissements, setEtablissements] = useState(location.state?.etablissements || null);
 
-    // Log location.state to verify the data passed in
-    useEffect(() => {
-        console.log("Location state:", location.state);
-    }, [location.state]);
-
     const {
         data: etablissementsDefault,
         isLoading,
@@ -24,9 +19,6 @@ export const EtablissementsList = () => {
     const [locations, setLocations] = useState([]);
 
     useEffect(() => {
-        // Log when etablissementsDefault updates
-        console.log("Etablissements default data:", etablissementsDefault);
-
         if (!etablissements && etablissementsDefault) {
             setEtablissements(etablissementsDefault["hydra:member"]);
         }

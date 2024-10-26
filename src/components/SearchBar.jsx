@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { getServerUrl } from "../utils";
 
 export default function SearchBar() {
   const [searchInput1, setSearchInput1] = useState(""); // Que recherchez-vous ?
@@ -15,14 +14,19 @@ export default function SearchBar() {
   const [isLoading, setIsLoading] = useState(false);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const SERVER_URL = getServerUrl();
+  const storedToken = localStorage.getItem("userToken");
+
+  const [fil1, setFil1] = useState(false);
+  const [fil2, setFil2] = useState(false);
+  const [fil3, setFil3] = useState(false);
+  const [noResults, setNoResults] = useState(false);
+
   const handleSearch = async () => {
     try {
-      setIsLoading(true); // Set loading to true at the beginning
+      setIsLoading(true);
+      setNoResults(false);
 
       if (searchInput3 !== "") {
-        // If distance is set
-        // Function to get current location
         const getLocationAsync = () => {
           return new Promise((resolve, reject) => {
             if (navigator.geolocation) {
@@ -31,7 +35,7 @@ export default function SearchBar() {
                   const latitude = position.coords.latitude;
                   const longitude = position.coords.longitude;
                   setLocation({ latitude, longitude });
-                  resolve({ latitude, longitude }); // Resolve with location data
+                  resolve({ latitude, longitude });
                 },
                 (error) => {
                   console.error(error);
@@ -45,54 +49,56 @@ export default function SearchBar() {
           });
         };
 
-        // Wait for location to be set
         const locationData = await getLocationAsync();
 
-        // Once location is set, proceed with fetching data
         if (locationData) {
           let distance = `${locationData.latitude},${locationData.longitude},${searchInput3}`;
           if (searchInput1 !== "" && searchInput2 !== "") {
             if (searchInput2.match(/^\d+$/)) {
-              fetchFilterResults(searchInput1, null, searchInput2, distance);
+              await fetchFilterResults(searchInput1, null, searchInput2, distance);
             } else {
-              fetchFilterResults(searchInput1, searchInput2, null, distance);
+              await fetchFilterResults(searchInput1, searchInput2, null, distance);
             }
           } else if (searchInput1 === "" && searchInput2 !== "") {
             if (searchInput2.match(/^\d+$/)) {
-              fetchFilterResults(null, null, searchInput2, distance);
+              await fetchFilterResults(null, null, searchInput2, distance);
             } else {
-              fetchFilterResults(null, searchInput2, null, distance);
+              await fetchFilterResults(null, searchInput2, null, distance);
             }
           } else if (searchInput1 !== "" && searchInput2 === "") {
-            fetchFilterResults(searchInput1, null, null, distance);
+            await fetchFilterResults(searchInput1, null, null, distance);
           } else {
-            fetchFilterResults(null, null, null, distance);
+            await fetchFilterResults(null, null, null, distance);
           }
         }
       } else {
         // If distance is not set
         if (searchInput1 !== "" && searchInput2 !== "") {
           if (searchInput2.match(/^\d+$/)) {
-            fetchFilterResults(searchInput1, null, searchInput2, null);
+            await fetchFilterResults(searchInput1, null, searchInput2, null);
           } else {
-            fetchFilterResults(searchInput1, searchInput2, null, null);
+            await fetchFilterResults(searchInput1, searchInput2, null, null);
           }
         } else if (searchInput1 === "" && searchInput2 !== "") {
           if (searchInput2.match(/^\d+$/)) {
-            fetchFilterResults(null, null, searchInput2, null);
+            await fetchFilterResults(null, null, searchInput2, null);
           } else {
-            fetchFilterResults(null, searchInput2, null, null);
+            await fetchFilterResults(null, searchInput2, null, null);
           }
         } else if (searchInput1 !== "" && searchInput2 === "") {
-          fetchFilterResults(searchInput1, null, null, null);
+          await fetchFilterResults(searchInput1, null, null, null);
         } else {
           return;
         }
       }
+
+      if (!fil1 && !fil2 && !fil3) {
+        setNoResults(true);
+      }
     } catch (error) {
       console.error("Error handling search:", error);
     } finally {
-      setIsLoading(false); // Reset loading to false after done
+      setIsLoading(false);
     }
   };
 
@@ -113,116 +119,119 @@ export default function SearchBar() {
     distance
   ) => {
     try {
-      let url = `${SERVER_URL}/filter`;
+      let url = `${import.meta.env.VITE_SERVER_URL}/filter`;
       if (searchInput) {
-        url += `?prestation.titre=${searchInput}`;
+        url += `?prestation.titre=${encodeURIComponent(searchInput)}`;
       }
       if (ville) {
-        url += `${searchInput ? "&" : "?"}ville=${ville}`;
+        url += `${searchInput ? "&" : "?"}ville=${encodeURIComponent(ville)}`;
       }
       if (codePostal) {
-        url += `${searchInput || ville ? "&" : "?"}codePostal=${codePostal}`;
+        url += `${searchInput || ville ? "&" : "?"}codePostal=${encodeURIComponent(codePostal)}`;
       }
       if (distance) {
-        url += `${
-          searchInput || ville || codePostal ? "&" : "?"
-        }distance=${distance}`;
+        url += `${searchInput || ville || codePostal ? "&" : "?"}distance=${encodeURIComponent(distance)}`;
       }
+
       const response = await axios.get(url, {
         headers: {
           Accept: "application/json",
+          Authorization: `Bearer ${storedToken}`
         },
       });
-      if (response.data && response.data.length > 0) {
+
+      console.log(response.data.length);
+      console.log(response.data);
+
+      if (response.data.length > 0) {
+        setFil1(true);
         setEtablissements(response.data);
         navigate("/platform-react-cicd-challenge/etablissements", {
           state: {
             etablissements: response.data,
           },
         });
+        return; // Exit after successful navigation
       } else {
-        try {
-          let url = `${
-            SERVER_URL
-          }/filter?nom=${searchInput}`;
-          if (searchInput) {
-            url += `?nom=${searchInput}`;
-          }
-          if (ville) {
-            url += `${searchInput ? "&" : "?"}ville=${ville}`;
-          }
-          if (codePostal) {
-            url += `${
-              searchInput || ville ? "&" : "?"
-            }codePostal=${codePostal}`;
-          }
-          if (distance) {
-            url += `${
-              searchInput || ville || codePostal ? "&" : "?"
-            }distance=${distance}`;
-          }
-          const response = await axios.get(
-            `${SERVER_URL}/filter?nom=${searchInput}`,
-            {
-              headers: {
-                Accept: "application/json",
-              },
-            }
-          );
-          if (response.data && response.data.length > 0) {
-            setEtablissements(response.data);
-            navigate("/platform-react-cicd-challenge/etablissements", {
-              state: {
-                etablissements: response.data,
-              },
-            });
-          } else {
-            try {
-              url = `${
-                SERVER_URL
-              }/filter?prestation.category=${searchInput}`;
-              if (searchInput) {
-                url += `?prestation.category=${searchInput}`;
-              }
-              if (ville) {
-                url += `${searchInput ? "&" : "?"}ville=${ville}`;
-              }
-              if (codePostal) {
-                url += `${
-                  searchInput || ville ? "&" : "?"
-                }codePostal=${codePostal}`;
-              }
-              if (distance) {
-                url += `${
-                  searchInput || ville || codePostal ? "&" : "?"
-                }distance=${distance}`;
-              }
-              const response = await axios.get(
-                `${
-                  SERVER_URL
-                }/filter?prestation.category=${searchInput}`,
-                {
-                  headers: {
-                    Accept: "application/json",
-                  },
-                }
-              );
-              if (response.data && response.data.length > 0) {
-                setEtablissements(response.data);
-                navigate("/platform-react-cicd-challenge/etablissements", {
-                  state: {
-                    etablissements: response.data,
-                  },
-                });
-              }
-            } catch (error) {
-              console.error("Error fetching information:", error);
-            }
-          }
-        } catch (error) {
-          console.error("Error fetching information:", error);
-        }
+        setFil1(false);
       }
+
+      // Attempt second filter with 'nom'
+      let secondUrl = `${import.meta.env.VITE_SERVER_URL}/filter`;
+      if (searchInput) {
+        secondUrl += `?nom=${encodeURIComponent(searchInput)}`;
+      }
+      if (ville) {
+        secondUrl += `${searchInput ? "&" : "?"}ville=${encodeURIComponent(ville)}`;
+      }
+      if (codePostal) {
+        secondUrl += `${searchInput || ville ? "&" : "?"}codePostal=${encodeURIComponent(codePostal)}`;
+      }
+      if (distance) {
+        secondUrl += `${searchInput || ville || codePostal ? "&" : "?"}distance=${encodeURIComponent(distance)}`;
+      }
+
+      const secondResponse = await axios.get(secondUrl, {
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${storedToken}`
+        },
+      });
+
+      console.log(secondResponse.data.length);
+      console.log(secondResponse.data);
+      if (secondResponse.data.length > 0) {
+        setFil2(true);
+        setEtablissements(secondResponse.data);
+        navigate("/platform-react-cicd-challenge/etablissements", {
+          state: {
+            etablissements: secondResponse.data,
+          },
+        });
+        return; // Exit after successful navigation
+      } else {
+        setFil2(false);
+      }
+
+      // // Attempt third filter with 'prestation.category'
+      // let thirdUrl = `${import.meta.env.VITE_SERVER_URL}/filter`;
+      // if (searchInput) {
+      //   thirdUrl += `?prestation.category=${encodeURIComponent(searchInput)}`;
+      // }
+      // if (ville) {
+      //   thirdUrl += `${searchInput ? "&" : "?"}ville=${encodeURIComponent(ville)}`;
+      // }
+      // if (codePostal) {
+      //   thirdUrl += `${searchInput || ville ? "&" : "?"}codePostal=${encodeURIComponent(codePostal)}`;
+      // }
+      // if (distance) {
+      //   thirdUrl += `${searchInput || ville || codePostal ? "&" : "?"}distance=${encodeURIComponent(distance)}`;
+      // }
+
+      // console.log(thirdUrl);
+      // const thirdResponse = await axios.get(thirdUrl, {
+      //   headers: {
+      //     Accept: "application/json",
+      //     Authorization: `Bearer ${storedToken}`
+      //   },
+      // });
+
+      // console.log(thirdResponse.data.length);
+      // console.log(thirdResponse.data);
+      // if (thirdResponse.data.length > 0) {
+      //   setFil3(true);
+      //   setEtablissements(thirdResponse.data);
+      //   navigate("/platform-react-cicd-challenge/etablissements", {
+      //     state: {
+      //       etablissements: thirdResponse.data,
+      //     },
+      //   });
+      //   return; // Exit after successful navigation
+      // } else {
+      //   setFil3(false);
+      // }
+
+      // If all filters fail, do not navigate
     } catch (error) {
       console.error("Error fetching information:", error);
     }
@@ -260,7 +269,7 @@ export default function SearchBar() {
               <input
                 type="search"
                 id="default-search1"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder={t("Search_LookingFor")}
                 onChange={(e) => setSearchInput1(e.target.value)}
                 required
@@ -295,7 +304,7 @@ export default function SearchBar() {
               <input
                 type="search"
                 id="default-search2"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder={t("Search_Where")}
                 onChange={(e) => setSearchInput2(e.target.value)}
                 required
@@ -303,13 +312,13 @@ export default function SearchBar() {
             </div>
           </div>
           <div className="basis-3/5">
-            <label
+            {/* <label
               htmlFor="default-search3"
               className="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white"
             >
               Search
-            </label>
-            <div className="relative">
+            </label> */}
+            {/* <div className="relative">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
                   className="w-4 h-4 text-gray-500 dark:text-gray-400"
@@ -330,7 +339,7 @@ export default function SearchBar() {
               <input
                 type="search"
                 id="default-search3"
-                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg  focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-4 ps-10 text-sm text-gray-900 border border-white rounded-lg focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder={t("Search_Km")}
                 onChange={(e) => setSearchInput3(e.target.value)}
                 required
@@ -338,7 +347,7 @@ export default function SearchBar() {
               <div className="absolute inset-y-0 end-0 text-sm flex items-center pe-3 pointer-events-none text-gray-500 dark:text-gray-400">
                 {t("Search_Autour")}
               </div>
-            </div>
+            </div> */}
           </div>
           <button
             type="button"
@@ -348,6 +357,16 @@ export default function SearchBar() {
             Rechercher
           </button>
         </div>
+        {isLoading && (
+          <div className="mt-4 text-center text-gray-700 dark:text-gray-300">
+            {t("Loading")}...
+          </div>
+        )}
+        {noResults && (
+          <div className="mt-4 text-center text-red-500 dark:text-red-400">
+            {t("No_Etablissements_Found")}
+          </div>
+        )}
       </div>
     </div>
   );
