@@ -49,8 +49,6 @@ export const EtablissementsList = () => {
         }))
       );
 
-      // Log locations to verify mapping
-      console.log("Locations set:", locations);
     }
   }, [etablissements]);
 
