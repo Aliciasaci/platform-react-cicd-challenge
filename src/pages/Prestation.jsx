@@ -4,6 +4,7 @@ import React, { useEffect, useState, useContext } from "react";
 import RatingDetail from "../components/ratings/RatingDetail";
 import RatingGeneral from "../components/ratings/RatingGeneral";
 import { AppContext } from "../context";
+import { PrestationListGroup } from "../components/publicDisplayEtablissement/PrestationListGroup";
 
 export default function Prestation() {
     const [prestation, setPrestation] = useState(null);
@@ -59,22 +60,10 @@ export default function Prestation() {
             {prestation && (
                 <div>
                     <div className='flex justify-between items-end'>
-                        <div className='items-start'>
-                            <h1 className='text-2xl text-black font-semibold'>{prestation.titre}</h1>
-                            <span className='text text-black'>{prestation.description}</span>
-                            <div className='flex items-center'>
-                                <span className='text-gray-500 font-light'>{prestation.duree * 30}mins</span>
-                                <span className='text-gray-300 mr-1 ml-1'> • </span>
-                                <span className='text-gray-500'>{prestation.prix} €</span>
-                            </div>
+                        <div className='items-start mb-4'>
+                            <PrestationListGroup prestations={[prestation]} />
                         </div>
-                        {/* <Link to="/platform-react-cicd-challenge/reservations/">
-              <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-gray-700 dark:border-gray-700" >
-                Prendre RDV
-              </button>
-            </Link> */}
                     </div>
-                    <GalleryDisplay className='w-full' />
                     <RatingGeneral prestationId={prestationsId} notes={notes} />
                     <RatingDetail categorieId={categorieId} prestationId={prestationsId} notes={notes} />
                 </div>
